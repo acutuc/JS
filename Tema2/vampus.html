@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>ARRAY VAMPIRO</title>
+</head>
+
+<body>
+    <h1>ARRAY VAMPIRO</h1>
+    <p>
+        Realiza un programa que verifique si un array es vampiro o no.
+        Un array vampiro es aquel que se puede recorrer de izquierda a derecha o derecha a
+        izquierda y sería el mismo.
+        Se proporciona código starter.
+    </p>
+    <script>
+        let arr = [1, 2, 3, 4, 5, 6, 5, 4, 3, 2, 1];
+        /*INCLUYE TU CÓDIGO AQUÍ*/
+        function vampus(array) {
+            //CASO BASE:
+            if (array.length == 0) {
+                return 0;
+            }
+            console.log("hola")
+            //ALGORITMO
+            let primerNumero = 0;
+            let ultimoNumero = 0;
+            if (array.length % 2 != 0) {
+                for (let i = 0; i < array.length; i++) {
+                    primerNumero = array[i];
+                    ultimoNumero = array[array.length - 1];
+                    if (primerNumero == ultimoNumero) {
+                        console.log("entra aqui")
+                        return vampus(array[i+1])
+                    }
+                }
+            } else if (array.length % 2 == 0){
+                for (let j = 0; j < array.length; j++) {
+                    primerNumero = array[j];
+                    ultimoNumero = array[array.length - 1];
+                    if (primerNumero == ultimoNumero) {
+                        console.log("a ver")
+                        return vampus(array[j+1])
+                    }
+            }
+        }
+    }
+        console.log(vampus(arr));
+    </script>
+</body>
+
+</html>
