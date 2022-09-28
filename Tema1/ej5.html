@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+    <script>
+        // Pasamos por parámetro al propio botón que pulsaremos
+        function compruebaIdioma(boton){
+            // Declaro la variable en la que almaceno el id "idioma".
+            let a = document.getElementById("idioma");
+            // Realizamos las tres condiciones, en la que el botón que se pulse
+            // esté asociado a una id, con sus correspondientes cambios en el documento.
+            if(boton.getAttribute("id") == "ruso"){
+                // Realizamos los cambios en la variable 'a', donde tenemos guardado el "p" de HTML en el
+                // que realizaremos los cambios
+                a.innerHTML = "добро пожаловать";
+                a.style.color = "red";
+            }else if(boton.getAttribute("id") == "espanol"){
+                a.innerHTML = "Bienvenido";
+                a.style.color = "blue";
+            }else{
+                a.innerHTML = "Welcome";
+                a.style.color = "green";
+            }
+        }
+    </script>
+    <h1>Ejercicio 5</h1>
+    <p>Seleccione idioma</p>
+    <button type="button" id="ruso" onclick="compruebaIdioma(this)">Ruso</button>
+    <button type="button" id="espanol" onclick="compruebaIdioma(this)">Español</button>
+    <button type="button" id="ingles" onclick="compruebaIdioma(this)">Inglés</button>
+    <br/><p id="idioma"></p>
+</body>
+
+</html>
