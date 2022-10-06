@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <title>Ejercicio del OSO</title>
+        <meta charset="UTF-8">
+    </head>
+    <body>
+        <p>
+            Realiza un programa que:
+            <ul>
+                <li>Dado una matriz la rellene con O's y con S's teniendo en cuenta que el número de O's debería ser el doble que de S's aproximadamente.</li>
+                <li>Realiza la función solitario() que vaya resolviendo el juego. Solamente jugará la máquina.</li>
+                <li>Muestra por consola la matriz inicial y la matriz resuelta.</li>
+            </ul>
+        </p>
+        <script>
+            let aleatorio = (min,max) => {
+                let horquilla = max-min;
+                return Math.round(Math.random()*horquilla+min);
+            }
+            //Declaramos un array de 8 posiciones
+            let arrayBidimensional = new Array(8);
+
+            for(let i = 0; i < 8; i++){
+                //A cada posición del array, le asignamos un nuevo array de 8 posiciones,
+                //quedando así un array de 8x8.
+                arrayBidimensional[i] = new Array(8);
+                for(let j = 0; j < 8; j++){
+                    //Si aleatorio es 1 o 3, imprimimos una O, si es 2, imprimimos una S
+                    if(aleatorio(1, 3) % 2 == 0){
+                        arrayBidimensional[i][j] = "O";
+                    }else{
+                        arrayBidimensional[i][j] = "S";
+                    }
+                }
+            }
+
+            console.log("Inicializamos la matriz:")
+            console.log(arrayBidimensional)
+            console.log("Eliminamos los \"OSO\":")
+
+            //i va en horizontal.
+            //j va en vertical.
+            //TERMINAR AQUI ABAJO.
+            function resolverMatriz(fila, columna){
+                if(fila > -1 && fila < arrayBidimensional.length && columna > -1 && columna < arrayBidimensional[0].length){
+
+                }
+            }
+            for(let i = 0; i < arrayBidimensional.length; i++){
+                for(let j = 0; j < arrayBidimensional[i].length; j++){
+                    if(arrayBidimensional[i][j] == "O"){
+
+                    }
+                }
+            }
+        </script>
+    </body>
+</html>
