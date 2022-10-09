@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+    <h2>BOMBASSO</h2>
+    <p> Se pide que crees un programa que genere un campo de minas.
+        Las minas se colocan de forma aleatoria pero teniendo
+        en cuenta que no se deben colocar dos minas juntas.
+        realiza el programa para que genere 10, 20 o todas
+        las minas que se puedan instalar.
+    </p>
+    <p id="demo"></p>
+    <script>
+        var arr = [[" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
+        [" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
+        [" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
+        [" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
+        [" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
+        [" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
+        [" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
+        [" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
+        [" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "]
+
+        ];
+        function generateRandomInt(min, max) {
+            return Math.floor((Math.random() * (max - min)) + min);
+        }
+
+        /*COLOCA AQUÍ TU CÓDIGO*/
+        console.log("Matriz inicial vacía: ")
+        console.table(arr)
+
+        //J hor
+        //I ver
+
+        let resuelveEjercicio = (matriz) => {
+            for (let i = 0; i < matriz.length; i++) {
+
+                for (let j = 0; j < matriz[i].length; j++) {
+                    //Generamos un número aleatorio entre 0 y el length de la matriz, para así poder acceder a un campo aleatorio de la matriz y colocar una mina.
+                    let aleatorioI = generateRandomInt(0, matriz.length - 1);
+                    let aleatorioJ = generateRandomInt(0, matriz[i].length - 1);
+                    console.log("ALEATORIO I: " + aleatorioI)
+                    console.log("ALEATORIO J: " + aleatorioJ)
+                    console.log("matriz.length: " + matriz.length)
+                    console.log("matriz[i][j]: " + matriz[i].length)
+                    console.log("")
+
+                    //Generamos un número aleatorio entre 0 y el length de la matriz, para así poder acceder a un campo aleatorio de la matriz y colocar una mina.
+                    if (matriz[aleatorioI][aleatorioJ] == " ") {
+                        
+                        if ((aleatorioI - 1 >= 0 && aleatorioI + 1 < matriz[i].length) || (aleatorioJ - 1 >= 0 && aleatorioJ + 1 <= matriz[i][j].length)) {
+
+                            if (matriz[aleatorioI - 1][aleatorioJ - 1] == " " && matriz[aleatorioI - 1][aleatorioJ] == " " && matriz[aleatorioI - 1][aleatorioJ + 1] == " "
+                                && matriz[aleatorioI][aleatorioJ - 1] == " " && matriz[aleatorioI][aleatorioJ + 1] == " "
+                                && matriz[aleatorioI + 1][aleatorioJ - 1] == " " && matriz[aleatorioI + 1][aleatorioJ] == " " && matriz[aleatorioI + 1][aleatorioJ + 1] == " ") {
+                                matriz[aleatorioI][aleatorioJ] = "X";
+                            }
+                        }
+                    }
+
+                }
+            }
+            return matriz;
+        }
+
+        console.log("Matriz FINAL, resuelta: ")
+        console.table(resuelveEjercicio(arr))
+    </script>
+</body>
+
+</html>
