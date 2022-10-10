@@ -82,21 +82,28 @@
 
         // ESCRIBE TU CÓDIGO AQUÍ
         const FindMyGuy = (array, inicio, fin, guy) => {
-            let medio = Math.round((inicio + fin) / 2)
-            if (array[medio] == guy) return 1;
-            if (guy < array[medio]) {
-                return FindMyGuy(array, inicio, medio - 1, guy)
-            } else {
-                return FindMyGuy(array, medio + 1, fin, guy)
+            //Almacenamos el valor medio del array:
+            let medio = Math.floor((inicio + fin) / 2);
+
+            //Mientras inicio (parte izquierda del array) no sobrepase a fin (la parte derecha)
+            if (inicio <= fin) {
+                //Si coincide, lo hemos encontrado:
+                if (array[medio] == guy) return true;
+
+                //Si guy está en la izquierda:
+                if (guy < array[medio]) {
+                    return FindMyGuy(array, inicio, medio - 1, guy)
+                    //Si guy está en la derecha:
+                } else {
+                    return FindMyGuy(array, medio + 1, fin, guy)
+                }
             }
+            return false;
         }
+
         console.log(FindMyGuy(people, 0, people.length - 1, "jeremias"))
         console.log(FindMyGuy(people, 0, people.length - 1, "dimas"))
         console.log(FindMyGuy(people, 0, people.length - 1, "natalia"))
-        let resuelveEjercicioPizarra = (array, posicion, buscaNombre) => {
-            array[posicion][]
-        }
-        console.log(resuelveEjercicioPizarra(nombres, 0, "Daniel"))
     </script>
     </script>
 </body>
