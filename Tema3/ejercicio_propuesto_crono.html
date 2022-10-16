@@ -33,11 +33,9 @@
             var texto = document.getElementById("hora");
 
             texto.innerHTML = horas + ":" + minutos + ":" + segundos;
-
+elCrono = setInterval(crono,10);
         }
-        window.onload = function(){
-            elCrono = setInterval(crono,1000);
-        }
+        window.onload = crono();
     </script>
 </body>
 </html>
