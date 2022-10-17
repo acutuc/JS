@@ -1,41 +1,27 @@
 <!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Búsqueda de elemento en Map</title>
-</head>
+<html>
+
 <body>
     <!--Aquí enseñaremos el nombre de la ciudad-->
-    <div id="nombre"></div><br/>
-    <p id="texto">Lorem ipsum dolor sit amet, 29680 adipiscing elit. Ut non odio imperdiet, congue magna non, feugiat ex. Nunc purus turpis, vehicula quis lacinia nec, accumsan id orci. Suspendisse aliquam finibus justo in accumsan. Donec sed mauris euismod lectus gravida placerat at eget nisl. Nullam venenatis neque eget eros dictum, non cursus tortor vulputate. Integer hendrerit massa non felis lacinia, vel ullamcorper purus semper. Ut dapibus tortor id diam accumsan, vitae fermentum ligula tincidunt. Maecenas vitae justo vel tellus aliquam consequat eget accumsan nisi. Nullam sit amet mattis neque. Donec vel lacus quis ex aliquam aliquam. Vivamus quam lacus, tempus ultricies facilisis ut, sodales eu elit. Vestibulum mollis laoreet risus.
-
-Pellentesque consectetur efficitur sagittis. Morbi a cursus felis. Maecenas nisl ligula, faucibus vitae erat eget, fringilla pellentesque magna. Nam sollicitudin vitae nulla a maximus. Vivamus pellentesque, odio ac finibus pretium, est arcu feugiat ipsum, ut posuere libero urna convallis odio. Vivamus lacinia nunc quis cursus sodales. Vestibulum elementum nisl nec lectus interdum vestibulum. Donec maximus rutrum mattis. Integer fermentum tincidunt lacus eu faucibus. Vivamus dictum nibh non magna consequat, ac vestibulum augue feugiat. Cras elementum consectetur purus eu luctus. Maecenas ac mollis justo, nec rhoncus arcu. Ut ac pharetra leo. Praesent consequat ipsum ut diam viverra tempor. Nam fringilla ultrices urna, ac vulputate eros ornare at. Interdum et malesuada fames ac ante ipsum primis in faucibus.
-
-Donec eros nisl, aliquet in volutpat quis, auctor vel dolor. Nulla tristique mattis feugiat. Duis volutpat turpis nec lacus accumsan, nec auctor arcu imperdiet. Sed commodo vel libero eu gravida. Proin dignissim lacinia pretium. Suspendisse augue dui, pretium sit amet imperdiet quis, fermentum et odio. Integer id ultrices nibh, id iaculis odio.
-
-Mauris blandit eu sapien id vestibulum. Sed cursus sit amet massa vitae viverra. Nullam varius metus lorem, a commodo odio sagittis in. Fusce a tristique lacus. Donec a aliquet enim. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi euismod dolor eget arcu accumsan, eget eleifend massa volutpat. Vestibulum tristique varius massa vitae molestie. Phasellus condimentum sollicitudin erat in dignissim. Aenean lobortis non sem vitae interdum. Quisque iaculis neque purus, vitae auctor mi accumsan ultricies. Fusce elementum finibus lobortis. Maecenas ante est, aliquet non dignissim accumsan, tempor eu nibh. Curabitur gravida eget quam quis cursus. Nullam sed enim mi. Mauris sed quam metus.
-
-Aenean facilisis eleifend sodales. Donec dapibus lorem consequat, sollicitudin dolor quis, scelerisque sem. Suspendisse sed aliquet mauris, a imperdiet nulla. Nullam sit amet metus vulputate, porttitor sapien quis, gravida nulla. Fusce et vestibulum lorem. Quisque tempus nisi dignissim est molestie, ut laoreet justo ultrices. Vivamus auctor orci leo, non rhoncus lectus egestas vitae.</p><br/>
-    <p id="busca"></p>
-    <button type="button" onclick="document.getElementById('busca').innerHTML = bigarray.map((v) =>  v)">Buscar</button>
+    <p id="resultado"></p>
+    <input type="text" id="ciudad"><br /><br />
+    <button onclick="buscaCiudadFind()">Busca</button>
 
     <script>
-        let bigarray = [{29680:"Estepona"}, {28924:"Alcorcón"}];
+        let ciudades = [{ CP: 28924, Ciudad: "Estepona" }, { CP: 29601, Ciudad: "Marbella" }];
 
-        let equivalencia = document.getElementById("texto").innerHTML.replaceAll(",","").replaceAll(".","");
+        function buscaCiudad() {
+            document.getElementById("resultado").innerHTML = "";
+            ciudades.map((valor) => {
+                let city = document.getElementById("ciudad").value;
+                if (valor.Ciudad.includes(city.toUpperCase())) {
+                    document.getElementById("resultado").innerHTML = valor.Ciudad + " - " + valor.CP;
+                }
 
-        let arrayText = equivalencia.split(" ")
-        console.log(arrayText)
-
-        let arr = bigarray.map((v, i) => {return v});
-
-        let ejecuta = (array) =>{
-            document.getElementById("busca").innerHTML = array.map();
-
+            })
         }
-        console.log(arr)
     </script>
+
 </body>
+
 </html>
