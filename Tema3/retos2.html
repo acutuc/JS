@@ -47,12 +47,11 @@
         console.log(marcasBuddies)
         
         //-Marcas no utilizadas por los buddies.
-        let noMarcasBuddies = listaSinRepetir.map()
+        let marcasNoBuddies = buddies.map(valor => valor.car);
+        console.log(listaSinRepetir.filter(valor => valor != marcasBuddies.find(value => value == valor)))
         
         //-Cuantas marcas han sido utilizadas
-        
-        //-Cuantas marcas no han sido utilizadas
-        
+        console.log(listaSinRepetir.filter(valor => valor == marcasBuddies.find(value => value == valor)))
         
     </script>
 </html>
