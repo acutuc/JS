@@ -5,10 +5,10 @@
     <!--Aquí enseñaremos el nombre de la ciudad-->
     <p id="resultado"></p>
     <input type="text" id="ciudad"><br /><br />
-    <button onclick="buscaCiudadFind()">Busca</button>
+    <button onclick="buscaCiudad()">Busca</button>
 
     <script>
-        let ciudades = [{ CP: 28924, Ciudad: "Estepona" }, { CP: 29601, Ciudad: "Marbella" }];
+        let ciudades = [{ CP: 29680, Ciudad: 'Estepona' }, { CP: 29601, Ciudad: 'Marbella' }];
 
         function buscaCiudad() {
             document.getElementById("resultado").innerHTML = "";
@@ -17,7 +17,6 @@
                 if (valor.Ciudad.includes(city.toUpperCase())) {
                     document.getElementById("resultado").innerHTML = valor.Ciudad + " - " + valor.CP;
                 }
-
             })
         }
     </script>

@@ -37,8 +37,8 @@
         let carrakosNoCars = carrakos.filter(valor => cars.find(coche => coche == valor) == undefined)
         console.log(carrakosNoCars)
         //-Nombre y apellidos de los buddies que usan un Honda
-        let buddiesHonda = buddies.filter((valor)=>valor.car.includes("Honda")).map((valor)=>{
-            return valor.firstName + " " + valor.lastName;
+        let buddiesHonda = buddies.filter((valor)=>valor.car.includes("Honda")).map((value)=>{
+            return value.firstName + " " + value.lastName;
         })
         console.log(buddiesHonda)
 
