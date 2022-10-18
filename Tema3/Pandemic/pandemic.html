@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>PANDEMIC</title>
+</head>
+
+<body>
+
+    <p id="txt">
+    <p>
+
+        <script>
+            let biocenosis = [['P', 'P', 'G', 'H', 'H', 'R'], ['P', 'P', 'G', 'H', 'H', 'G'], ['P', 'G', 'R', 'H', 'H', 'G'], ['G', 'R', 'R', 'H', 'G', 'G'], ['R', 'R', 'H', 'H', 'G', 'P']];
+
+            console.table(biocenosis);
+            // primer valor: vertical
+            // segundo valor: horizontal
+            pandemic(0, 0);
+            //pandemic(4, 2);
+            console.table(biocenosis);
+
+            function pandemic(x, y) {
+                // INCLUYE TU CÓDIGO AQUÍ
+                let valor = biocenosis[x][y];
+                if(biocenosis[x].length >= 0 && valor == biocenosis[x-1][y]){
+                    valor = "";
+                    return pandemic(x-1, y);
+                }else if(biocenosis[x+1] <= biocenosis[x].length && valor == biocenosis[x+1][y]){
+                    valor = "";
+                    return pandemic(x+1, y);
+                }else if(valor == biocenosis[x][y-1]){
+                    valor = "";
+                    return pandemic (x, y-1);
+                }else if(valor == biocenosis[x][y+1]){
+                    valor = "";
+                    return pandemic (x, y+1);
+                }else{
+                    //Caso base.
+                    return console.table(biocenosis);
+                }
+            }
+
+
+        </script>
+
+</body>
+
+</html>
