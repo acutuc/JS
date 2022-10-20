@@ -25,19 +25,19 @@
                 let valor = biocenosis[x][y];
                 if(biocenosis[x].length >= 0 && valor == biocenosis[x-1][y]){
                     valor = "";
-                    return pandemic(x-1, y);
+                    pandemic(x-1, y);
                 }else if(biocenosis[x+1] <= biocenosis[x].length && valor == biocenosis[x+1][y]){
                     valor = "";
-                    return pandemic(x+1, y);
+                    pandemic(x+1, y);
                 }else if(valor == biocenosis[x][y-1]){
                     valor = "";
-                    return pandemic (x, y-1);
+                    pandemic (x, y-1);
                 }else if(valor == biocenosis[x][y+1]){
                     valor = "";
-                    return pandemic (x, y+1);
+                    pandemic (x, y+1);
                 }else{
                     //Caso base.
-                    return console.table(biocenosis);
+                    console.table(biocenosis);
                 }
             }
 
