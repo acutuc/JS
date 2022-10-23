@@ -16,29 +16,18 @@
             console.table(biocenosis);
             // primer valor: vertical
             // segundo valor: horizontal
-            pandemic(0, 0);
             //pandemic(4, 2);
-            console.table(biocenosis);
-
+            console.table(pandemic(0,0));
             function pandemic(x, y) {
                 // INCLUYE TU CÓDIGO AQUÍ
                 let valor = biocenosis[x][y];
-                if(biocenosis[x].length >= 0 && valor == biocenosis[x-1][y]){
-                    valor = "";
-                    pandemic(x-1, y);
-                }else if(biocenosis[x+1] <= biocenosis[x].length && valor == biocenosis[x+1][y]){
-                    valor = "";
-                    pandemic(x+1, y);
-                }else if(valor == biocenosis[x][y-1]){
-                    valor = "";
-                    pandemic (x, y-1);
-                }else if(valor == biocenosis[x][y+1]){
-                    valor = "";
-                    pandemic (x, y+1);
-                }else{
+                if (x + 1 >= 0 && valor == biocenosis[x + 1][y]) {
+                    console.log("entra")
+                } else {
                     //Caso base.
-                    console.table(biocenosis);
+                    console.table("no entra");
                 }
+
             }
 
 
