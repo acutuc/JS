@@ -8,7 +8,7 @@
     <body>
         <h2>kulevrilla Zostérica</h2>
         <script>
-            var arr = [[" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
+            let arr = [[" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
             [" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
             [" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
             [" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
@@ -19,11 +19,52 @@
             [" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "]
             ];
 
+            //No incluye el número que se le pasa como segundo parámetro.
             function generateRandomInt(min, max) {
                 return Math.floor((Math.random() * (max - min)) + min);
             }
-            
-            console.log(arr)
+
+            console.table(arr)
+
+            function resuelveEjercicio(x, y) {
+                arr[x][y] = "*";
+
+                let numAleatorio = generateRandomInt(0, 4);
+                console.log(numAleatorio)
+
+                switch (numAleatorio) {
+                    //Crece hacia arriba:
+                    case 0:
+                        if (x - 1 >= 0 && arr[x - 1][y] != "*") {
+                            resuelveEjercicio(x - 1, y);
+                        }
+                        break;
+                    //Crece hacia la abajo:
+                    case 1:
+                        if (x + 1 < arr.length && arr[x + 1][y] != "*") {
+                            resuelveEjercicio(x + 1, y)
+                        }
+                        break;
+                    //Crece hacia la izquierda:
+                    case 2:
+                        if (y - 1 >= 0 && arr[x][y - 1] != "*") {
+                            resuelveEjercicio(x, y - 1)
+                        }
+                        break;
+                    //Crece hacia la derecha:
+                    case 3:
+                        if (y + 1 <= arr[x].length && arr[x][y + 1] != "*") {
+                            resuelveEjercicio(x, y + 1)
+                        }
+                        break;
+                    default:
+
+                        break;
+                }
+            }
+
+            resuelveEjercicio(4, 6);
+            console.table(arr)
         </script>
     </body>
 

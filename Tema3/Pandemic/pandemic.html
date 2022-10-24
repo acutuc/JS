@@ -33,12 +33,15 @@
                 if(y - 1 >= 0 && valor == biocenosis[x][y - 1]){
                     pandemic(x, y - 1);
                 }
-                console.table(biocenosis)
             }
+
             console.log("pandemic(0,0)")
-            console.log(pandemic(0,0))
+            pandemic(0,0)
+            console.table(biocenosis)
+
             console.log("pandemic(4,2)")
-            console.log(pandemic(4,2))
+            pandemic(4,2)
+            console.table(biocenosis)
             
 
 
