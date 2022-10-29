@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html>
 
 <head>
     <title>retos JavaScript</title>
@@ -14,19 +14,19 @@
 
     <script>
         let frutas = ["aguacate", "pera", "manzana", "naranja", "tomate", "granada", "mango", "litchi", "nispero"];
-        // muestra las frutas como elementos li y su nodo padre será el ul frutas
+        let tropicStock = [{fruta:"aguacate",stock:50}, {fruta:"mango",stock:10}, {fruta:"litchi",stock:20},{fruta:"nispero",stock:25}];
 
-        //Obtenemos el elemento por id "frutas":
+        // muestra las frutas tropicales con stock menor a 40 como elementos li y su nodo padre será el ul frutas
         let padre = document.getElementById("frutas");
 
-        frutas.map(valor => {
-            let linea = document.createElement("li")
-            let contenido = document.createTextNode(valor)
-
+        tropicStock.filter(fruta => fruta.stock < 40).map(valor => {
+            let linea = document.createElement("li");
+            let contenido = document.createTextNode(valor.fruta);
             linea.appendChild(contenido);
             padre.appendChild(linea);
-        });
+         })
     </script>
+
 </body>
 
 </html>
