@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>retos JavaScript</title>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+    <h1>retos JavaScript</h1>
+    <ul id="carrakos">
+
+    </ul>
+
+    <script>
+        var carrakos = ["Chevrolet", "Tesla", "BMW", ["Honda", "Infiniti", ["Lexus", "Mercedes", "Kia"], "Hyunday"], ["Mazda", "Mercedes", "Jeep", ["KTM", "Nissan", "Isuzu"]]];
+        //Se pide que muestres los datos del array en forma arborescente como en la imagen suministrada.
+
+        //Localizamos el ul con id "carrakos"
+        let padre = document.getElementById("carrakos");
+
+        let solucion = (arr) => {
+            arr.map(element => {
+                if (Array.isArray(element)) {
+                    padre2 = document.createElement("ul")
+                    padre.appendChild(padre2);
+                    element.map(valor => {
+                        if (Array.isArray(valor)) {
+                            let padre3 = document.createElement("ul");
+                            padre.appendChild(padre3);
+                            valor.map(v => {
+                                padre4 = document.createElement("ul")
+                                linea = document.createElement("li");
+                                contenido = document.createTextNode(v);
+                                linea.appendChild(contenido)
+                                padre4.appendChild(linea)
+                                padre3.appendChild(padre4)
+                            })
+                        } else {
+                            linea = document.createElement("li")
+                            contenido = document.createTextNode(valor)
+                            linea.appendChild(contenido)
+                            padre2.appendChild(linea)
+                        }
+                    })
+                } else {
+                    linea = document.createElement("li");
+                    contenido = document.createTextNode(element);
+                    linea.appendChild(contenido)
+                    padre.appendChild(linea)
+                }
+            }
+            )
+        }
+
+        solucion(carrakos)
+    </script>
+</body>
+
+</html>
