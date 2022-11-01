@@ -1,0 +1,47 @@
+<html>
+
+<head>
+    <title>retos JavaScript</title>
+</head>
+
+<body>
+    <h1>retos JavaScript</h1>
+    <ul id="carrakos"> </ul>
+
+    <script>
+
+        let carrakos = ["Chevrolet", "Tesla", "BMW", ["Honda", "Infiniti", ["Lexus", "Mercedes", "Kia"], "Hyunday"], ["Mazda", "Mercedes", "Jeep", ["KTM", "Nissan", "Isuzu"]]];
+        let xungos = [{ nombre: "Bruce Lee", carros: ["Chevrolet", "Tesla", "BMW"] }, { nombre: "YakiChan", carros: ["Lexus", "Mercedes", "Kia"] }]
+
+        //Este ejercicio tiene cierta complejidad. Es como el 8 pero vitaminado
+        //Se pide que saques los coches del array pero si tienen dueño lo especifiques
+
+        let ul = document.getElementById("carrakos");
+        console.log(xungos[0].carros)
+        console.log(xungos.map(carro => carro.carros))
+
+        carrakos.map(coche => {
+            if (Array.isArray(coche)) {
+
+            } else {
+                xungos.map((xungo, indice) => {
+                    if (xungo.carros[indice] == coche) {//índice 0.
+                        let li = document.createElement("li");
+                        let contenido = document.createTextNode(coche + " de " + xungo.nombre);
+                        li.appendChild(contenido);
+                        ul.appendChild(li);
+                    } else {
+                        let li = document.createElement("li");
+                        let contenido = document.createTextNode(coche);
+                        li.appendChild(contenido);
+                        ul.appendChild(li);
+
+                    }
+                })
+            }
+        })
+
+    </script>
+</body>
+
+</html>

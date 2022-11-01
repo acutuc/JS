@@ -44,10 +44,13 @@
             }
             ]
         };
-//Se pide que hagas un programa que muestre la media de TODAS las notas de los 3 alumnos que tenemos en nuestro JSON.
-let notas = [];
-console.log(valumnos.alumnos.map(v =>v.notas))
-console.log(notas)
+        //Se pide que hagas un programa que muestre la media de TODAS las notas de los 3 alumnos que tenemos en nuestro JSON.
+        
+        let average = (array) => array.reduce((a, b) => a + b) / array.length;
+
+        let sumatorioObj = (objeto) => Object.values(objeto);
+        
+        console.log(average(sumatorioObj(valumnos.alumnos[0].notas).concat(sumatorioObj(valumnos.alumnos[1].notas)).concat(sumatorioObj(valumnos.alumnos[2].notas))));
     </script>
 </body>
 
