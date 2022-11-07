@@ -20,7 +20,8 @@
         console.log(xungos[0].carros)
         console.log(xungos.map(carro => carro.carros))
 
-        carrakos.map(coche => {
+        let resuelveEjercicio = (arr) =>{
+            arr.map(coche => {
             if (Array.isArray(coche)) {
 
             } else {
@@ -40,6 +41,29 @@
                 })
             }
         })
+        }
+        console.log(resuelveEjercicio(carrakos))
+
+        let obj = document.getElementById("carrakos");
+        let visualiza = (arr, obj) =>{
+            arr.map(element =>{
+                if(Array.isArray(element)){
+                    let newobj = document.createElement("ul");
+                    obj.appendChild(newobj);
+                    visualiza(element, newobj);
+                }else{
+                    let nodoCoche = document.createElement("li");
+                    let texto;
+
+                    let elemento = xungos.find(x =>x.carros.find(carro => carro == x))
+                    typeof elemento == "undefined" ? texto = document.createTextNode(element) : texto = document.createTextNode(element + " de " + elemento.nombre);
+
+                    nodoCoche.appendChild(texto);
+                    obj.appendChild(nodoCoche);
+                }
+            })
+        }
+        visualiza(carrakos, obj)
 
     </script>
 </body>

@@ -60,7 +60,74 @@
                 }
             }
 
-            resuelveEjercicio(4, 6);
+            let resuelveJC = (fila, columna) => {
+                arr[fila][columna] = "*";
+
+                let pila = [];
+
+                //Crece hacia arriba:
+                if (fila > 0 && arr[fila - 1][columna] != "*" && cuantosArround(fila - 1, columna) == 1) {
+                    pila.push("N");
+                }
+                //Crece hacia abajo:
+                if (fila < arr.length - 1 && arr[fila + 1][columna] == "*" && cuantosArround(fila + 1, columna) == 1) {
+                    pila.push("S")
+                }
+                //Crece hacia la izquierda:
+                if (columna > 0 && arr[fila][columna - 1] == "*" && cuantosArround(fila, columna - 1) == 1) {
+                    pila.push("O")
+                }
+                //Crece hacia la derecha:
+                if (columna < arr[fila].length - 1 && arr[fila][columna + 1] == "*" && cuantosArround(fila, columna + 1) == 1) {
+                    pila.push("E");
+                }
+
+                if (pila.length > 0) {
+                    let n = generateRandomInt(0, pila.length);
+                    let next = pila[n];
+
+                    let newfila = fila;
+                    let newcolumna = columna;
+
+                    switch (next) {
+                        case "N":
+                            newfila--;
+                            break;
+                        case "S":
+                            newfila++;
+                            break;
+                        case "E":
+                            newcolumna++;
+                            break;
+                        case "O":
+                            newcolumna--;
+                            break;
+                    }
+                }
+            }
+
+            let cuantosArround = (fila, columna) => {
+                let cuantos = 0;
+                //Hacia arriba:
+                if (fila > 0 && arr[fila - 1][columna] == "*") {
+                    cuantos++;
+                }
+                //Hacia abajo:
+                if (fila < arr.length - 1 && arr[fila + 1][columna] == "*") {
+                    cuantos++;
+                }
+                //Hacia la izquierda:
+                if (columna > 0 && arr[fila][columna - 1] == "*") {
+                    cuantos++;
+                }
+                //Hacia la derecha:
+                if (columna < arr[fila].length - 1 && arr[fila][columna + 1] == "*") {
+                    cuantos++;
+                }
+                return cuantos;
+            }
+
+            resuelveJC(4, 6);
             console.table(arr)
         </script>
     </body>
