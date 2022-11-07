@@ -17,53 +17,30 @@
         //Se pide que saques los coches del array pero si tienen dueño lo especifiques
 
         let ul = document.getElementById("carrakos");
-        console.log(xungos[0].carros)
-        console.log(xungos.map(carro => carro.carros))
 
-        let resuelveEjercicio = (arr) =>{
+        let resuelveEjercicio = (arr, elemento) =>{
             arr.map(coche => {
             if (Array.isArray(coche)) {
-
+                let ul = document.createElement("ul");
+                elemento.appendChild(ul);
+                resuelveEjercicio(coche, ul);
             } else {
-                xungos.map((xungo, indice) => {
-                    if (xungo.carros[indice] == coche) {//índice 0.
-                        let li = document.createElement("li");
-                        let contenido = document.createTextNode(coche + " de " + xungo.nombre);
-                        li.appendChild(contenido);
-                        ul.appendChild(li);
-                    } else {
-                        let li = document.createElement("li");
-                        let contenido = document.createTextNode(coche);
-                        li.appendChild(contenido);
-                        ul.appendChild(li);
+                let li = document.createElement("li");
 
+                xungos.map(xungo => {
+                    if(xungo.carros.find(a => a == coche)){
+                        coche += " de " + xungo.nombre;
                     }
                 })
+
+                let contenido = document.createTextNode(coche);
+                li.appendChild(contenido);
+                elemento.appendChild(li);
             }
         })
         }
-        console.log(resuelveEjercicio(carrakos))
-
-        let obj = document.getElementById("carrakos");
-        let visualiza = (arr, obj) =>{
-            arr.map(element =>{
-                if(Array.isArray(element)){
-                    let newobj = document.createElement("ul");
-                    obj.appendChild(newobj);
-                    visualiza(element, newobj);
-                }else{
-                    let nodoCoche = document.createElement("li");
-                    let texto;
-
-                    let elemento = xungos.find(x =>x.carros.find(carro => carro == x))
-                    typeof elemento == "undefined" ? texto = document.createTextNode(element) : texto = document.createTextNode(element + " de " + elemento.nombre);
-
-                    nodoCoche.appendChild(texto);
-                    obj.appendChild(nodoCoche);
-                }
-            })
-        }
-        visualiza(carrakos, obj)
+        
+        resuelveEjercicio(carrakos, ul);
 
     </script>
 </body>
