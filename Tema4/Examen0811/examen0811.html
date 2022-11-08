@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>KULEVRA_LIGHT</title>
+</head>
+
+<body>
+    <script>
+        let mapa = [['*', '', '', '*', '*', '*'],
+        ['*', '', '', '', '', ''],
+        ['*', '', '', '', '*', '*'],
+        ['*', '', '', '', '', ''],
+        ['*', '*', '*', '*', '*', '*']];
+        const maxx = mapa.length;
+        const maxy = mapa[0].length;
+        console.table(mapa)
+
+        console.log("En la posición 0,0 hay una culebra de " + kulevra(0, 0) + " posiciones")
+        console.log("En la posición 0,0 hay una culebra de " + kulevra(0, 1) + " posiciones")
+        console.log("En la posición 0,0 hay una culebra de " + kulevra(0, 4) + " posiciones")
+        console.log("En la posición 0,0 hay una culebra de " + kulevra(2, 4) + " posiciones")
+        console.log("En la posición 0,0 hay una culebra de " + kulevra(3, 0) + " posiciones")
+
+
+        function kulevra(x, y) {
+            let posiciones = 0;
+
+            if (mapa[x][y] == "*") {//Comprobramos que haya un asterisco
+                posiciones++;//Incrementamos el valor de la variable
+            }
+
+            //Condiciones para hacer llamadas recursivas según cada caso:
+            //(se llaman constantemente unas a otras. Controlar bucle con un stack y switch.)
+            if (x - 1 > 0 && mapa[x - 1][y] == "*") {
+                mapa[x][y] = "";
+                return kulevra(x - 1, y)
+            }
+            if (x + 1 < maxx && mapa[x + 1][y] == "*") {
+                mapa[x][y] = "";
+                return kulevra(x + 1, y)
+            }
+            if (y - 1 > 0 && mapa[x][y - 1] == "*") {
+                mapa[x][y] = "";
+                return kulevra(x, y - 1)
+            }
+            if (y + 1 < maxy && mapa[x][y + 1] == "*") {
+                mapa[x][y] = "";
+                return kulevra(x, y + 1)
+            }
+            return posiciones;
+        }
+
+    </script>
+</body>
+
+</html>
