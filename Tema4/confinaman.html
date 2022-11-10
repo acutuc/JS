@@ -35,6 +35,38 @@
         <li>Juanele</li>
         <li>Jose</li>
     </ol>
+
+    <script>
+
+        let confina = (obj) => {
+            Array.from(obj.parentNode.children).map(hijo => {
+                if (hijo.tagName == "LI") {
+                    hijo.innerHTML += "(C)";
+                }
+            })
+        }
+
+        let recorre = (obj) => {
+            if (obj.tagName == "LI") {
+                recorre2(document.getElementById("lista1"), obj.innerHTML)
+            } else {
+                Array.from(obj.children).map(e => recorre(e))
+            }
+        }
+
+        let recorre2 = (obj, nombre) => {
+            if (obj.tagName == "LI") {
+                if (obj.innerHTML.toUpperCase() == nombre.toUpperCase()) {
+                    confina(obj);
+                }
+            } else {
+                Array.from(obj.children).map(e => recorre2(e, nombre))
+            }
+        }
+
+        recorre(document.getElementById("lista2"))
+
+    </script>
 </body>
 
 </html>

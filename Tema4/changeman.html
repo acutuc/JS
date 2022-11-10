@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <title>CHANGEMAN</title>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+    <ol id="lista">
+        <li>Perico</li>
+        <li>Juanico</li>
+        <ul>
+            <li>Jose</li>
+            <ul>
+                <li>Roman</li>
+                <li>Marco</li>
+                <li>Rodrigo</li>
+            </ul>
+            <li>Jose</li>
+            <li>Lorenzo</li>
+            <ul>
+                <li>Dimas</li>
+                <li>Gestas</li>
+                <li>Malakatos</li>
+                <li>Jose</li>
+            </ul>
+        </ul>
+        <li>Sofoclis</li>
+    </ol>
+</body>
+
+    <script>
+        let changeMan = (obj, man1, man2) =>{
+            Array.from(obj.children).map(e =>{
+                if(e.tagName == "LI"){
+                    console.log("si")
+                }
+            })
+        }
+        (changeMan(document.getElementById("lista")))
+    </script>
+
+</html>
