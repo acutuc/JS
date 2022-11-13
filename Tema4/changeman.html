@@ -32,13 +32,15 @@
 
     <script>
         let changeMan = (obj, man1, man2) =>{
-            Array.from(obj.children).map(e =>{
-                if(e.tagName == "LI"){
-                    console.log("si")
+            if(obj.tagName == "LI"){
+                if(obj.innerHTML.toUpperCase() == man1.toUpperCase()){
+                    obj.innerHTML = man2;
                 }
-            })
+            }else{
+                Array.from(obj.children).map(element => changeMan(element, man1, man2))
+            }
         }
-        (changeMan(document.getElementById("lista")))
+        changeMan(document.getElementById("lista"), "Jose", "AUSTRALOPITHECUS")
     </script>
 
 </html>
