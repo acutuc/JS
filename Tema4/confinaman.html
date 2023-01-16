@@ -37,34 +37,26 @@
     </ol>
 
     <script>
+        const lista2 = Array.from(document.getElementById("lista2").children);
 
-        let confina = (obj) => {
-            Array.from(obj.parentNode.children).map(hijo => {
-                if (hijo.tagName == "LI") {
-                    hijo.innerHTML += "(C)";
+        let confinaman = (padre) => {
+            if (padre.tagName == 'LI') {
+                if (lista2.find(e => e.innerHTML == padre.innerHTML) != undefined) {
+                    Array.from(padre.parentNode.children).map(v => {
+                        if (v.tagName == 'LI') {
+                            v.innerHTML += " (C)";
+                        }
+                    });
                 }
-            })
-        }
-
-        let recorre = (obj) => {
-            if (obj.tagName == "LI") {
-                recorre2(document.getElementById("lista1"), obj.innerHTML)
             } else {
-                Array.from(obj.children).map(e => recorre(e))
+                Array.from(padre.children).map(v => confinaman(v));
             }
         }
 
-        let recorre2 = (obj, nombre) => {
-            if (obj.tagName == "LI") {
-                if (obj.innerHTML.toUpperCase() == nombre.toUpperCase()) {
-                    confina(obj);
-                }
-            } else {
-                Array.from(obj.children).map(e => recorre2(e, nombre))
-            }
-        }
 
-        recorre(document.getElementById("lista2"))
+
+        confinaman(document.getElementById("lista1"));
+
     </script>
 </body>
 

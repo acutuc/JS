@@ -17,43 +17,23 @@
         //Se pide que muestres los datos del array en forma arborescente como en la imagen suministrada.
 
         //Localizamos el ul con id "carrakos"
-        let padre = document.getElementById("carrakos");
-
-        let solucion = (arr) => {
-            arr.map(element => {
-                if (Array.isArray(element)) {
-                    padre2 = document.createElement("ul")
-                    padre.appendChild(padre2);
-                    element.map(valor => {
-                        if (Array.isArray(valor)) {
-                            let padre3 = document.createElement("ul");
-                            padre.appendChild(padre3);
-                            valor.map(v => {
-                                padre4 = document.createElement("ul")
-                                linea = document.createElement("li");
-                                contenido = document.createTextNode(v);
-                                linea.appendChild(contenido)
-                                padre4.appendChild(linea)
-                                padre3.appendChild(padre4)
-                            })
-                        } else {
-                            linea = document.createElement("li")
-                            contenido = document.createTextNode(valor)
-                            linea.appendChild(contenido)
-                            padre2.appendChild(linea)
-                        }
-                    })
+        lista = (array, father) => {
+            array.map(x => {
+                if (!Array.isArray(x)) {
+                    let nodoCoche = document.createElement("li");
+                    let coche = document.createTextNode(x);
+                    nodoCoche.appendChild(coche);
+                    father.appendChild(nodoCoche);
                 } else {
-                    linea = document.createElement("li");
-                    contenido = document.createTextNode(element);
-                    linea.appendChild(contenido)
-                    padre.appendChild(linea)
-                }
-            }
-            )
-        }
+                    let nodoCoche = document.createElement("ul");
+                    father.appendChild(nodoCoche);
 
-        solucion(carrakos)
+                    lista(x, nodoCoche);
+                }
+            });
+        }
+        
+        lista(carrakos, document.getElementById("carrakos"));
     </script>
 </body>
 

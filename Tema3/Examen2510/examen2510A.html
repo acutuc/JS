@@ -18,15 +18,7 @@
     </script>
 </body>
 <script>
-    let frutasMayorStock = tropicStock.map(fruta=>{
-        if(fruta.stock > 21 && fruta.fruta){
-            return fruta.fruta;
-        }
-    }).filter(fruta =>{
-        if(fruta != undefined){
-            return fruta;
-        }
-    })
+    let frutasMayorStock = tropicStock.filter(element => element.stock > 21).map(e => e.fruta);
     console.log(frutasMayorStock)
 </script>
 
