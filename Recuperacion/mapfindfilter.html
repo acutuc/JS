@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exámen Recuperación</title>
+</head>
+
+<body>
+
+</body>
+
+<script>
+
+    /* -- Ejercicio 1 -- */
+    console.log("EJERCICIO 1")
+    const array1 = [5, 12, 8, 130, 44];
+    const array2 = [5, 8, 130, 44];
+
+
+    /*Se piden los elementos del array 1 mayor de 10 pero que estén en el segundo array
+Saldría el 130 y 44.
+Solamente puede utilizar funciones map, find y filter de arrays. No puede utilizar sentencias
+de control como if, for o while.
+Tiene que hacer el recuento solamente en una línea de código.*/
+    console.log(array1.filter(e => e > 10).filter(d => array2.filter(u => u == d) == d));
+
+
+
+    /* -- Ejercicio 2 -- */
+    console.log("EJERCICIO 2")
+    const array3 = [5, 12, 8, 130, 44];
+    const array4 = [5, 8, 130, 44];
+
+    /*Se piden los elementos del array 3 mayor de 10 pero que estén en el segundo array
+Saldría el 130 y 44.
+Solamente puede utilizar funciones map, find y filter de arrays. No puede utilizar if, for o
+while.
+Tiene que hacer el recuento solamente en una línea de código.*/
+    console.log(array3.filter(e => e > 10).filter(d => array4.filter(u => u == d) == d));
+
+
+
+    /* -- Ejercicio 3 -- */
+    console.log("EJERCICIO 3")
+    const array5 = [5, 12, 8, 130, 44];
+    const array6 = [5, 8, 130, 44];
+    const array7 = [5, 8, 44];
+
+    /*Se piden los elementos del array 5 mayor de 10 pero que estén en el segundo array y no en
+el tercero.
+Saldría el 130.
+Solamente puede utilizar funciones map, find y filter de arrays. No puede utilizar if, for o
+while.
+Tiene que hacer el recuento solamente en una línea de código.*/
+console.log(array5.filter(e => e > 10).filter(d => array6.filter(u => u == d) == d).filter(j => array7.filter(p => p == j) != j));
+
+
+
+    /* -- Ejercicio 4 -- */
+    console.log("EJERCICIO 4")
+    /*Se pide el nombre del padre de los godos que se llamen Recesvinto (solución Alarico y
+Suintila).
+Solamente puede utilizar funciones map, find y filter de arrays. No puede utilizar if, for o
+while.
+Tiene que hacer el recuento solamente en una línea de código.*/
+
+var godosJSON='{"reyesgodos":[{"nombre":"Alarico","hijos":["Atanagildo","Recesvinto","Leovigildo"]},{"nombre":"RecaredoI","hijos":["Sisebuto","RecaredoII"]},{"nombre":"Suintila","hijos":["Chindasvinto","Recesvinto","Wamba","Égica","Witiza","Rodrigo"]}]}';
+
+let objeto = JSON.parse(godosJSON).reyesgodos;
+
+let resuelveEjercicio = (obj) => {
+    console.log(obj.filter(element => element.hijos.filter(j => j == "Recesvinto") == "Recesvinto").map(e => e.nombre))
+}
+resuelveEjercicio(objeto)
+
+
+    /* -- Ejercicio 5 -- */
+    console.log("EJERCICIO 5")
+    /*Se pide el nombre del padre de los godos que se llamen Recesvinto y que no tengan un hijo
+llamado Leovigildo (solución Suintila).
+Solamente puede utilizar funciones map, find y filter de arrays. No puede utilizar if, for o
+while.
+Tiene que hacer el recuento solamente en una línea de código.*/
+
+var godosJSON2='{"reyesgodos":[{"nombre":"Alarico","hijos":["Atanagildo","Recesvinto","Leovigildo"]},{"nombre":"RecaredoI","hijos":["Sisebuto","RecaredoII"]},{"nombre":"Suintila","hijos":["Chindasvinto","Recesvinto","Wamba","Égica","Witiza","Rodrigo"]}]} ';
+
+let objeto2 = JSON.parse(godosJSON2).reyesgodos;
+
+let resuelveEjercicio2 = (obj) => {
+    console.log(obj.filter(element => element.hijos.filter(j => j == "Recesvinto") == "Recesvinto").filter(e => e.hijos.filter(o => o == "Leovigildo") != "Leovigildo").map(n => n.nombre))
+}
+resuelveEjercicio2(objeto2)
+</script>
+
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exámen Recuperación</title>
+</head>
+
+<body>
+    <ol id="lista1">
+        <li>Perico</li>
+        <li>Juanico</li>
+        <ul>
+            <li>Jose</li>
+            <ul>
+                <li>Roman</li>
+                <li>Marco</li>
+                <li>Rodrigo</li>
+            </ul>
+            <li>Jose</li>
+            <li>Lorenzo</li>
+            <ul>
+                <li>Dimas</li>
+                <li>Gestas</li>
+                <li>Malakatos</li>
+                <ol>
+                    <li>Periquin</li>
+                    <li>Juanico</li>
+                    <li>Jose</li>
+                </ol>
+                <li>Jose</li>
+            </ul>
+        </ul>
+        <li>Sofoclis</li>
+    </ol>
+</body>
+
+<script>
+    let lista = document.getElementById("lista1")
+    let resuelveEjercicio = (l) => {
+        if(l.tagName == "LI"){
+            console.log(l)
+        }else{
+            console.log(Array.from(l.children).map(e => e.innerHTML))
+        }
+    }
+
+    resuelveEjercicio(lista)
+</script>
+
+</html>
