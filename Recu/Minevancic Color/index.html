@@ -63,8 +63,8 @@
     <p>
     <h3>Resultado del ejercicio: </h3>
     </p>
-    <p id="resultado">
-
+    <p id="resultado" class="container">
+        
     </p>
 </body>
 
@@ -78,11 +78,6 @@
         [0, 0, 0, 0, 0, 1, 0],
         [0, 0, 0, 0, 0, 0, 0]
     ];
-
-    //Método que nos devuelve un número entre 0 y max (incluido).
-    randomInt = (max) => {
-        return Math.floor(Math.random() * max + 1);
-    }
 
     //Método que resuelve el ejercicio:
     color = (matriz) => {
@@ -229,14 +224,51 @@
         }//while
         //MOSTRAMOS POR CONSOLA
         console.table(matriz)
-        console.table(copiaMatriz)
     }
 
     //VERSIÓN CONSOLA:
     color(minas)
 
     //VERSIÓN BOOTSTRAP:
-    document.getElementById("resultado").innerHTML = "asdasdasd"
+    mostrarMatriz = (matriz) => {
+        //Almaceno en una variable el innerHTML de la etiqueta p con id "resultado"
+        let resultado = document.getElementById("resultado");
+
+        //Con un bucle, recorremos toda la matriz:
+        for (let i = 0; i < matriz.length; i++) {
+            //Por cada fila, hacemos un <br> para el salto de línea:
+            resultado.innerHTML += "<br>";
+            for (let j = 0; j < matriz[i].length; j++) {
+                //Si es una mina, pintamos de rojo
+                if(matriz[i][j] == 1){ 
+                    resultado.innerHTML += "<button type='button' class='btn btn-danger'></button>";
+                }
+                //Si está a uno de distancia de la mina, pintamos de amarillo:
+                if(matriz[i][j] == 2){
+                    resultado.innerHTML += "<button type='button' class='btn btn-warning'></button>";
+                }
+                //Si está a dos de distancia de la mina, pintamos de azul:
+                if(matriz[i][j] == 3){
+                    resultado.innerHTML += "<button type='button' class='btn btn-primary'></button>";
+                } 
+                //Si está a tres de distancia de la mina, pintamos de verde:
+                if(matriz[i][j] == 4){
+                    resultado.innerHTML += "<button type='button' class='btn btn-success'></button>";
+                }
+                //Si está a cutrao de distancia de la mina, pintamos de gris:
+                if(matriz[i][j] == 5){
+                    resultado.innerHTML += "<button type='button' class='btn btn-secondary'></button>";
+                }
+                //Si está mas lejos, pintamos de negro
+                if(matriz[i][j] == 0){
+                    resultado.innerHTML += "<button type='button' class='btn btn-dark'></button>";
+                }
+            }
+        }
+        return resultado;
+    }
+
+    mostrarMatriz(minas)
 </script>
 
 </html>
