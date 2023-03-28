@@ -21,7 +21,7 @@ class App extends Component {
       let aux = []
       for (let j = 0; j < copiaBotones.length; j++) {
 
-        aux.push({ color: "info", pulsado: 0, firstPulsado: false })
+        aux.push({ color: "info", iteracion: 0, firstPulsado: false, lastColor: "" })
       }
       copiaBotones[i] = aux;
     }
@@ -34,10 +34,14 @@ class App extends Component {
     let copiaBotones = this.state.listaBotones;
     
     if(copiaBotones[x][y].firstPulsado === false){
+      //Guardamos el último color en todos los objetos
+      copiaBotones.map(e => e.map(e2 => e2.lastColor = copiaBotones[x][y].color))
+
+      //Actualizamos el color actual
       copiaBotones[x][y].color = "primary";
     }
 
-    //Ponemos toda la matriz a firstpulsado = true
+    //Cuando pulsamos aunque sea una sola vez, ponemos toda la matriz a firstpulsado = true
     copiaBotones.map(e => e.map(e2 => e2.firstPulsado = true))
 
     if(copiaBotones[x+1][y].color === "primary" || copiaBotones[x-1][y].color === "primary" || copiaBotones[x][y+1].color === "primary" || copiaBotones[x][y-1].color === "primary"){
@@ -45,7 +49,9 @@ class App extends Component {
     }
 
     console.log(copiaBotones[x][y].color)
+    console.log(copiaBotones[x][y].iteracion)
     console.log(copiaBotones[x][y].firstPulsado)
+    console.log(copiaBotones[x][y].lastColor)
 
     this.setState({ listaBotones: copiaBotones });
     console.log(copiaBotones)
