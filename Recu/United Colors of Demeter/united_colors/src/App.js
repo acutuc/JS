@@ -29,29 +29,60 @@ class App extends Component {
   }
 
   pulsado(x, y) {
-    console.log(x)
-    console.log(y)
     let copiaBotones = this.state.listaBotones;
-    
-    if(copiaBotones[x][y].firstPulsado === false){
+
+    if (copiaBotones[x][y].firstPulsado === false) {
       //Guardamos el último color en todos los objetos
       copiaBotones.map(e => e.map(e2 => e2.lastColor = copiaBotones[x][y].color))
 
       //Actualizamos el color actual
       copiaBotones[x][y].color = "primary";
+      copiaBotones.map(e => e.map(e2 => e2.iteracion = 1))
     }
 
     //Cuando pulsamos aunque sea una sola vez, ponemos toda la matriz a firstpulsado = true
     copiaBotones.map(e => e.map(e2 => e2.firstPulsado = true))
+    console.log(copiaBotones[x][y].iteracion)
 
-    if(copiaBotones[x+1][y].color === "primary" || copiaBotones[x-1][y].color === "primary" || copiaBotones[x][y+1].color === "primary" || copiaBotones[x][y-1].color === "primary"){
-      copiaBotones[x][y].color = "primary"
+    if (copiaBotones[x][y].iteracion === 1) {
+      if (copiaBotones[x + 1][y].color === "primary" || copiaBotones[x - 1][y].color === "primary" || copiaBotones[x][y + 1].color === "primary" || copiaBotones[x][y - 1].color === "primary") {
+        copiaBotones[x][y].color = "primary"
+      }
+    }else{
+      copiaBotones.map(e => e.map(e2 => e2.iteracion++))
     }
 
-    console.log(copiaBotones[x][y].color)
+
+
+    if (copiaBotones[x][y].iteracion === 2) {
+      copiaBotones[x][y].color = "secondary"
+      if (copiaBotones[x + 1][y].color === "secondary" || copiaBotones[x - 1][y].color === "secondary" || copiaBotones[x][y + 1].color === "secondary" || copiaBotones[x][y - 1].color === "secondary") {
+        copiaBotones[x][y].color = "secondary"
+      }
+    } else if (copiaBotones[x][y].iteracion === 3) {
+      copiaBotones[x][y].color = "success"
+      if (copiaBotones[x + 1][y].color === "success" || copiaBotones[x - 1][y].color === "success" || copiaBotones[x][y + 1].color === "success" || copiaBotones[x][y - 1].color === "success") {
+        copiaBotones[x][y].color = "success"
+      }
+    } else if (copiaBotones[x][y].iteracion === 4) {
+      copiaBotones[x][y].color = "warning"
+      if (copiaBotones[x + 1][y].color === "warning" || copiaBotones[x - 1][y].color === "warning" || copiaBotones[x][y + 1].color === "warning" || copiaBotones[x][y - 1].color === "warning") {
+        copiaBotones[x][y].color = "warning"
+      }
+    } else if (copiaBotones[x][y].iteracion === 5) {
+      copiaBotones[x][y].color = "danger"
+      if (copiaBotones[x + 1][y].color === "danger" || copiaBotones[x - 1][y].color === "danger" || copiaBotones[x][y + 1].color === "danger" || copiaBotones[x][y - 1].color === "danger") {
+        copiaBotones[x][y].color = "danger"
+      }
+    } else {
+
+    }
+
+    if (copiaBotones[x][y].iteracion > 5) {
+      copiaBotones.map(e => e.map(e2 => e2.iteracion = 1))
+    }
+
     console.log(copiaBotones[x][y].iteracion)
-    console.log(copiaBotones[x][y].firstPulsado)
-    console.log(copiaBotones[x][y].lastColor)
 
     this.setState({ listaBotones: copiaBotones });
     console.log(copiaBotones)
