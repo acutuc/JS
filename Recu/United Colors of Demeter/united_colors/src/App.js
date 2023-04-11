@@ -38,23 +38,25 @@ class App extends Component {
       //Actualizamos el color actual
       copiaBotones[x][y].color = "primary";
       copiaBotones.map(e => e.map(e2 => e2.iteracion++))
+
+      //Cuando pulsamos aunque sea una sola vez, ponemos toda la matriz a firstpulsado = true
+      copiaBotones.map(e => e.map(e2 => e2.firstPulsado = true))
     }
 
-    //Cuando pulsamos aunque sea una sola vez, ponemos toda la matriz a firstpulsado = true
-    copiaBotones.map(e => e.map(e2 => e2.firstPulsado = true))
+
     console.log(copiaBotones[x][y].iteracion)
 
-      if (copiaBotones[x + 1][y].color === "primary" || copiaBotones[x - 1][y].color === "primary" || copiaBotones[x][y + 1].color === "primary" || copiaBotones[x][y - 1].color === "primary") {
-        copiaBotones[x][y].color = "primary"
-        copiaBotones.map(e => e.map(e2 => e2.iteracion++))
-        copiaBotones[x][y].iteracion = 1;
-        copiaBotones[x + 1][y].iteracion = 1;
-        copiaBotones[x - 1][y].iteracion = 1;
-        copiaBotones[x][y + 1].iteracion = 1;
-        copiaBotones[x][y - 1].iteracion = 1;
-      }
-    
-      //jmorper037@maralboran.es
+    if (copiaBotones[x + 1][y].color === "primary" || copiaBotones[x - 1][y].color === "primary" || copiaBotones[x][y + 1].color === "primary" || copiaBotones[x][y - 1].color === "primary") {
+      copiaBotones[x][y].color = "primary"
+      copiaBotones.map(e => e.map(e2 => e2.iteracion++))
+      copiaBotones[x][y].iteracion = 1;
+      copiaBotones[x + 1][y].iteracion = 1;
+      copiaBotones[x - 1][y].iteracion = 1;
+      copiaBotones[x][y + 1].iteracion = 1;
+      copiaBotones[x][y - 1].iteracion = 1;
+    }
+
+    //jmorper037@maralboran.es
 
     if (copiaBotones[x][y].iteracion === 2) {
       if (copiaBotones[x + 1][y].color === "secondary" || copiaBotones[x - 1][y].color === "secondary" || copiaBotones[x][y + 1].color === "secondary" || copiaBotones[x][y - 1].color === "secondary") {
