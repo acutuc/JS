@@ -63,6 +63,8 @@ class App extends Component {
             if (i === copiaBotones[x].length - 1 && copiaBotones[x][i].pulsado === false) {
               copiaBotones[i][y].pulsado = true;
               copiaBotones[i][y].colorFicha = "danger";
+              //Pasamos el turno al azul:
+              copiaBotones.map(element => element.map(e => e.jugadores = "azul"))
             }
           }
           //Si el que juega es el azul:
@@ -73,7 +75,7 @@ class App extends Component {
               if (copiaBotones[i][y].pulsado === true) {
                 copiaBotones[i - 1][y].pulsado = true;
                 copiaBotones[i - 1][y].colorFicha = "primary";
-                //Pasamos el turno al azul:
+                //Pasamos el turno al rojo:
                 copiaBotones.map(element => element.map(e => e.jugadores = "rojo"))
                 //Rompemos bucle;
                 break;
@@ -82,7 +84,23 @@ class App extends Component {
               if (i === copiaBotones[x].length - 1 && copiaBotones[x][i].pulsado === false) {
                 copiaBotones[i][y].pulsado = true;
                 copiaBotones[i][y].colorFicha = "primary";
+                //Pasamos el turno al rojo:
+                copiaBotones.map(element => element.map(e => e.jugadores = "rojo"))
               }
+            }
+          }
+        }
+
+        for(let i = 0; i < copiaBotones.length; i++){
+
+          for(let j = 0; j < copiaBotones[i].length; j++){
+            if(j - 4 > 0){
+              if(copiaBotones[i][j].colorFicha == "danger" && copiaBotones[i][j - 1].colorFicha == "danger" && copiaBotones[i][j - 2].colorFicha == "danger" &&copiaBotones[i][j - 3].colorFicha == "danger"){
+                alert("GANA EL ROJO");
+              }
+            }
+              if(copiaBotones[i][j].colorFicha == "danger" && copiaBotones[i - 1][j].colorFicha == "danger" && copiaBotones[i - 2][j].colorFicha == "danger" &&copiaBotones[i - 3][j].colorFicha == "danger"){
+              alert("GANA EL ROJO");
             }
           }
         }
@@ -92,6 +110,19 @@ class App extends Component {
         console.log("DESPUÉS DE PULSAR")
         console.log(copiaBotones)
         console.log(copiaBotones[x][y])
+      }
+    }
+  }
+
+  compruebaGanador(){
+    let copiaBotones = this.state.listaBotones;
+
+    for(let i = 0; i < copiaBotones.length; i++){
+
+      for(let j = 0; j < copiaBotones.length; j++){
+        if(copiaBotones[i][j].colorFicha == "danger" && copiaBotones[i - 1][j].colorFicha == "danger" && copiaBotones[i - 2][j].colorFicha == "danger" &&copiaBotones[i - 3][j].colorFicha == "danger"){
+          alert("GANA EL ROJO");
+        }
       }
     }
   }
