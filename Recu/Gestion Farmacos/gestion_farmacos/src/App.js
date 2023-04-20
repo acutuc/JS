@@ -10,7 +10,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      medicamentos : ["asadasd"],
+      medicamentos : [""],
     }
   }
 
@@ -18,7 +18,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Gestion />
+        <Gestion medicamentos={this.state.medicamentos}/>
       </div>
     )
 

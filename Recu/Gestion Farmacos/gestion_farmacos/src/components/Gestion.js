@@ -31,11 +31,11 @@ function Gestion(props) {
         }
     };
 
-    function clicar() {
+    /*function clicar() {
         axios.post(FARMACOS, JSON.stringify({
 
         }))
-    }
+    }*/
 
     return (
         <div>
