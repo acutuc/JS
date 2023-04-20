@@ -2,7 +2,6 @@
 import './App.css';
 import { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Badge } from 'reactstrap';
 import MapaBotones from './components/MapaBotones';
 
 class App extends Component {
@@ -33,9 +32,10 @@ class App extends Component {
 
   pulsado(x, y) {
     let copiaBotones = this.state.listaBotones;
-    console.log("ANTES DE PULSAR:")
-    console.log(copiaBotones)
-    console.log(copiaBotones[x][y])
+    //console.log("ANTES DE PULSAR:")
+    //console.log(copiaBotones)
+    //console.log(copiaBotones[x][y])
+
     //El programa sólo responderá si pulsamos en cualquier casilla de la primera fila:
     if (x === 0) {
       //Si es la primera vez que pulsamos, ponemos todos los objetos a firstPulsado : "true"
@@ -66,7 +66,7 @@ class App extends Component {
               //Pasamos el turno al azul:
               copiaBotones.map(element => element.map(e => e.jugadores = "azul"))
             }
-          }
+          }//for
           //Si el que juega es el azul:
         } else {
           if (copiaBotones[x][y].jugadores === "azul") {
@@ -75,7 +75,7 @@ class App extends Component {
               if (copiaBotones[i][y].pulsado === true) {
                 copiaBotones[i - 1][y].pulsado = true;
                 copiaBotones[i - 1][y].colorFicha = "primary";
-                //Pasamos el turno al rojo:
+                //Pasamos el turno al azul:
                 copiaBotones.map(element => element.map(e => e.jugadores = "rojo"))
                 //Rompemos bucle;
                 break;
@@ -91,38 +91,48 @@ class App extends Component {
           }
         }
 
-        for(let i = 0; i < copiaBotones.length; i++){
+        //Comprobamos ganador:
 
-          for(let j = 0; j < copiaBotones[i].length; j++){
-            if(j - 4 > 0){
-              if(copiaBotones[i][j].colorFicha == "danger" && copiaBotones[i][j - 1].colorFicha == "danger" && copiaBotones[i][j - 2].colorFicha == "danger" &&copiaBotones[i][j - 3].colorFicha == "danger"){
-                alert("GANA EL ROJO");
+        for (let i = 0; i < copiaBotones.length; i++) {
+          for (let j = 0; j < copiaBotones[i].length; j++) {
+            //PARA EL COLOR ROJO:
+            //Comprobación vertical:
+            if (i + 3 < copiaBotones.length) {
+              if (copiaBotones[i][j].colorFicha === "danger" && copiaBotones[i + 1][j].colorFicha === "danger" && copiaBotones[i + 2][j].colorFicha === "danger" && copiaBotones[i + 3][j].colorFicha === "danger") {
+                alert("HA GANADO ROJO")
               }
             }
-              if(copiaBotones[i][j].colorFicha == "danger" && copiaBotones[i - 1][j].colorFicha == "danger" && copiaBotones[i - 2][j].colorFicha == "danger" &&copiaBotones[i - 3][j].colorFicha == "danger"){
-              alert("GANA EL ROJO");
+            //Comprobación horizontal:
+            if (j + 3 < copiaBotones[i].length) {
+              if (copiaBotones[i][j].colorFicha === "danger" && copiaBotones[i][j + 1].colorFicha === "danger" && copiaBotones[i][j + 2].colorFicha === "danger" && copiaBotones[i][j + 3].colorFicha === "danger") {
+                alert("HA GANADO ROJO")
+              }
+            }
+
+
+            //PARA EL COLOR AZUL:
+            //Comprobación vertical:
+            if (i + 3 < copiaBotones.length) {
+              if (copiaBotones[i][j].colorFicha === "primary" && copiaBotones[i + 1][j].colorFicha === "primary" && copiaBotones[i + 2][j].colorFicha === "primary" && copiaBotones[i + 3][j].colorFicha === "primary") {
+                alert("HA GANADO AZUL")
+                break;
+              }
+            }
+            //Comprobación horizontal:
+            if (j + 3 < copiaBotones[i].length) {
+              if (copiaBotones[i][j].colorFicha === "primary" && copiaBotones[i][j + 1].colorFicha === "primary" && copiaBotones[i][j + 2].colorFicha === "primary" && copiaBotones[i][j + 3].colorFicha === "primary") {
+                alert("HA GANADO AZUL")
+                break;
+              }
             }
           }
         }
 
         this.setState({ listaBotones: copiaBotones })
 
-        console.log("DESPUÉS DE PULSAR")
-        console.log(copiaBotones)
-        console.log(copiaBotones[x][y])
-      }
-    }
-  }
-
-  compruebaGanador(){
-    let copiaBotones = this.state.listaBotones;
-
-    for(let i = 0; i < copiaBotones.length; i++){
-
-      for(let j = 0; j < copiaBotones.length; j++){
-        if(copiaBotones[i][j].colorFicha == "danger" && copiaBotones[i - 1][j].colorFicha == "danger" && copiaBotones[i - 2][j].colorFicha == "danger" &&copiaBotones[i - 3][j].colorFicha == "danger"){
-          alert("GANA EL ROJO");
-        }
+        //console.log("DESPUÉS DE PULSAR")
+        //console.log(copiaBotones)
+        //console.log(copiaBotones[x][y])
       }
     }
   }
