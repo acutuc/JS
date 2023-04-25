@@ -5,12 +5,37 @@ import { FARMACOS } from './Farmacos';
 function Ventana(props) {
   const [modal, setModal] = useState(false);
 
+  const [farmaco, setFarmaco] = useState("");
+
+  const [farmaco2, setFarmaco2] = useState();
+
   const toggle = () => setModal(!modal);
 
-  const handleChange = (event) =>{
-    if(event.target.name === "farmaco"){
-      console.log(event.target.value);
+  const handleChange = (event) => {
+    if (event.target.name === "farmaco") {
+      setFarmaco2(event.target.value);
     }
+    if (event.target.name === "select") {
+      setFarmaco(event.target.value)
+    }
+  }
+
+  const handleSubmit = (event) => {
+    let codigo = "";
+    for (let i = 0; i < farmaco.length; i++) {
+      if (farmaco[i] === "|") {
+        break;
+      }
+      codigo += farmaco[i];
+    }
+    if (event.target.name === "incluir") {
+      props.anadirMedicamentoIncluido(codigo)
+      setModal(!modal)
+    } else {
+      props.anadirMedicamentoExcluido(codigo)
+      setModal(!modal)
+    }
+
   }
 
   return (
@@ -23,32 +48,34 @@ function Ventana(props) {
         <ModalBody>
           <div className='d-flex align-items-center'>
             <Label for=''>Filtrar: </Label>&nbsp;
-            <Input 
-            type='text' 
-            name='farmaco'
-            onChange={handleChange}
+            <Input
+              type='text'
+              name='farmaco'
+              onChange={handleChange}
             />
           </div>
           <div className='p-2'>
-          <FormGroup row>
-            <Col sm={10}>
-              <Input
-                id="exampleSelect"
-                name="select"
-                type="select"
-              >
-                {FARMACOS.map(e => {
-                  return <option>{e.codATC}|{e.descATC}</option>
-                })}
-              </Input>
-            </Col>
-          </FormGroup>
+            <FormGroup row>
+              <Col sm={10}>
+                <Input
+                  id="exampleSelect"
+                  name="select"
+                  type="select"
+                  onChange={handleChange}
+                >
+                  {FARMACOS.map(e => {
+                    return <option>{e.codATC}|{e.descATC}</option>
+                  })}
+                </Input>
+              </Col>
+            </FormGroup>
           </div>
-          
+
 
         </ModalBody>
         <ModalFooter>
-          <Button color="primary" onClick={toggle}>
+          <Label>{farmaco}</Label>
+          <Button color="primary" name={props.nombre} onClick={handleSubmit}>
             Añadir
           </Button>
         </ModalFooter>

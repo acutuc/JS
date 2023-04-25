@@ -10,11 +10,6 @@ import {
     ToastBody,
     Input,
     Button,
-    Modal,
-    ModalHeader,
-    ModalBody,
-    Label,
-    ModalFooter
 } from 'reactstrap';
 import { FARMACOS } from './Farmacos';
 import Ventana from './Ventana';
@@ -22,7 +17,7 @@ import axios from 'axios';
 
 function Gestion(props) {
     const [open, setOpen] = useState('1');
-    const [medicamentos, setMedicamentos] = useState([]);
+
     const toggle = (id) => {
         if (open === id) {
             setOpen();
@@ -31,11 +26,13 @@ function Gestion(props) {
         }
     };
 
-    /*function clicar() {
-        axios.post(FARMACOS, JSON.stringify({
+    const borrarMedicamentosIncluidos = () => {
+        props.eliminarMedicamentosIncluidos();
+    }
 
-        }))
-    }*/
+    const borrarMedicamentosExcluidos = () => {
+        props.eliminarMedicamentosExcluidos();
+    }
 
     return (
         <div>
@@ -50,10 +47,10 @@ function Gestion(props) {
                                         Incluir X medicamentos:
                                     </ToastHeader>
                                     <ToastBody>
-                                        <Input type='textarea'>{props.medicamentos}</Input>
+                                        <Input type='textarea' value={props.medicamentosIncluidos}></Input>
                                         <div className='d-flex justify-content-center p-3'>
-                                            <Ventana color="info"/>&nbsp;
-                                            <Button color="info">Borrar</Button>
+                                            <Ventana color="info" nombre={"incluir"} medicamentosIncluidos={props.medicamentosIncluidos} anadirMedicamentoIncluido={(medicamento) => props.anadirMedicamentoIncluido(medicamento)} />&nbsp;
+                                            <Button color="info" onClick={() => borrarMedicamentosIncluidos()} >Borrar</Button>
                                         </div>
                                     </ToastBody>
                                 </Toast>
@@ -64,10 +61,10 @@ function Gestion(props) {
                                         Excluir X medicamentos:
                                     </ToastHeader>
                                     <ToastBody>
-                                        <Input type='textarea'>{ }</Input>
+                                        <Input type='textarea' value={props.medicamentosExcluidos}></Input>
                                         <div className='d-flex justify-content-center p-3'>
-                                            <Ventana color="danger"/>&nbsp;
-                                            <Button color="danger">Borrar</Button>
+                                            <Ventana color="danger" nombre={"excluir"} medicamentosExcluidos={props.medicamentosExcluidos} anadirMedicamentoExcluido={(medicamento) => props.anadirMedicamentoExcluido(medicamento)} />&nbsp;
+                                            <Button color="danger" onClick={() => borrarMedicamentosExcluidos()}>Borrar</Button>
                                         </div>
                                     </ToastBody>
                                 </Toast>
@@ -77,7 +74,7 @@ function Gestion(props) {
                     </AccordionBody>
                 </AccordionItem>
             </Accordion>
-            
+
         </div>
     );
 }

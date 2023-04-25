@@ -10,15 +10,48 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      medicamentos : [""],
+      medicamentosIncluidos : [],
+      medicamentosExcluidos : [],
     }
+  }
+
+  anadirMedicamentoIncluido(medicamento){
+    let copia = this.state.medicamentosIncluidos;
+
+    copia.push(medicamento);
+
+    this.setState({medicamentosIncluidos : copia});
+  }
+
+  eliminarMedicamentosIncluidos(){
+    let copia = this.state.medicamentosIncluidos;
+
+    copia = "";
+
+    this.setState({medicamentosIncluidos : copia});
+  }
+
+  anadirMedicamentoExcluido(medicamento){
+    let copia = this.state.medicamentosExcluidos;
+
+    copia.push(medicamento);
+
+    this.setState({medicamentosExcluidos : copia});
+  }
+
+  eliminarMedicamentosExcluidos(){
+    let copia = this.state.medicamentosExcluidos;
+
+    copia = "";
+
+    this.setState({medicamentosExcluidos : copia});
   }
 
 
   render() {
     return (
       <div className="App">
-        <Gestion medicamentos={this.state.medicamentos}/>
+        <Gestion medicamentosIncluidos={this.state.medicamentosIncluidos} anadirMedicamentoIncluido={(medicamento) => this.anadirMedicamentoIncluido(medicamento)} eliminarMedicamentosIncluidos={() => this.eliminarMedicamentosIncluidos()} medicamentosExcluidos={this.state.medicamentosExcluidos} anadirMedicamentoExcluido={(medicamento) => this.anadirMedicamentoExcluido(medicamento)} eliminarMedicamentosExcluidos={() => this.eliminarMedicamentosExcluidos()}/>
       </div>
     )
 
