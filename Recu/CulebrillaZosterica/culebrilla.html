@@ -1,133 +1,153 @@
 <!DOCTYPE html>
 <html>
 
+<head>
+    <title>Kulevrilla - Javier Parodi</title>
+    <meta charset="UTF-8">
+</head>
+
 <body>
-    <!DOCTYPE html>
-    <html>
-
-    <body>
-        <h2>kulevrilla Zostérica</h2>
-        <script>
-            let mapa = [
-                ['*', ' ', ' ', '*', '*', '*'],
-                ['*', ' ', ' ', ' ', ' ', ' '],
-                ['*', ' ', ' ', ' ', '*', '*'],
-                ['*', ' ', ' ', ' ', ' ', ' '],
-                ['*', '*', '*', '*', '*', '*']
-            ];
-
-            funcionamiento(mapa);
-
-            /* Método que busca todas las culebras que haya en un mapa
-            y almacena todas sus longitudes en un array */
-            function buscarCulebras() {
-
-                for (let i = 0; i < mapa.length; i++) {
-                    for (let j = 0; j < mapa[i].length; j++) {
-                        if (mapa[i][j] == "*") {
-                            console.log(`Hay una serpiente de ${kulebra(i, j)} metros de longitud`);
-                        }
+    <h2>Kulevrilla Zostérica</h2>
+    <script>
+        //Busca la cabeza antes de jugar
+        function cabeza(matriz) {
+            var posicion = [];
+            for (let i = 0; i < matriz.length; i++) {
+                for (let j = 0; j < matriz[0].length; j++) {
+                    if (matriz[i][j] == "*") {
+                        posicion.push(i);
+                        posicion.push(j);
+                        return posicion;
                     }
                 }
             }
+            return posicion;
+        }
 
-            /* Método que, de forma recursiva, recorre el 
-            cuerpo de una serpiente y determina su longitud */
-            function kulebra(fila, columna) {
+        //Genera un aleatorio
+        function generateRandomInt(min, max) {
+            return Math.floor((Math.random() * (max - min)) + min);
+        }
 
-                mapa[fila][columna] = "";
+        //Comprueba si la se puede avanzar de una posicióna otra
+        function vecinas_vacias(matriz, x, y, j, k) {
 
-                if (mirarArriba(fila, columna)) {
-                    return kulebra(fila - 1, columna) + 1;
-                }
+            vacias = true;
 
-                if (mirarAbajo(fila, columna)) {
-                    return kulebra(fila + 1, columna) + 1;
-                }
-
-                if (mirarIzquierda(fila, columna)) {
-                    return kulebra(fila, columna - 1) + 1;
-                }
-
-                if (mirarDerecha(fila, columna)) {
-                    return kulebra(fila, columna + 1) + 1;
-                }
-
-                return 1;//fin de culebra
+            if ((j - 1) != x && j > 0 && matriz[j - 1][k] == "*") {
+                vacias = false;
             }
 
-            /* Método que mira hacia arriba de la coordenada inicial para 
-            comprobar si en esa direccion continua el cuerpo
-            de la serpiente */
-            function mirarArriba(x, y) {
+            if ((j + 1) != x && j + 1 < matriz.length && matriz[j + 1][k] == "*") {
+                vacias = false;
+            }
 
-                if (x > 0) {
-                    if (mapa[x - 1][y] == "*") {
-                        return true;
+            if ((k - 1) != y && k > 0 && matriz[j][k - 1] == "*") {
+                vacias = false;
+            }
+
+            if ((k + 1) != y && k + 1 < matriz[0].length && matriz[j][k + 1] == "*") {
+                vacias = false;
+            }
+
+            return vacias;
+        }
+
+        //Juega la partida de forma automática y aleatoria hasta el fallo
+        function juego(matriz, x, y, probadas) {
+
+            //Comprueba que haya alguna posibilidad
+            //Cuando haya pasado por todos los case sin éxito estarán los indicadores de todos en el array, por lo acabará el juego
+            if (probadas.find(p => p == "0") != undefined && probadas.find(p => p == "1") != undefined
+                && probadas.find(p => p == "2") != undefined && probadas.find(p => p == "3") != undefined) {
+
+                console.log("TABLERO RESULTANTE - CABEZA: [" + x + "][" + y + "]");
+                return; //Fin del juego
+            }
+
+            n = generateRandomInt(0, 4); //Dirección (aleatoria)
+
+            switch (n) {
+                case 0:
+                    //Comprueba no salirse del tablero, que la casilla a la que avanza esté vacía y que ésta tenga sus vecinas vacías
+                    if (x >= 1 && matriz[x - 1][y] != "*" && vecinas_vacias(matriz, x, y, x - 1, y)) {
+                        matriz[x - 1][y] = "*"; //Si está todo OK, avanza la serpiente
+                        probadas = []; //Pone a 0 el array de intentos fallidos, ya que avanzamos de casilla
+                        juego(matriz, x - 1, y, probadas); //Sigue el juego
+
+                    } else {
+                        probadas.push("0"); //Añade 0 al array, indicando que el case 0 no es posible
+                        juego(matriz, x, y, probadas); //Probará con otro case
                     }
-                }
-                return false;
-            }
 
-            /* Metodo que mira hacia abajo de la coordenada inicial para 
-            comprobar si en esa direccion continua el cuerpo
-            de la serpiente */
-            function mirarAbajo(x, y) {
+                    break;
 
-                if (x < mapa.length - 1) {
-                    if (mapa[x + 1][y] == "*") {
-                        return true;
+                case 1:
+                    if ((x + 1) < matriz.length && matriz[x + 1][y] != "*" && vecinas_vacias(matriz, x, y, x + 1, y)) {
+                        matriz[x + 1][y] = "*";
+                        probadas = [];
+                        juego(matriz, x + 1, y, probadas);
+
+
+                    } else {
+                        probadas.push("1");
+                        juego(matriz, x, y, probadas);
                     }
-                }
-                return false;
-            }
 
-            /* Método que mira a la izquierda de la coordenada inicial para 
-            comprobar si en esa direccion continua el cuerpo
-            de la serpiente */
-            function mirarIzquierda(x, y) {
+                    break;
 
-                if (y > 0) {
-                    if (mapa[x][y - 1] == "*") {
-                        return true;
+                case 2:
+                    if (y >= 1 && matriz[x][y - 1] != "*" && vecinas_vacias(matriz, x, y, x, y - 1)) {
+                        matriz[x][y - 1] = "*";
+                        probadas = [];
+                        juego(matriz, x, y - 1, probadas);
+
+                    } else {
+                        probadas.push("2");
+                        juego(matriz, x, y, probadas);
                     }
-                }
-                return false;
-            }
 
-            /* Método que mira a la derecha de la coordenada inicial para 
-            comprobar si en esa direccion continua el cuerpo
-            de la serpiente */
-            function mirarDerecha(x, y) {
+                    break;
 
-                if (x < mapa[x].length - 1) {
-                    if (mapa[x][y + 1] == "*") {
-                        return true;
+                default:
+                    if ((y + 1) < matriz[0].length && matriz[x][y + 1] != "*" && vecinas_vacias(matriz, x, y, x, y + 1)) {
+                        matriz[x][y + 1] = "*";
+                        probadas = [];
+                        juego(matriz, x, y + 1, probadas);
+
+                    } else {
+                        probadas.push("3");
+                        juego(matriz, x, y, probadas);
                     }
-                }
-                return false;
+
+                    break;
             }
-
-            function funcionamiento(array) {
-
-                mostrarMapa(array);
-                console.log("\n\n")
-                buscarCulebras();
-            }
-
-            function mostrarMapa(array) {
+        }
 
 
-                for (let i = 0; i < array.length; i++) {
-                    let texto = "";
-                    for (let j = 0; j < array[i].length; j++) {
+        var arr = [[" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
+        [" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
+        [" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
+        [" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
+        [" ", " ", " ", " ", " ", " ", "*", " ", " ", " ", " ", " ", " "],
+        [" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
+        [" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
+        [" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
+        [" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "]
 
-                        texto += ` [${array[i][j]}] `;
-                    }
-                    console.log(`${texto}\n`)
-                }
-            }
-        </script>
-    </body>
+        ];
 
-    </html>
+        var probadas = []; //Aqui almacenaremos los numeros de case con intento fallido
+        var empieza = cabeza(arr); //Encontramos la cabeza
+
+        console.log("TABLERO INICIAL - CABEZA: [" + empieza[0] + "][" + empieza[1] + "]");
+        console.table(arr);
+
+        juego(arr, empieza[0], empieza[1], probadas);
+        console.table(arr);
+
+
+    </script>
+</body>
+
+</html>

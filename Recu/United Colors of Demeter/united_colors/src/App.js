@@ -43,20 +43,29 @@ class App extends Component {
       copiaBotones.map(e => e.map(e2 => e2.firstPulsado = true))
     }
 
-    if (copiaBotones[x + 1][y].color === "primary" || copiaBotones[x - 1][y].color === "primary" || copiaBotones[x][y + 1].color === "primary" || copiaBotones[x][y - 1].color === "primary") {
+    if(copiaBotones[x][y].color !== "info"){
+      copiaBotones[x][y].color = "info";
+    }else{
+
+    if (copiaBotones[x][y].iteracion === 1) {
       copiaBotones[x][y].color = "primary"
-      copiaBotones.map(e => e.map(e2 => e2.iteracion++))
-      copiaBotones[x][y].iteracion = 1;
-      copiaBotones[x + 1][y].iteracion = 1;
-      copiaBotones[x - 1][y].iteracion = 1;
-      copiaBotones[x][y + 1].iteracion = 1;
-      copiaBotones[x][y - 1].iteracion = 1;
+      if (copiaBotones[x + 1][y].color === "primary" || copiaBotones[x - 1][y].color === "primary" || copiaBotones[x][y + 1].color === "primary" || copiaBotones[x][y - 1].color === "primary") {
+        copiaBotones[x][y].color = "primary"
+        copiaBotones.map(e => e.map(e2 => e2.iteracion = 2))
+        copiaBotones[x][y].iteracion = 1;
+        copiaBotones[x + 1][y].iteracion = 1;
+        copiaBotones[x - 1][y].iteracion = 1;
+        copiaBotones[x][y + 1].iteracion = 1;
+        copiaBotones[x][y - 1].iteracion = 1;
+      }
     }
+    //jmorper037@maralboran.es
 
     if (copiaBotones[x][y].iteracion === 2) {
+      copiaBotones[x][y].color = "secondary"
       if (copiaBotones[x + 1][y].color === "secondary" || copiaBotones[x - 1][y].color === "secondary" || copiaBotones[x][y + 1].color === "secondary" || copiaBotones[x][y - 1].color === "secondary") {
         copiaBotones[x][y].color = "secondary"
-        copiaBotones.map(e => e.map(e2 => e2.iteracion++))
+        copiaBotones.map(e => e.map(e2 => e2.iteracion = 3))
         copiaBotones[x][y].iteracion = 2;
         copiaBotones[x + 1][y].iteracion = 2;
         copiaBotones[x - 1][y].iteracion = 2;
@@ -66,9 +75,10 @@ class App extends Component {
     }
 
     if (copiaBotones[x][y].iteracion === 3) {
+      copiaBotones[x][y].color = "success"
       if (copiaBotones[x + 1][y].color === "success" || copiaBotones[x - 1][y].color === "success" || copiaBotones[x][y + 1].color === "success" || copiaBotones[x][y - 1].color === "success") {
         copiaBotones[x][y].color = "success"
-        copiaBotones.map(e => e.map(e2 => e2.iteracion++))
+        copiaBotones.map(e => e.map(e2 => e2.iteracion = 4))
         copiaBotones[x][y].iteracion = 3;
         copiaBotones[x + 1][y].iteracion = 3;
         copiaBotones[x - 1][y].iteracion = 3;
@@ -78,9 +88,10 @@ class App extends Component {
     }
 
     if (copiaBotones[x][y].iteracion === 4) {
+      copiaBotones[x][y].color = "warning"
       if (copiaBotones[x + 1][y].color === "warning" || copiaBotones[x - 1][y].color === "warning" || copiaBotones[x][y + 1].color === "warning" || copiaBotones[x][y - 1].color === "warning") {
         copiaBotones[x][y].color = "warning"
-        copiaBotones.map(e => e.map(e2 => e2.iteracion++))
+        copiaBotones.map(e => e.map(e2 => e2.iteracion = 5))
         copiaBotones[x][y].iteracion = 4;
         copiaBotones[x + 1][y].iteracion = 4;
         copiaBotones[x - 1][y].iteracion = 4;
@@ -90,9 +101,10 @@ class App extends Component {
     }
 
     if (copiaBotones[x][y].iteracion === 5) {
+      copiaBotones[x][y].color = "danger"
       if (copiaBotones[x + 1][y].color === "danger" || copiaBotones[x - 1][y].color === "danger" || copiaBotones[x][y + 1].color === "danger" || copiaBotones[x][y - 1].color === "danger") {
         copiaBotones[x][y].color = "danger"
-        copiaBotones.map(e => e.map(e2 => e2.iteracion++))
+        copiaBotones.map(e => e.map(e2 => e2.iteracion = 1))
         copiaBotones[x][y].iteracion = 5;
         copiaBotones[x + 1][y].iteracion = 5;
         copiaBotones[x - 1][y].iteracion = 5;
@@ -104,6 +116,8 @@ class App extends Component {
     if (copiaBotones[x][y].iteracion > 5) {
       copiaBotones.map(e => e.map(e2 => e2.iteracion = 1))
     }
+
+  }
 
 
     this.setState({ listaBotones: copiaBotones });
