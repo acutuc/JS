@@ -7,16 +7,22 @@ function Ventana(props) {
 
   const [farmaco, setFarmaco] = useState("");
 
-  const [farmaco2, setFarmaco2] = useState();
+  const [farmacosFiltrados, setFarmacosFiltrados] = useState([]);
 
   const toggle = () => setModal(!modal);
 
   const handleChange = (event) => {
     if (event.target.name === "farmaco") {
-      setFarmaco2(event.target.value);
+      const texto = event.target.value.toLowerCase();
+      const filtrados = FARMACOS.filter((f) =>
+        f.codATC.toLowerCase().includes(texto) ||
+        f.descATC.toLowerCase().includes(texto)
+      );
+      setFarmaco(texto);
+      setFarmacosFiltrados(filtrados);
     }
     if (event.target.name === "select") {
-      setFarmaco(event.target.value)
+      setFarmaco(event.target.value);
     }
   }
 
@@ -29,14 +35,13 @@ function Ventana(props) {
       codigo += farmaco[i];
     }
     if (event.target.name === "incluir") {
-      props.anadirMedicamentoIncluido(codigo)
-      setModal(!modal)
+      props.anadirMedicamentoIncluido(codigo);
+      setModal(!modal);
     } else {
-      props.anadirMedicamentoExcluido(codigo)
-      setModal(!modal)
+      props.anadirMedicamentoExcluido(codigo);
+      setModal(!modal);
     }
-
-  }
+  };
 
   return (
     <div>
@@ -63,9 +68,14 @@ function Ventana(props) {
                   type="select"
                   onChange={handleChange}
                 >
-                  {FARMACOS.map(e => {
-                    return <option>{e.codATC}|{e.descATC}</option>
-                  })}
+                  {farmacosFiltrados.length > 0 ?
+                    farmacosFiltrados.map((e) => {
+                      return <option key={e.codATC}>{e.codATC}|{e.descATC}</option>;
+                    }) :
+                    FARMACOS.map(e => {
+                      return <option key={e.codATC}>{e.codATC}|{e.descATC}</option>
+                    })
+                  }
                 </Input>
               </Col>
             </FormGroup>
