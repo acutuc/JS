@@ -23,10 +23,11 @@ class App extends Component {
     }
   }
 
+  
   componentDidMount(){
     axios.get(baseURL+"/obtener_productos").then(res => {
       const productos = res.data;
-      this.setState({post : productos})
+      this.setState({post : productos.productos})
     })
   }
 
@@ -53,6 +54,12 @@ class App extends Component {
     this.setState({ titulo: t })
   }
 
+  mostrarProductos(){
+    for (let i = 0; i < this.state.post.length; i++){
+      console.log(this.state.post[i])
+    }
+  }
+
   render() {
     let obj = [];
     if (!this.state.logged) {
@@ -72,7 +79,7 @@ class App extends Component {
     return (
       <div className="App">
         {obj}
-        {this.state.post.productos.nombre_producto}
+        {this.mostrarProductos()}
       </div>
     );
   }
