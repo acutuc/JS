@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Row, Col, Form, FormGroup, Button, Label, Input } from 'reactstrap';
 
-export default function Tres(props) {
+export default function Logout(props) {
     const [texto, setTexto] = useState('');
 
     const handleChange = (event) => {

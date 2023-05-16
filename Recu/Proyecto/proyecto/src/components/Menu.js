@@ -1,37 +1,42 @@
-import React from 'react';
-import { Navbar, NavLink, NavbarBrand, Button, ButtonGroup } from 'reactstrap'
+import React, { useState } from 'react';
+import { Row, Col, Form, FormGroup, Button, Label, Input } from 'reactstrap';
 
 export default function Menu(props) {
-    let colorUno = 'secondary';
-    let colorDos = 'secondary';
-    let colorTres = 'secondary';
-    
-    // eslint-disable-next-line default-case
-    switch (props.menuItem) {
-        case "UNO":
-            colorUno = 'primary';
-            break;
-        case "DOS":
-            colorDos = 'primary';
-            break;
-        case "TRES":
-            colorTres = 'primary';
-            break;
+    const [texto, setTexto] = useState('');
 
+    const handleChange = (event) => {
+        if (event.target.name === "texto") {
+            setTexto(event.target.value)
+        }
     }
-    return (
-        <div>
-            <Navbar>
-                <NavbarBrand href="/">MYFPSCHOOL</NavbarBrand>
-                <NavLink>
-                    <ButtonGroup>
-                        <Button color={colorUno} onClick={()=>props.changeMenu("UNO")}>Almacén</Button>
-                        <Button color={colorDos} onClick={()=>props.changeMenu("DOS")}>Menú</Button>
-                        <Button color="danger" onClick={()=>props.changeMenu("TRES")}>Logout</Button>
-                    </ButtonGroup>
-                </NavLink>
-            </Navbar>
-        </div>
+    const clicar = () => {
+        if (texto !== '') {
+            props.setTitulo(texto)
+        }
+    }
 
-    );
+    return (
+        <Row>
+            <Col sm="4"></Col>
+            <Col sm="4">
+                <Form inline>
+                    <FormGroup className="mb-2 me-sm-2 mb-sm-0">
+                        <Label className="me-sm-2" for="exampleEmail">Añada un título</Label>
+                        <Input
+                            id="texto"
+                            name="texto"
+                            placeholder="Introduzca un texto"
+                            onChange={handleChange}
+                        />
+                    </FormGroup>
+                    <br />
+                    <Button color="primary" size="lg" block onClick={clicar}>
+                        <strong>Add</strong>
+                    </Button>
+                </Form>
+
+            </Col>
+        </Row>
+    )
+
 }

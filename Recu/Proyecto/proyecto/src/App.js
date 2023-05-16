@@ -3,9 +3,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Menu from './components/Menu';
 import AppLogin from './components/AppLogin';
 import Titulo from './components/Titulo';
-import Uno from './components/Uno';
-import Dos from './components/Dos';
-import Tres from './components/Tres';
+import Almacen from './components/Almacen';
+import Opciones from './components/Opciones';
+import Logout from './components/Logout';
 import { PHPLOGIN } from './components/Datos'
 import axios from 'axios';
 
@@ -15,11 +15,11 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      menuItem: undefined,
+      opcionesItem: undefined,
       info: "",
       logged: false,
       titulo: "",
-      post: "",
+      productos: ""
     }
   }
 
@@ -27,12 +27,12 @@ class App extends Component {
   componentDidMount(){
     axios.get(baseURL+"/obtener_productos").then(res => {
       const productos = res.data;
-      this.setState({post : productos.productos})
+      this.setState({productos : productos.productos})
     })
   }
 
-  changeMenu(item) {
-    this.setState({ menuItem: item })
+  changeOpciones(item) {
+    this.setState({ opcionesItem: item })
   }
 
   userLogin(telefono, password) {
@@ -55,8 +55,8 @@ class App extends Component {
   }
 
   mostrarProductos(){
-    for (let i = 0; i < this.state.post.length; i++){
-      console.log(this.state.post[i])
+    for (let i = 0; i < this.state.productos.length; i++){
+      console.log(this.state.productos[i])
     }
   }
 
@@ -68,18 +68,17 @@ class App extends Component {
       )
     } else {
       obj.push(
-        <Menu menuItem={this.state.menuItem} changeMenu={(item) => this.changeMenu(item)} />
+        <Opciones opcionesItem={this.state.opcionesItem} changeOpciones={(item) => this.changeOpciones(item)} />
       )
       obj.push(<Titulo titulo={this.state.titulo} />)
-      if (this.state.menuItem === "UNO") obj.push(<Uno setTitulo={(t) => this.setTitulo(t)} />)
-      if (this.state.menuItem === "DOS") obj.push(<Dos setTitulo={(t) => this.setTitulo(t)} />)
-      if (this.state.menuItem === "TRES") obj.push(<Tres setTitulo={(t) => this.setTitulo(t)} />)
+      if (this.state.opcionesItem === "Almacen") obj.push(<Almacen productos={this.state.productos} />)
+      if (this.state.opcionesItem === "Menu") obj.push(<Menu  />)
+      if (this.state.opcionesItem === "Logout") obj.push(<Logout  />)
 
     }
     return (
       <div className="App">
         {obj}
-        {this.mostrarProductos()}
       </div>
     );
   }
