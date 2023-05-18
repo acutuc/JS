@@ -10,19 +10,45 @@ export default function Almacen(props) {
   const [fecha, setFecha] = useState(null);
 
   //States para el nuevo producto:
-  const [nombreProducto, setNombreProducto] = useState();
+  const [nombreProducto, setNombreProducto] = useState("");
   const [cantidad, setCantidad] = useState();
   const [unidad_medida, setUnidadMedida] = useState();
   const [precio, setPrecio] = useState();
 
-  console.log(fecha)
-  const handleChange = (event) =>{
-    
+  const handleChange = (event) => {
+
   }
 
   const anadirProducto = () => {
     axios.post("http://localhost/PHP/REACT/servicios_rest",)
   }
+
+  const convertirFecha = string => {
+    string = string.toString();
+    let parte = string.split(" ");
+    let mes = {
+      Jan: "01",
+      Feb: "02",
+      Mar: "03",
+      Apr: "04",
+      May: "05",
+      Jun: "06",
+      Jul: "07",
+      Aug: "08",
+      Sep: "09",
+      Oct: "10",
+      Nov: "11",
+      Dec: "12"
+    };
+    return parte[3] + mes[parte[1]] + parte[2];
+  };
+
+  const formatearFecha = (fecha) => {
+    const fechaSeleccionada = new Date(fecha)
+    return fechaSeleccionada.getFullYear().toString() + parseInt(fechaSeleccionada.getMonth()+1).toString() + fechaSeleccionada.getDate().toString();
+}
+
+console.log(fecha)
 
   return (
     <Row>
@@ -59,27 +85,27 @@ export default function Almacen(props) {
           <FormGroup className="d-flex align-items-center">
             <Label className="me-sm-2" for="cantidad">Cantidad:</Label>
             <Col sm="3">
-            <Input
-              id='cantidad'
-              name='cantidad'
-              type='number'
-            />
+              <Input
+                id='cantidad'
+                name='cantidad'
+                type='number'
+              />
             </Col>
-            
+
           </FormGroup>
           <FormGroup className="d-flex align-items-center">
             <Label className="me-sm-2" for="unidad_medida">Unidad de medida:</Label>
             <Col sm="6">
-            <Input
-              id='unidad_medida'
-              name='unidad_medida'
-              type='select'
-            >
-              <option>L (LITROS)</option>
-              <option>gr (GRAMOS)</option>
-              <option>u (UNIDAD)</option>
-            </Input>
-            </Col>              
+              <Input
+                id='unidad_medida'
+                name='unidad_medida'
+                type='select'
+              >
+                <option>L (LITROS)</option>
+                <option>gr (GRAMOS)</option>
+                <option>u (UNIDAD)</option>
+              </Input>
+            </Col>
           </FormGroup>
           <FormGroup className="d-flex align-items-center">
             <Label className="me-sm-2" for="precio">Precio unitario:</Label>
