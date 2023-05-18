@@ -62,7 +62,6 @@ class App extends Component {
 
   render() {
     let obj = [];
-    console.log(this.state.productos)
     if (!this.state.logged) {
       obj.push(
         <AppLogin setInfo={(i) => this.setInfo(i)} userLogin={(telefono, password) => this.userLogin(telefono, password)} info={this.state.info} />
