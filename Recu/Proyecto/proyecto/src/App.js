@@ -23,11 +23,11 @@ class App extends Component {
     }
   }
 
-  
-  componentDidMount(){
-    axios.get(baseURL+"/obtener_productos").then(res => {
+
+  componentDidMount() {
+    axios.get(baseURL + "/obtener_productos").then(res => {
       const productos = res.data;
-      this.setState({productos : productos.productos})
+      this.setState({ productos: productos.productos })
     })
   }
 
@@ -54,8 +54,8 @@ class App extends Component {
     this.setState({ titulo: t })
   }
 
-  mostrarProductos(){
-    for (let i = 0; i < this.state.productos.length; i++){
+  mostrarProductos() {
+    for (let i = 0; i < this.state.productos.length; i++) {
       console.log(this.state.productos[i])
     }
   }
@@ -72,8 +72,8 @@ class App extends Component {
       )
       obj.push(<Titulo titulo={this.state.titulo} />)
       if (this.state.opcionesItem === "Almacen") obj.push(<Almacen productos={this.state.productos} />)
-      if (this.state.opcionesItem === "Menu") obj.push(<Menu  />)
-      if (this.state.opcionesItem === "Logout") obj.push(<Logout  />)
+      if (this.state.opcionesItem === "Menu") obj.push(<Menu />)
+      if (this.state.opcionesItem === "Logout") obj.push(<Logout />)
 
     }
     return (

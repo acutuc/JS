@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Row, Col, Form, FormGroup, Button, Label, Input, Table } from 'reactstrap';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -11,6 +11,8 @@ export default function Almacen(props) {
   const [cantidad, setCantidad] = useState("");
   const [unidad_medida, setUnidadMedida] = useState("");
   const [precio, setPrecio] = useState("");
+  const [productos, setProductos] = useState(props.productos)
+  const [error, setError] = useState("");
 
   const handleFechaChange = (fechaSeleccionada) => {
     const fechaFormateada = format(fechaSeleccionada, 'yyyyMMdd');
@@ -18,30 +20,47 @@ export default function Almacen(props) {
   }
 
   const handleChange = (event) => {
-    if (event.target.name === "producto") {
-      setNombreProducto(event.target.value.toUpperCase());
-    } else if (event.target.name === "cantidad") {
-      setCantidad(event.target.value);
-    } else if (event.target.name === "unidad_medida") {
-      setUnidadMedida(event.target.value);
-    } else if (event.target.name === "precio") {
-      setPrecio(event.target.value);
+    // eslint-disable-next-line default-case
+    switch (event.target.name) {
+      case "producto":
+        setNombreProducto(event.target.value.toUpperCase());
+        break;
+      case "cantidad":
+        setCantidad(event.target.value);
+        break;
+      case "unidad_medida":
+        setUnidadMedida(event.target.value);
+        break;
+      case "precio":
+        setPrecio(event.target.value)
+        break;
     }
   }
 
-  const altaProducto = () => {
+
+  const altaProducto = (event) => {
+
+    event.preventDefault();
+
+    if (fecha === "" || nombreProducto === "" || cantidad === "" || unidad_medida === "" || precio === "") {
+      setError("Por favor, complete todos los campos"); // Mostrar mensaje de error
+      return;
+    }
+
     const nuevoProducto = {
-      fecha: fecha,
-      nombreProducto: nombreProducto,
+      fecha_recepcion: fecha,
+      nombre_producto: nombreProducto,
       cantidad: cantidad,
       unidad_medida: unidad_medida,
-      precio: precio
+      precio_unitario: precio
     };
-
+    console.log(nuevoProducto)
     // Realizar la solicitud POST a la API para agregar el nuevo producto
     axios.post("http://localhost/PHP/REACT/servicios_rest/insertar_producto", nuevoProducto)
       .then(response => {
         console.log("Producto agregado exitosamente");
+        setProductos([...productos, nuevoProducto])
+        setError("");
         // Realizar cualquier otra acción necesaria después de agregar el producto
       })
       .catch(error => {
@@ -53,7 +72,7 @@ export default function Almacen(props) {
     <Row>
       <Col sm="4"></Col>
       <Col sm="4">
-        <Form inline className=''>
+        <Form inline >
           <FormGroup className="d-flex align-items-center">
             <Label className="me-sm-2" for="fecha">Fecha:</Label>
             <DatePicker
@@ -110,6 +129,7 @@ export default function Almacen(props) {
             <Col sm='4'>
               <Input
                 id='precio'
+                name='precio'
                 type='number'
                 placeholder='2.20'
                 onChange={handleChange}
@@ -123,11 +143,12 @@ export default function Almacen(props) {
               &nbsp;
               <Label for='mostrar'>No mostrar consumidos</Label>
             </FormGroup>
-              <Button color="primary" size="lg" block>
-                <strong onClick={altaProducto}>Alta</strong>
-              </Button>
+            <Button color="primary" size="lg" block onClick={altaProducto}>
+              <strong>Alta</strong>
+            </Button>
           </FormGroup>
           <br />
+          {error && <p>{error}</p>}
         </Form>
       </Col>
       <Table responsive striped hover>
@@ -143,7 +164,7 @@ export default function Almacen(props) {
           </tr>
         </thead>
         <tbody>
-          {props.productos.map(element =>
+          {productos.map(element =>
             <tr key={element.id_producto}>
               <th scope='row'>{element.id_producto}</th>
               <td>{element.fecha_recepcion}</td>
