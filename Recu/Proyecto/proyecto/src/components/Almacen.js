@@ -14,6 +14,9 @@ export default function Almacen(props) {
   const [productos, setProductos] = useState(props.productos)
   const [error, setError] = useState("");
 
+  // Controlamos que no se pueda hacer ninguna inserción si hay algún campo vacío
+  const formularioIncompleto = !(fecha && nombreProducto && cantidad && unidad_medida && precio);
+
   const handleFechaChange = (fechaSeleccionada) => {
     const fechaFormateada = format(fechaSeleccionada, 'yyyyMMdd');
     setFecha(fechaFormateada)
@@ -43,7 +46,7 @@ export default function Almacen(props) {
     event.preventDefault();
 
     if (fecha === "" || nombreProducto === "" || cantidad === "" || unidad_medida === "" || precio === "") {
-      setError("Por favor, complete todos los campos"); // Mostrar mensaje de error
+      setError("Por favor, complete todos los campos");
       return;
     }
 
@@ -55,13 +58,13 @@ export default function Almacen(props) {
       precio_unitario: precio
     };
     console.log(nuevoProducto)
-    // Realizar la solicitud POST a la API para agregar el nuevo producto
+
+
     axios.post("http://localhost/PHP/REACT/servicios_rest/insertar_producto", nuevoProducto)
       .then(response => {
         console.log("Producto agregado exitosamente");
         setProductos([...productos, nuevoProducto])
         setError("");
-        // Realizar cualquier otra acción necesaria después de agregar el producto
       })
       .catch(error => {
         console.error("Error al agregar el producto:", error);
@@ -143,7 +146,7 @@ export default function Almacen(props) {
               &nbsp;
               <Label for='mostrar'>No mostrar consumidos</Label>
             </FormGroup>
-            <Button color="primary" size="lg" block onClick={altaProducto}>
+            <Button color="primary" size="lg" block onClick={altaProducto} disabled={formularioIncompleto}>
               <strong>Alta</strong>
             </Button>
           </FormGroup>
