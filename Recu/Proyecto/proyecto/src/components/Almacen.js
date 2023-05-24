@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { forwardRef, useState } from 'react';
 import { Row, Col, Form, FormGroup, Button, Label, Input, Table } from 'reactstrap';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -17,6 +17,16 @@ export default function Almacen(props) {
   // Controlamos que no se pueda hacer ninguna inserción si hay algún campo vacío
   const formularioIncompleto = !(fecha && nombreProducto && cantidad && unidad_medida && precio);
 
+  // Formateo del campo input para la fecha
+  const ExampleCustomInput = forwardRef(({ value, onClick, onChange }, ref) => (
+    <Input
+      value={value}
+      onClick={onClick}
+      onChange={onChange}
+      ref={ref}
+    ></Input>
+  ));
+
   const handleFechaChange = (fechaSeleccionada) => {
     const fechaFormateada = format(fechaSeleccionada, 'yyyyMMdd');
     setFecha(fechaFormateada)
@@ -32,7 +42,9 @@ export default function Almacen(props) {
         setCantidad(event.target.value);
         break;
       case "unidad_medida":
-        setUnidadMedida(event.target.value);
+        const valor = event.target.value;
+        const unidad = valor.split(' ')[0];
+        setUnidadMedida(unidad);
         break;
       case "precio":
         setPrecio(event.target.value)
@@ -40,9 +52,8 @@ export default function Almacen(props) {
     }
   }
 
-
+  //LLAMADA A AXIOS PARA EL ALTA -----------------------------------------
   const altaProducto = (event) => {
-
     event.preventDefault();
 
     if (fecha === "" || nombreProducto === "" || cantidad === "" || unidad_medida === "" || precio === "") {
@@ -70,6 +81,7 @@ export default function Almacen(props) {
         console.error("Error al agregar el producto:", error);
       });
   }
+  //-------------------------------------------------------------------------
 
   return (
     <Row>
@@ -83,6 +95,7 @@ export default function Almacen(props) {
               name='fecha'
               onChange={handleFechaChange}
               minDate={new Date()}
+              customInput={<ExampleCustomInput />}
               placeholderText="Seleccione una fecha"
               value={fecha}
             />
@@ -92,11 +105,16 @@ export default function Almacen(props) {
             <Input
               id='producto'
               name='producto'
-              type='select'
+              type='text'
+              list="productoOptions"
               onChange={handleChange}
-            >
-              {props.productos.map(element => <option key={element.id}>{element.nombre_producto}</option>)}
-            </Input>
+              value={nombreProducto}
+            />
+            <datalist id="productoOptions">
+              {props.productos.map(element => (
+                <option key={element.id} value={element.nombre_producto} />
+              ))}
+            </datalist>
             &nbsp;
             <Button><strong>+</strong></Button>
           </FormGroup>
