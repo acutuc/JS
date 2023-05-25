@@ -72,7 +72,7 @@ class App extends Component {
       )
       obj.push(<Titulo titulo={this.state.titulo} />)
       if (this.state.opcionesItem === "Almacen") obj.push(<Almacen productos={this.state.productos} />)
-      if (this.state.opcionesItem === "Menu") obj.push(<Menu />)
+      if (this.state.opcionesItem === "Menu") obj.push(<Menu productos={this.state.productos}/>)
       if (this.state.opcionesItem === "Logout") obj.push(<Logout />)
 
     }
