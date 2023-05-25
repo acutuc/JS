@@ -73,7 +73,7 @@ export default function Almacen(props) {
                         </Col>
                     </FormGroup>
                     <FormGroup className="d-flex align-items-center">
-                        <Label className="me-sm-2" for="postre">Primer plato:</Label>
+                        <Label className="me-sm-2" for="postre">Postre:</Label>
                         <Input
                             id='postre'
                             name='postre'
