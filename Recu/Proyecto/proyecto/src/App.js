@@ -19,7 +19,7 @@ class App extends Component {
       info: "",
       logged: false,
       titulo: "",
-      productos: ""
+      productos: []
     }
   }
 

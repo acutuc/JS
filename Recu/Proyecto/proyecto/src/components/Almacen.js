@@ -1,4 +1,4 @@
-import React, { forwardRef, useState } from 'react';
+import React, { forwardRef, useState, useEffect } from 'react';
 import { Row, Col, Form, FormGroup, Button, Label, Input, Table } from 'reactstrap';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -11,8 +11,12 @@ export default function Almacen(props) {
   const [cantidad, setCantidad] = useState("");
   const [unidad_medida, setUnidadMedida] = useState("");
   const [precio, setPrecio] = useState("");
-  const [productos, setProductos] = useState(props.productos)
+  const [productos, setProductos] = useState(props.productos);
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    setProductos(props.productos);
+  }, [props.productos]);
 
   // Controlamos que no se pueda hacer ninguna inserción si hay algún campo vacío
   const formularioIncompleto = !(fecha && nombreProducto && cantidad && unidad_medida && precio);
@@ -52,8 +56,17 @@ export default function Almacen(props) {
     }
   }
 
-  //LLAMADA A AXIOS PARA EL ALTA -----------------------------------------
-  const altaProducto = (event) => {
+  const actualizarProducto = (producto) => {
+    const index = productos.findIndex((p) => p.id_producto === producto.id_producto);
+    if (index !== -1) {
+      const nuevosProductos = [...productos];
+      nuevosProductos[index] = producto;
+      setProductos(nuevosProductos);
+    }
+  };
+
+  // LLAMADA A AXIOS PARA EL ALTA -----------------------------------------
+  const altaProducto = async (event) => {
     event.preventDefault();
 
     if (fecha === "" || nombreProducto === "" || cantidad === "" || unidad_medida === "" || precio === "") {
@@ -66,28 +79,33 @@ export default function Almacen(props) {
       nombre_producto: nombreProducto,
       cantidad: cantidad,
       unidad_medida: unidad_medida,
-      precio_unitario: precio
+      precio_unitario: precio,
+      consumido: 0, // Inicialmente establecido en 0
     };
-    console.log(nuevoProducto)
 
-
-    axios.post("http://localhost/PHP/REACT/servicios_rest/insertar_producto", nuevoProducto)
-      .then(response => {
-        console.log("Producto agregado exitosamente");
-        setProductos([...productos, nuevoProducto])
-        setError("");
-      })
-      .catch(error => {
-        console.error("Error al agregar el producto:", error);
-      });
-  }
+    try {
+      const response = await axios.post("http://localhost/PHP/REACT/servicios_rest/insertar_producto", nuevoProducto);
+      console.log("Producto agregado exitosamente");
+      const productoAgregado = response.data;
+      actualizarProducto(productoAgregado);
+      setError("");
+    } catch (error) {
+      console.error("Error al agregar el producto:", error);
+    }
+  };
   //-------------------------------------------------------------------------
+
+  const handleConsumidoChange = (event, producto) => {
+    const consumido = event.target.checked ? parseInt(producto.consumido) + parseInt(producto.cantidad) : parseInt(producto.consumido) - parseInt(producto.cantidad);
+    const productoActualizado = { ...producto, consumido };
+    actualizarProducto(productoActualizado);
+  };
 
   return (
     <Row>
       <Col sm="4"></Col>
       <Col sm="4">
-        <Form inline >
+        <Form inline>
           <FormGroup className="d-flex align-items-center">
             <Label className="me-sm-2" for="fecha">Fecha:</Label>
             <DatePicker
@@ -111,6 +129,7 @@ export default function Almacen(props) {
               value={nombreProducto}
             />
             <datalist id="productoOptions">
+              <option value="Seleccionar"></option>
               {props.productos.map(element => (
                 <option key={element.id} value={element.nombre_producto} />
               ))}
@@ -139,9 +158,10 @@ export default function Almacen(props) {
                 type='select'
                 onChange={handleChange}
               >
-                <option>L (LITROS)</option>
-                <option>gr (GRAMOS)</option>
-                <option>u (UNIDAD)</option>
+                <option value="Seleccionar"></option>
+                <option value="L (LITROS)">L (LITROS)</option>
+                <option value="gr (GRAMOS)">gr (GRAMOS)</option>
+                <option value="u (UNIDAD)">u (UNIDAD)</option>
               </Input>
             </Col>
           </FormGroup>
@@ -193,7 +213,9 @@ export default function Almacen(props) {
               <td>{element.cantidad}</td>
               <td>{element.unidad_medida}</td>
               <td>{element.precio_unitario}</td>
-              <td>{element.consumido}</td>
+              <td>
+                {element.consumido}
+              </td>
             </tr>
           )}
         </tbody>
