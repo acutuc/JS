@@ -13,6 +13,7 @@ export default function Almacen(props) {
   const [precio, setPrecio] = useState("");
   const [productos, setProductos] = useState(props.productos);
   const [error, setError] = useState("");
+  
 
   useEffect(() => {
     setProductos(props.productos);
@@ -80,14 +81,14 @@ export default function Almacen(props) {
       cantidad: cantidad,
       unidad_medida: unidad_medida,
       precio_unitario: precio,
-      consumido: 0, // Inicialmente establecido en 0
+      consumido: 0,
     };
 
     try {
       const response = await axios.post("http://localhost/PHP/REACT/servicios_rest/insertar_producto", nuevoProducto);
       console.log("Producto agregado exitosamente");
       const productoAgregado = response.data;
-      actualizarProducto(productoAgregado);
+      setProductos([...productos, productoAgregado]);
       setError("");
     } catch (error) {
       console.error("Error al agregar el producto:", error);
@@ -134,8 +135,6 @@ export default function Almacen(props) {
                 <option key={element.id} value={element.nombre_producto} />
               ))}
             </datalist>
-            &nbsp;
-            <Button><strong>+</strong></Button>
           </FormGroup>
           <FormGroup className="d-flex align-items-center">
             <Label className="me-sm-2" for="cantidad">Cantidad:</Label>
