@@ -6,8 +6,6 @@ export default function Menu(props) {
   const [selectedItems, setSelectedItems] = useState([]);
   const [productos, setProductos] = useState([]);
   const [cantidadOpciones, setCantidadOpciones] = useState({});
-  const [cantidadComensales, setCantidadComensales] = useState(1);
-  const [precioTotal, setPrecioTotal] = useState(0);
 
   useEffect(() => {
     console.log('Productos actualizados:', props.productos);
@@ -59,6 +57,9 @@ export default function Menu(props) {
         return null;
       }).filter(Boolean);
 
+      await axios.put('http://localhost/PHP/REACT/servicios_rest/actualizarProductos', { productos: updatedProducts });
+      console.log('Datos de productos actualizados correctamente');
+
       setSelectedItems([]);
 
       const opciones = {};
@@ -77,27 +78,6 @@ export default function Menu(props) {
         }
       });
       setCantidadOpciones(opciones);
-
-      // Código que retorna el producto actualizado, para pasarlo luego por props y se reflejen en los otros componentes.
-      const nuevosProductos = productos.map(producto => {
-        const selectedItem = selectedItems.find(item => item.plato === producto.nombre_producto);
-        if (selectedItem) {
-          return {
-            ...producto,
-            consumido: producto.consumido + selectedItem.cantidad
-          };
-        }
-        return producto;
-      });
-      props.actualizarProductos(nuevosProductos);
-
-      // Calculamos el precio total y el precio por comensal después de actualizar los estados.
-      const total = updatedProducts.reduce((acc, item) => {
-        const producto = productos.find(p => p.id_producto === item.id_producto);
-        return acc + producto.precio_unitario * item.cantidad;
-      }, 0);
-      setPrecioTotal(total);
-            
     } catch (error) {
       console.error('Error al actualizar los datos de los productos:', error);
     }
@@ -146,22 +126,9 @@ export default function Menu(props) {
               </Col>
             </FormGroup>
           ))}
-          <FormGroup>
-            <Label for="cantidadComensales">Cantidad de comensales:</Label>
-            <Input
-              type="number"
-              id="cantidadComensales"
-              value={cantidadComensales}
-              onChange={e => setCantidadComensales(parseInt(e.target.value))}
-            />
-          </FormGroup>
           <Button color="primary" onClick={addNewItem} disabled={disableAddButton}>
             Reservar pedido
           </Button>
-          <div>
-            <strong>Precio total:</strong> {precioTotal} €<br />
-            <strong>Precio por comensal:</strong> {precioTotal / cantidadComensales} €
-          </div>
         </Form>
       </Col>
     </Row>
