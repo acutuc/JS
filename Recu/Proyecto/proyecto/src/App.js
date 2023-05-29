@@ -23,13 +23,21 @@ class App extends Component {
     }
   }
 
-
   componentDidMount() {
     axios.get(baseURL + "/obtener_productos").then(res => {
       const productos = res.data;
       this.setState({ productos: productos.productos })
     })
   }
+
+  actualizarProductos = async (productos) => {
+    try {
+      await axios.put(baseURL + "/actualizarProductos", { productos });
+      console.log("Datos de productos actualizados correctamente");
+    } catch (error) {
+      console.error("Error al actualizar los datos de los productos:", error);
+    }
+  };
 
   changeOpciones(item) {
     this.setState({ opcionesItem: item })
@@ -70,8 +78,7 @@ class App extends Component {
       obj.push(
         <Opciones opcionesItem={this.state.opcionesItem} changeOpciones={(item) => this.changeOpciones(item)} />
       )
-      obj.push(<Titulo titulo={this.state.titulo} />)
-      if (this.state.opcionesItem === "Almacen") obj.push(<Almacen productos={this.state.productos} />)
+      if (this.state.opcionesItem === "Almacen") obj.push(<Almacen productos={this.state.productos} actualizarProductos={(productos) => this.setState({ productos })} />);
       if (this.state.opcionesItem === "Menu") obj.push(<Menu productos={this.state.productos}/>)
       if (this.state.opcionesItem === "Logout") obj.push(<Logout />)
 

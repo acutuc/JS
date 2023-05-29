@@ -12,11 +12,23 @@ export default function Almacen(props) {
   const [unidad_medida, setUnidadMedida] = useState("");
   const [precio, setPrecio] = useState("");
   const [productos, setProductos] = useState(props.productos);
+  const [productosOrdenados, setProductosOrdenados] = useState([]);
   const [error, setError] = useState("");
-  
+  const [mostrarConsumidos, setMostrarConsumidos] = useState(false); // Variable de estado adicional
 
   useEffect(() => {
     setProductos(props.productos);
+
+    const productosOrdenados = [...props.productos].sort((a, b) => {
+      if (a.nombre_producto < b.nombre_producto) {
+        return -1;
+      }
+      if (a.nombre_producto > b.nombre_producto) {
+        return 1;
+      }
+      return 0;
+    });
+    setProductosOrdenados(productosOrdenados);
   }, [props.productos]);
 
   // Controlamos que no se pueda hacer ninguna inserción si hay algún campo vacío
@@ -34,8 +46,8 @@ export default function Almacen(props) {
 
   const handleFechaChange = (fechaSeleccionada) => {
     const fechaFormateada = format(fechaSeleccionada, 'yyyyMMdd');
-    setFecha(fechaFormateada)
-  }
+    setFecha(fechaFormateada);
+  };
 
   const handleChange = (event) => {
     // eslint-disable-next-line default-case
@@ -52,10 +64,10 @@ export default function Almacen(props) {
         setUnidadMedida(unidad);
         break;
       case "precio":
-        setPrecio(event.target.value)
+        setPrecio(event.target.value);
         break;
     }
-  }
+  };
 
   const actualizarProducto = (producto) => {
     const index = productos.findIndex((p) => p.id_producto === producto.id_producto);
@@ -90,6 +102,8 @@ export default function Almacen(props) {
       const productoAgregado = response.data;
       setProductos([...productos, productoAgregado]);
       setError("");
+      //Actualizaos los productos en el componente padre App.js
+      props.actualizarProductos([...productos, productoAgregado]);
     } catch (error) {
       console.error("Error al agregar el producto:", error);
     }
@@ -100,6 +114,10 @@ export default function Almacen(props) {
     const consumido = event.target.checked ? parseInt(producto.consumido) + parseInt(producto.cantidad) : parseInt(producto.consumido) - parseInt(producto.cantidad);
     const productoActualizado = { ...producto, consumido };
     actualizarProducto(productoActualizado);
+  };
+
+  const handleMostrarConsumidosChange = (event) => {
+    setMostrarConsumidos(event.target.checked);
   };
 
   return (
@@ -179,7 +197,7 @@ export default function Almacen(props) {
           </FormGroup>
           <FormGroup className="d-flex align-items-center">
             <FormGroup className='d-flex align-items-center'>
-              <Input id='mostrar' type='checkbox' />
+              <Input id='mostrar' type='checkbox' onChange={handleMostrarConsumidosChange} />
               &nbsp;
               <Label for='mostrar'>No mostrar consumidos</Label>
             </FormGroup>
@@ -200,11 +218,11 @@ export default function Almacen(props) {
             <th>Cantidad</th>
             <th>Unidad</th>
             <th>Precio</th>
-            <th>Consumido</th>
+            {!mostrarConsumidos && <th>Consumido</th>}
           </tr>
         </thead>
         <tbody>
-          {productos.map(element =>
+          {productosOrdenados.map(element =>
             <tr key={element.id_producto}>
               <th scope='row'>{element.id_producto}</th>
               <td>{element.fecha_recepcion}</td>
@@ -212,9 +230,7 @@ export default function Almacen(props) {
               <td>{element.cantidad}</td>
               <td>{element.unidad_medida}</td>
               <td>{element.precio_unitario}</td>
-              <td>
-                {element.consumido}
-              </td>
+              {!mostrarConsumidos && <td>{element.consumido}</td>}
             </tr>
           )}
         </tbody>

@@ -85,12 +85,22 @@ export default function Menu(props) {
 
   const disableAddButton = selectedItems.length === 0;
 
+  const sortedProductos = productos.slice().sort((a, b) => {
+    if (a.nombre_producto < b.nombre_producto) {
+      return -1;
+    }
+    if (a.nombre_producto > b.nombre_producto) {
+      return 1;
+    }
+    return 0;
+  });
+
   return (
     <Row>
       <Col sm="3"></Col>
       <Col sm="6">
         <Form inline>
-          {productos.map((producto, index) => (
+          {sortedProductos.map((producto, index) => (
             <FormGroup className="d-flex align-items-center" key={producto.id_producto}>
               <Label className="me-sm-6" check>
                 <Input
@@ -100,6 +110,7 @@ export default function Menu(props) {
                 />{' '}
                 {producto.nombre_producto}
               </Label>
+              &nbsp;
               <Col xs='2'>
                 <Input
                   type="select"
