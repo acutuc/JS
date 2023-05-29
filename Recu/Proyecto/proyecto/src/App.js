@@ -2,7 +2,6 @@ import { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Menu from './components/Menu';
 import AppLogin from './components/AppLogin';
-import Titulo from './components/Titulo';
 import Almacen from './components/Almacen';
 import Opciones from './components/Opciones';
 import Logout from './components/Logout';
