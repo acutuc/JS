@@ -5,39 +5,82 @@ import axios from 'axios';
 export default function Menu(props) {
   const [selectedItems, setSelectedItems] = useState([]);
   const [productos, setProductos] = useState([]);
+  const [cantidadOpciones, setCantidadOpciones] = useState({});
 
   useEffect(() => {
     console.log('Productos actualizados:', props.productos);
     setProductos(props.productos);
+
+    const opciones = {};
+    props.productos.forEach(producto => {
+      opciones[producto.id_producto] = Array.from(
+        { length: producto.cantidad },
+        (_, i) => (i + 1).toString()
+      );
+    });
+    setCantidadOpciones(opciones);
   }, [props.productos]);
 
   const handleCheckboxChange = (event, producto) => {
     const { checked } = event.target;
     if (checked) {
-      setSelectedItems(prevItems => [...prevItems, { plato: producto.nombre_producto, cantidad: 1 }]);
+      setSelectedItems(prevItems => [
+        ...prevItems,
+        { plato: producto.nombre_producto, cantidad: 1 },
+      ]);
     } else {
-      setSelectedItems(prevItems => prevItems.filter(item => item.plato !== producto.nombre_producto));
+      setSelectedItems(prevItems =>
+        prevItems.filter(item => item.plato !== producto.nombre_producto)
+      );
     }
   };
 
-  const handleCantidadChange = (index, value) => {
+  const handleCantidadChange = (producto, value) => {
     const updatedItems = [...selectedItems];
-    updatedItems[index].cantidad = parseInt(value);
-    setSelectedItems(updatedItems);
+    const selectedItem = updatedItems.find(item => item.plato === producto.nombre_producto);
+    if (selectedItem) {
+      selectedItem.cantidad = parseInt(value);
+      setSelectedItems(updatedItems);
+    }
   };
 
   const addNewItem = async () => {
-    // Aquí puedes hacer la solicitud a través de Axios con los datos seleccionados (selectedItems)
-    // Ejemplo de solicitud:
     try {
-      await axios.post('/api/ingredientes', { ingredientes: selectedItems });
-      console.log('Solicitud enviada correctamente');
-    } catch (error) {
-      console.error('Error al enviar la solicitud:', error);
-    }
+      const updatedProducts = productos.map(producto => {
+        const selectedItem = selectedItems.find(item => item.plato === producto.nombre_producto);
+        if (selectedItem) {
+          return {
+            id_producto: producto.id_producto,
+            cantidad: selectedItem.cantidad
+          };
+        }
+        return null;
+      }).filter(Boolean);
 
-    // Limpia la selección después de enviar la solicitud
-    setSelectedItems([]);
+      await axios.put('http://localhost/PHP/REACT/servicios_rest/actualizarProductos', { productos: updatedProducts });
+      console.log('Datos de productos actualizados correctamente');
+
+      setSelectedItems([]);
+
+      const opciones = {};
+      productos.forEach(producto => {
+        const selectedItem = selectedItems.find(item => item.plato === producto.nombre_producto);
+        if (selectedItem) {
+          opciones[producto.id_producto] = Array.from(
+            { length: producto.cantidad - selectedItem.cantidad },
+            (_, i) => (i + 1).toString()
+          );
+        } else {
+          opciones[producto.id_producto] = Array.from(
+            { length: producto.cantidad },
+            (_, i) => (i + 1).toString()
+          );
+        }
+      });
+      setCantidadOpciones(opciones);
+    } catch (error) {
+      console.error('Error al actualizar los datos de los productos:', error);
+    }
   };
 
   const disableAddButton = selectedItems.length === 0;
@@ -59,20 +102,22 @@ export default function Menu(props) {
               </Label>
               <Col xs='2'>
                 <Input
-                  type='select'
+                  type="select"
                   value={selectedItems.find(item => item.plato === producto.nombre_producto)?.cantidad || ''}
-                  onChange={e => handleCantidadChange(index, e.target.value)}
+                  onChange={e => handleCantidadChange(producto, e.target.value)}
                   disabled={!selectedItems.some(item => item.plato === producto.nombre_producto)}
                 >
                   <option value="">Seleccionar</option>
-                  {Array.from({ length: producto.cantidad }, (_, i) => (i + 1).toString()).map(option => (
+                  {cantidadOpciones[producto.id_producto]?.map(option => (
                     <option key={option}>{option}</option>
                   ))}
                 </Input>
               </Col>
             </FormGroup>
           ))}
-          <Button color="primary" onClick={addNewItem} disabled={disableAddButton}>Alta ingrediente</Button>
+          <Button color="primary" onClick={addNewItem} disabled={disableAddButton}>
+            Reservar pedido
+          </Button>
         </Form>
       </Col>
     </Row>
