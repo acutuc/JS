@@ -229,7 +229,7 @@ export default function Almacen(props) {
               <td>{element.nombre_producto}</td>
               <td>{element.cantidad}</td>
               <td>{element.unidad_medida}</td>
-              <td>{element.precio_unitario} €</td>
+              <td>{element.precio_unitario}</td>
               {!mostrarConsumidos && <td>{element.consumido}</td>}
             </tr>
           )}
