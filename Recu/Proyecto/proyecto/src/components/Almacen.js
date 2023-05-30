@@ -14,7 +14,7 @@ export default function Almacen(props) {
   const [productos, setProductos] = useState(props.productos);
   const [productosOrdenados, setProductosOrdenados] = useState([]);
   const [error, setError] = useState("");
-  const [mostrarConsumidos, setMostrarConsumidos] = useState(false); // Variable de estado adicional
+  const [mostrarConsumidos, setMostrarConsumidos] = useState(false);
 
   useEffect(() => {
     setProductos(props.productos);
@@ -229,7 +229,7 @@ export default function Almacen(props) {
               <td>{element.nombre_producto}</td>
               <td>{element.cantidad}</td>
               <td>{element.unidad_medida}</td>
-              <td>{element.precio_unitario}</td>
+              <td>{element.precio_unitario} €</td>
               {!mostrarConsumidos && <td>{element.consumido}</td>}
             </tr>
           )}
