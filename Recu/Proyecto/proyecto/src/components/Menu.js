@@ -13,13 +13,10 @@ export default function Menu(props) {
     const [cantidadOpciones, setCantidadOpciones] = useState({});
     const [cantidadComensales, setCantidadComensales] = useState(1);
     const [precioTotal, setPrecioTotal] = useState(0);
-    const [pedidoRealizado, setPedidoRealizado] = useState(false);
+    const [filtro, setFiltro] = useState('');
     const [filtroPrimerPlato, setFiltroPrimerPlato] = useState('');
     const [filtroSegundoPlato, setFiltroSegundoPlato] = useState('');
     const [filtroPostre, setFiltroPostre] = useState('');
-    const [selectedPrimerPlatoItems, setSelectedPrimerPlatoItems] = useState([]);
-    const [selectedSegundoPlatoItems, setSelectedSegundoPlatoItems] = useState([]);
-    const [selectedPostreItems, setSelectedPostreItems] = useState([]);
 
     const [open, setOpen] = useState('1');
     const toggle = (id) => {
@@ -45,77 +42,27 @@ export default function Menu(props) {
         setCantidadOpciones(opciones);
     }, [props.productos]);
 
-    const handleCheckboxChange = (event, producto, tipoPlato) => {
+    const handleCheckboxChange = (event, producto) => {
         const { checked } = event.target;
         if (checked) {
-            if (tipoPlato === 'primerPlato') {
-                setSelectedPrimerPlatoItems((prevItems) => [
-                    ...prevItems,
-                    { plato: producto.nombre_producto, cantidad: "Seleccionar" },
-                ]);
-            } else if (tipoPlato === 'segundoPlato') {
-                setSelectedSegundoPlatoItems((prevItems) => [
-                    ...prevItems,
-                    { plato: producto.nombre_producto, cantidad: "Seleccionar" },
-                ]);
-            } else if (tipoPlato === 'postre') {
-                setSelectedPostreItems((prevItems) => [
-                    ...prevItems,
-                    { plato: producto.nombre_producto, cantidad: "Seleccionar" },
-                ]);
-            }
+            setSelectedItems(prevItems => [
+                ...prevItems,
+                { plato: producto.nombre_producto, cantidad: 1 },
+            ]);
         } else {
-            if (tipoPlato === 'primerPlato') {
-                setSelectedPrimerPlatoItems((prevItems) =>
-                    prevItems.filter((item) => item.plato !== producto.nombre_producto)
-                );
-            } else if (tipoPlato === 'segundoPlato') {
-                setSelectedSegundoPlatoItems((prevItems) =>
-                    prevItems.filter((item) => item.plato !== producto.nombre_producto)
-                );
-            } else if (tipoPlato === 'postre') {
-                setSelectedPostreItems((prevItems) =>
-                    prevItems.filter((item) => item.plato !== producto.nombre_producto)
-                );
-            }
+            setSelectedItems(prevItems =>
+                prevItems.filter(item => item.plato !== producto.nombre_producto)
+            );
         }
-        checkPedidoCompleto();
     };
 
-    const getSelectedItemsByTipoPlato = (tipoPlato) => {
-        if (tipoPlato === 'primerPlato') {
-            return selectedPrimerPlatoItems;
-        } else if (tipoPlato === 'segundoPlato') {
-            return selectedSegundoPlatoItems;
-        } else if (tipoPlato === 'postre') {
-            return selectedPostreItems;
-        }
-        return [];
-    };
-
-    const handleCantidadChange = (producto, value, tipoPlato) => {
-        const updatedItems = [...getSelectedItemsByTipoPlato(tipoPlato)];
-        const selectedItem = updatedItems.find(
-            (item) => item.plato === producto.nombre_producto
-        );
+    const handleCantidadChange = (producto, value) => {
+        const updatedItems = [...selectedItems];
+        const selectedItem = updatedItems.find(item => item.plato === producto.nombre_producto);
         if (selectedItem) {
             selectedItem.cantidad = parseInt(value);
-            if (tipoPlato === 'primerPlato') {
-                setSelectedPrimerPlatoItems(updatedItems);
-            } else if (tipoPlato === 'segundoPlato') {
-                setSelectedSegundoPlatoItems(updatedItems);
-            } else if (tipoPlato === 'postre') {
-                setSelectedPostreItems(updatedItems);
-            }
+            setSelectedItems(updatedItems);
         }
-        checkPedidoCompleto();
-    };
-
-    const checkPedidoCompleto = () => {
-        const primerPlatoSeleccionado = selectedPrimerPlatoItems.length > 0;
-        const segundoPlatoSeleccionado = selectedSegundoPlatoItems.length > 0;
-        const postreSeleccionado = selectedPostreItems.length > 0;
-        setPedidoRealizado(primerPlatoSeleccionado && segundoPlatoSeleccionado && postreSeleccionado);
     };
 
     const addNewItem = async () => {
@@ -126,7 +73,7 @@ export default function Menu(props) {
                     return {
                         id_producto: producto.id_producto,
                         cantidad: selectedItem.cantidad,
-                        consumido: selectedItem.consumido + selectedItem.cantidad
+                        consumido: selectedItem.consumido - selectedItem.cantidad
                     };
                 }
                 return null;
@@ -235,10 +182,8 @@ export default function Menu(props) {
                                         <Label className="me-sm-6" check>
                                             <Input
                                                 type="checkbox"
-                                                checked={getSelectedItemsByTipoPlato('primerPlato').some(
-                                                    (item) => item.plato === producto.nombre_producto
-                                                )}
-                                                onChange={(e) => handleCheckboxChange(e, producto, 'primerPlato')}
+                                                checked={selectedItems.some(item => item.plato === producto.nombre_producto)}
+                                                onChange={e => handleCheckboxChange(e, producto)}
                                             />{' '}
                                             {producto.nombre_producto}
                                         </Label>
@@ -246,15 +191,9 @@ export default function Menu(props) {
                                         <Col xs='2'>
                                             <Input
                                                 type="select"
-                                                value={getSelectedItemsByTipoPlato('primerPlato').find(
-                                                    (item) => item.plato === producto.nombre_producto
-                                                )?.cantidad || ''}
-                                                onChange={(e) =>
-                                                    handleCantidadChange(producto, e.target.value, 'primerPlato')
-                                                }
-                                                disabled={!getSelectedItemsByTipoPlato('primerPlato').some(
-                                                    (item) => item.plato === producto.nombre_producto
-                                                )}
+                                                value={selectedItems.find(item => item.plato === producto.nombre_producto)?.cantidad || ''}
+                                                onChange={e => handleCantidadChange(producto, e.target.value)}
+                                                disabled={!selectedItems.some(item => item.plato === producto.nombre_producto)}
                                             >
                                                 <option value="">Seleccionar</option>
                                                 {cantidadOpciones[producto.id_producto]?.map(option => (
@@ -286,10 +225,8 @@ export default function Menu(props) {
                                         <Label className="me-sm-6" check>
                                             <Input
                                                 type="checkbox"
-                                                checked={getSelectedItemsByTipoPlato('segundoPlato').some(
-                                                    (item) => item.plato === producto.nombre_producto
-                                                )}
-                                                onChange={(e) => handleCheckboxChange(e, producto, 'segundoPlato')}
+                                                checked={selectedItems.some(item => item.plato === producto.nombre_producto)}
+                                                onChange={e => handleCheckboxChange(e, producto)}
                                             />{' '}
                                             {producto.nombre_producto}
                                         </Label>
@@ -297,15 +234,9 @@ export default function Menu(props) {
                                         <Col xs='2'>
                                             <Input
                                                 type="select"
-                                                value={getSelectedItemsByTipoPlato('segundoPlato').find(
-                                                    (item) => item.plato === producto.nombre_producto
-                                                )?.cantidad || ''}
-                                                onChange={(e) =>
-                                                    handleCantidadChange(producto, e.target.value, 'segundoPlato')
-                                                }
-                                                disabled={!getSelectedItemsByTipoPlato('segundoPlato').some(
-                                                    (item) => item.plato === producto.nombre_producto
-                                                )}
+                                                value={selectedItems.find(item => item.plato === producto.nombre_producto)?.cantidad || ''}
+                                                onChange={e => handleCantidadChange(producto, e.target.value)}
+                                                disabled={!selectedItems.some(item => item.plato === producto.nombre_producto)}
                                             >
                                                 <option value="">Seleccionar</option>
                                                 {cantidadOpciones[producto.id_producto]?.map(option => (
@@ -337,10 +268,8 @@ export default function Menu(props) {
                                         <Label className="me-sm-6" check>
                                             <Input
                                                 type="checkbox"
-                                                checked={getSelectedItemsByTipoPlato('postre').some(
-                                                    (item) => item.plato === producto.nombre_producto
-                                                )}
-                                                onChange={(e) => handleCheckboxChange(e, producto, 'postre')}
+                                                checked={selectedItems.some(item => item.plato === producto.nombre_producto)}
+                                                onChange={e => handleCheckboxChange(e, producto)}
                                             />{' '}
                                             {producto.nombre_producto}
                                         </Label>
@@ -348,15 +277,9 @@ export default function Menu(props) {
                                         <Col xs='2'>
                                             <Input
                                                 type="select"
-                                                value={getSelectedItemsByTipoPlato('postre').find(
-                                                    (item) => item.plato === producto.nombre_producto
-                                                )?.cantidad || ''}
-                                                onChange={(e) =>
-                                                    handleCantidadChange(producto, e.target.value, 'postre')
-                                                }
-                                                disabled={!getSelectedItemsByTipoPlato('postre').some(
-                                                    (item) => item.plato === producto.nombre_producto
-                                                )}
+                                                value={selectedItems.find(item => item.plato === producto.nombre_producto)?.cantidad || ''}
+                                                onChange={e => handleCantidadChange(producto, e.target.value)}
+                                                disabled={!selectedItems.some(item => item.plato === producto.nombre_producto)}
                                             >
                                                 <option value="">Seleccionar</option>
                                                 {cantidadOpciones[producto.id_producto]?.map(option => (
@@ -379,7 +302,7 @@ export default function Menu(props) {
                             onChange={e => setCantidadComensales(parseInt(e.target.value))}
                         />
                     </FormGroup>
-                    <Button color="primary" onClick={addNewItem} disabled={!pedidoRealizado}>
+                    <Button color="primary" onClick={addNewItem} disabled={disableAddButton}>
                         Reservar pedido
                     </Button>
                     <div>
