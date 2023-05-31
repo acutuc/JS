@@ -25,19 +25,30 @@ export default function Menu(props) {
         }
     };
 
-
     useEffect(() => {
         console.log('Productos actualizados:', props.productos);
 
         const opciones = {};
-        props.productos.forEach(producto => {
-            opciones[producto.id_producto] = Array.from(
-                { length: producto.cantidad },
-                (_, i) => (i + 1).toString()
-            );
-        });
+        //Mostramos solamente los productos de cantidad mayor a 0
+        props.productos
+            .filter(producto => producto.cantidad > 0)
+            .forEach(producto => {
+                opciones[producto.id_producto] = Array.from(
+                    { length: producto.cantidad },
+                    (_, i) => (i + 1).toString()
+                );
+            });
         setCantidadOpciones(opciones);
     }, [props.productos]);
+
+    useEffect(() => {
+        // Calcular el precio total y el precio por comensal después de actualizar los estados
+        const total = selectedItems.reduce((acc, item) => {
+            const producto = props.productos.find(p => p.nombre_producto === item.plato);
+            return acc + producto.precio_unitario * item.cantidad;
+        }, 0);
+        setPrecioTotal(total);
+    }, [selectedItems]);
 
     const handleCheckboxChange = (event, producto) => {
         const { checked } = event.target;
@@ -97,13 +108,6 @@ export default function Menu(props) {
                 }
             });
             setCantidadOpciones(opciones);
-
-            // Calcular el precio total y el precio por comensal después de actualizar los estados
-            const total = updatedProducts.reduce((acc, item) => {
-                const producto = props.productos.find(p => p.id_producto === item.id_producto);
-                return acc + producto.precio_unitario * item.cantidad;
-            }, 0);
-            setPrecioTotal(total);
         } catch (error) {
             console.error('Error al actualizar los datos de los productos:', error);
         }
@@ -116,45 +120,21 @@ export default function Menu(props) {
         .filter(producto =>
             producto.nombre_producto.toLowerCase().includes(filtroPrimerPlato.toLowerCase())
         )
-        .sort((a, b) => {
-            if (a.nombre_producto < b.nombre_producto) {
-                return -1;
-            }
-            if (a.nombre_producto > b.nombre_producto) {
-                return 1;
-            }
-            return 0;
-        });
+        .sort((a, b) => a.nombre_producto.localeCompare(b.nombre_producto));
 
     const sortedProductosSegundoPlato = props.productos
         .slice()
         .filter(producto =>
             producto.nombre_producto.toLowerCase().includes(filtroSegundoPlato.toLowerCase())
         )
-        .sort((a, b) => {
-            if (a.nombre_producto < b.nombre_producto) {
-                return -1;
-            }
-            if (a.nombre_producto > b.nombre_producto) {
-                return 1;
-            }
-            return 0;
-        });
+        .sort((a, b) => a.nombre_producto.localeCompare(b.nombre_producto));
 
     const sortedProductosPostre = props.productos
         .slice()
         .filter(producto =>
             producto.nombre_producto.toLowerCase().includes(filtroPostre.toLowerCase())
         )
-        .sort((a, b) => {
-            if (a.nombre_producto < b.nombre_producto) {
-                return -1;
-            }
-            if (a.nombre_producto > b.nombre_producto) {
-                return 1;
-            }
-            return 0;
-        });
+        .sort((a, b) => a.nombre_producto.localeCompare(b.nombre_producto));
 
     return (
         <Row>
@@ -174,7 +154,7 @@ export default function Menu(props) {
                                         onChange={e => setFiltroPrimerPlato(e.target.value)}
                                     />
                                 </FormGroup>
-                                {sortedProductosPrimerPlato.map((producto, index) => (
+                                {sortedProductosPrimerPlato.filter(producto => producto.cantidad > 0).map((producto, index) => (
                                     <FormGroup className="d-flex align-items-center" key={producto.id_producto}>
                                         <Label className="me-sm-6" check>
                                             <Input
@@ -217,7 +197,7 @@ export default function Menu(props) {
                                         onChange={e => setFiltroSegundoPlato(e.target.value)}
                                     />
                                 </FormGroup>
-                                {sortedProductosSegundoPlato.map((producto, index) => (
+                                {sortedProductosSegundoPlato.filter(producto => producto.cantidad > 0).map((producto, index) => (
                                     <FormGroup className="d-flex align-items-center" key={producto.id_producto}>
                                         <Label className="me-sm-6" check>
                                             <Input
@@ -260,7 +240,7 @@ export default function Menu(props) {
                                         onChange={e => setFiltroPostre(e.target.value)}
                                     />
                                 </FormGroup>
-                                {sortedProductosPostre.map((producto, index) => (
+                                {sortedProductosPostre.filter(producto => producto.cantidad > 0).map((producto, index) => (
                                     <FormGroup className="d-flex align-items-center" key={producto.id_producto}>
                                         <Label className="me-sm-6" check>
                                             <Input
@@ -303,11 +283,15 @@ export default function Menu(props) {
                         Reservar pedido
                     </Button>
                     <div>
-                        <strong>Precio total:</strong> {precioTotal} €<br />
-                        <strong>Precio por comensal:</strong> {precioTotal / cantidadComensales} €
+                        <strong>Precio total:</strong> {precioTotal.toFixed(2)} €
+                    </div>
+                    <div>
+                        <strong>Precio por comensal:</strong>{' '}
+                        {(precioTotal / cantidadComensales).toFixed(2)} €
                     </div>
                 </Form>
             </Col>
+            <Col sm="3"></Col>
         </Row>
     );
 }
