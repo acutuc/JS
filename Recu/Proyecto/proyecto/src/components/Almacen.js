@@ -11,25 +11,48 @@ export default function Almacen(props) {
   const [cantidad, setCantidad] = useState("");
   const [unidad_medida, setUnidadMedida] = useState("");
   const [precio, setPrecio] = useState("");
-  const [productos, setProductos] = useState(props.productos);
   const [productosOrdenados, setProductosOrdenados] = useState([]);
   const [error, setError] = useState("");
   const [mostrarConsumidos, setMostrarConsumidos] = useState(false);
 
   useEffect(() => {
-    setProductos(props.productos);
+    console.log('Productos actualizados:', props.productos);
 
-    const productosOrdenados = [...props.productos].sort((a, b) => {
-      if (a.nombre_producto < b.nombre_producto) {
-        return -1;
-      }
-      if (a.nombre_producto > b.nombre_producto) {
-        return 1;
-      }
-      return 0;
-    });
+    const ordenarProductos = (productos) => {
+      return [...productos].sort((a, b) => {
+        if (a.nombre_producto < b.nombre_producto) {
+          return -1;
+        }
+        if (a.nombre_producto > b.nombre_producto) {
+          return 1;
+        }
+        return 0;
+      });
+    };
+
+    const productosOrdenados = ordenarProductos(props.productos);
     setProductosOrdenados(productosOrdenados);
   }, [props.productos]);
+
+  useEffect(() => {
+    // Función para obtener los productos desde el servidor
+    const obtenerProductos = async () => {
+      try {
+        const response = await axios.get("http://localhost/PHP/REACT/servicios_rest/obtener_productos");
+        const productos = response.data.productos;
+        props.actualizarProductos(productos);
+      } catch (error) {
+        console.error("Error al obtener los productos:", error);
+      }
+    };
+    
+    obtenerProductos();
+
+    // Realizo consultas cada 2 segundos
+    const interval = setInterval(obtenerProductos, 2000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   // Controlamos que no se pueda hacer ninguna inserción si hay algún campo vacío
   const formularioIncompleto = !(fecha && nombreProducto && cantidad && unidad_medida && precio);
@@ -69,15 +92,6 @@ export default function Almacen(props) {
     }
   };
 
-  const actualizarProducto = (producto) => {
-    const index = productos.findIndex((p) => p.id_producto === producto.id_producto);
-    if (index !== -1) {
-      const nuevosProductos = [...productos];
-      nuevosProductos[index] = producto;
-      setProductos(nuevosProductos);
-    }
-  };
-
   // LLAMADA A AXIOS PARA EL ALTA -----------------------------------------
   const altaProducto = async (event) => {
     event.preventDefault();
@@ -100,21 +114,14 @@ export default function Almacen(props) {
       const response = await axios.post("http://localhost/PHP/REACT/servicios_rest/insertar_producto", nuevoProducto);
       console.log("Producto agregado exitosamente");
       const productoAgregado = response.data;
-      setProductos([...productos, productoAgregado]);
       setError("");
-      //Actualizaos los productos en el componente padre App.js
-      props.actualizarProductos([...productos, productoAgregado]);
+      // Actualizar los productos en el componente padre
+      props.actualizarProductos([...props.productos, productoAgregado]);
     } catch (error) {
       console.error("Error al agregar el producto:", error);
     }
   };
   //-------------------------------------------------------------------------
-
-  const handleConsumidoChange = (event, producto) => {
-    const consumido = event.target.checked ? parseInt(producto.consumido) + parseInt(producto.cantidad) : parseInt(producto.consumido) - parseInt(producto.cantidad);
-    const productoActualizado = { ...producto, consumido };
-    actualizarProducto(productoActualizado);
-  };
 
   const handleMostrarConsumidosChange = (event) => {
     setMostrarConsumidos(event.target.checked);

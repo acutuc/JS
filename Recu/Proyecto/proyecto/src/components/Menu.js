@@ -9,11 +9,9 @@ import axios from 'axios';
 
 export default function Menu(props) {
     const [selectedItems, setSelectedItems] = useState([]);
-    const [productos, setProductos] = useState([]);
     const [cantidadOpciones, setCantidadOpciones] = useState({});
     const [cantidadComensales, setCantidadComensales] = useState(1);
     const [precioTotal, setPrecioTotal] = useState(0);
-    const [filtro, setFiltro] = useState('');
     const [filtroPrimerPlato, setFiltroPrimerPlato] = useState('');
     const [filtroSegundoPlato, setFiltroSegundoPlato] = useState('');
     const [filtroPostre, setFiltroPostre] = useState('');
@@ -30,7 +28,6 @@ export default function Menu(props) {
 
     useEffect(() => {
         console.log('Productos actualizados:', props.productos);
-        setProductos(props.productos);
 
         const opciones = {};
         props.productos.forEach(producto => {
@@ -67,7 +64,7 @@ export default function Menu(props) {
 
     const addNewItem = async () => {
         try {
-            const updatedProducts = productos.map(producto => {
+            const updatedProducts = props.productos.map(producto => {
                 const selectedItem = selectedItems.find(item => item.plato === producto.nombre_producto);
                 if (selectedItem) {
                     return {
@@ -85,7 +82,7 @@ export default function Menu(props) {
             setSelectedItems([]);
 
             const opciones = {};
-            productos.forEach(producto => {
+            props.productos.forEach(producto => {
                 const selectedItem = selectedItems.find(item => item.plato === producto.nombre_producto);
                 if (selectedItem) {
                     opciones[producto.id_producto] = Array.from(
@@ -103,7 +100,7 @@ export default function Menu(props) {
 
             // Calcular el precio total y el precio por comensal después de actualizar los estados
             const total = updatedProducts.reduce((acc, item) => {
-                const producto = productos.find(p => p.id_producto === item.id_producto);
+                const producto = props.productos.find(p => p.id_producto === item.id_producto);
                 return acc + producto.precio_unitario * item.cantidad;
             }, 0);
             setPrecioTotal(total);
@@ -114,7 +111,7 @@ export default function Menu(props) {
 
     const disableAddButton = selectedItems.length === 0;
 
-    const sortedProductosPrimerPlato = productos
+    const sortedProductosPrimerPlato = props.productos
         .slice()
         .filter(producto =>
             producto.nombre_producto.toLowerCase().includes(filtroPrimerPlato.toLowerCase())
@@ -129,7 +126,7 @@ export default function Menu(props) {
             return 0;
         });
 
-    const sortedProductosSegundoPlato = productos
+    const sortedProductosSegundoPlato = props.productos
         .slice()
         .filter(producto =>
             producto.nombre_producto.toLowerCase().includes(filtroSegundoPlato.toLowerCase())
@@ -144,7 +141,7 @@ export default function Menu(props) {
             return 0;
         });
 
-    const sortedProductosPostre = productos
+    const sortedProductosPostre = props.productos
         .slice()
         .filter(producto =>
             producto.nombre_producto.toLowerCase().includes(filtroPostre.toLowerCase())

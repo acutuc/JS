@@ -28,12 +28,22 @@ class App extends Component {
     })
   }
 
-  actualizarProductos = async (productos) => {
+  actualizarProductos = (nuevosProductos) => {
+    this.setState({ productos : nuevosProductos });
+  };
+
+  addNewItem = async (updatedProducts) => {
     try {
-      await axios.put(baseURL + "/actualizarProductos", { productos });
-      console.log("Datos de productos actualizados correctamente");
+      await axios.put(baseURL + '/actualizarProductos', { productos: updatedProducts });
+      console.log('Datos de productos actualizados correctamente');
+  
+      // Actualizar el estado de los productos en el componente padre
+      this.setState({ productos: updatedProducts });
+  
+      // Realizar otras acciones después de actualizar los productos si es necesario
+  
     } catch (error) {
-      console.error("Error al actualizar los datos de los productos:", error);
+      console.error('Error al actualizar los datos de los productos:', error);
     }
   };
 
@@ -77,16 +87,17 @@ class App extends Component {
 
   render() {
     let obj = [];
+    console.log(this.state.productos)
     if (!this.state.logged) {
       obj.push(
         <AppLogin setInfo={(i) => this.setInfo(i)} userLogin={(telefono, password) => this.userLogin(telefono, password)} info={this.state.info} />
       )
     } else {
       obj.push(
-        <Opciones opcionesItem={this.state.opcionesItem} changeOpciones={(item) => this.changeOpciones(item)} logoutUser={() => this.logoutUser()} />
+        <Opciones opcionesItem={this.state.opcionesItem} changeOpciones={(item) => this.changeOpciones(item)} logoutUser={() => this.logoutUser()}/>
       )
-      if (this.state.opcionesItem === "Almacen") obj.push(<Almacen productos={this.state.productos} actualizarProductos={(productos) => this.setState({ productos })} />);
-      if (this.state.opcionesItem === "Menu") obj.push(<Menu productos={this.state.productos} />)
+      if (this.state.opcionesItem === "Almacen") obj.push(<Almacen productos={this.state.productos} actualizarProductos={(nuevosProductos)=> this.actualizarProductos(nuevosProductos)} />);
+      if (this.state.opcionesItem === "Menu") obj.push(<Menu productos={this.state.productos} addNewItem={this.addNewItem} actualizarProductos={this.actualizarProductos} />)
       if (this.state.opcionesItem === "Logout") obj.push(<AppLogin setInfo={() => this.setInfo("")} userLogin={() => this.userLogin("")} info={this.state.info} />)
 
     }
