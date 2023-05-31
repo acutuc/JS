@@ -22,7 +22,7 @@ export default function Opciones(props) {
                     <ButtonGroup>
                         <Button color={colorAlmacen} onClick={()=>props.changeOpciones("Almacen")}>Almacén</Button>
                         <Button color={colorMenu} onClick={()=>props.changeOpciones("Menu")}>Menú</Button>
-                        <Button color="danger">Logout</Button>
+                        <Button color="danger" onClick={props.logoutUser}>Logout</Button>
                     </ButtonGroup>
                 </NavLink>
             </Navbar>

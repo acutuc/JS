@@ -4,7 +4,6 @@ import Menu from './components/Menu';
 import AppLogin from './components/AppLogin';
 import Almacen from './components/Almacen';
 import Opciones from './components/Opciones';
-import Logout from './components/Logout';
 import { PHPLOGIN } from './components/Datos'
 import axios from 'axios';
 
@@ -54,9 +53,18 @@ class App extends Component {
     }
     );
   }
+
+  logoutUser() {
+    this.setState({
+      logged: false,
+      info: ""
+    });
+  }
+
   setInfo(i) {
     this.setState({ info: i })
   }
+
   setTitulo(t) {
     this.setState({ titulo: t })
   }
@@ -75,10 +83,10 @@ class App extends Component {
       )
     } else {
       obj.push(
-        <Opciones opcionesItem={this.state.opcionesItem} changeOpciones={(item) => this.changeOpciones(item)} />
+        <Opciones opcionesItem={this.state.opcionesItem} changeOpciones={(item) => this.changeOpciones(item)} logoutUser={() => this.logoutUser()} />
       )
       if (this.state.opcionesItem === "Almacen") obj.push(<Almacen productos={this.state.productos} actualizarProductos={(productos) => this.setState({ productos })} />);
-      if (this.state.opcionesItem === "Menu") obj.push(<Menu productos={this.state.productos}/>)
+      if (this.state.opcionesItem === "Menu") obj.push(<Menu productos={this.state.productos} />)
       if (this.state.opcionesItem === "Logout") obj.push(<AppLogin setInfo={() => this.setInfo("")} userLogin={() => this.userLogin("")} info={this.state.info} />)
 
     }

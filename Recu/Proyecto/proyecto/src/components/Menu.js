@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Row, Col, Form, FormGroup, Label, Input, Button, Modal, ModalHeader, ModalBody, ModalFooter, Table } from 'reactstrap';
+import {
+    Row, Col, Form, FormGroup, Label, Input, Button, Accordion,
+    AccordionBody,
+    AccordionHeader,
+    AccordionItem
+} from 'reactstrap';
 import axios from 'axios';
 
 export default function Menu(props) {
@@ -8,27 +13,27 @@ export default function Menu(props) {
     const [cantidadOpciones, setCantidadOpciones] = useState({});
     const [cantidadComensales, setCantidadComensales] = useState(1);
     const [precioTotal, setPrecioTotal] = useState(0);
+    const [filtro, setFiltro] = useState('');
+    const [filtroPrimerPlato, setFiltroPrimerPlato] = useState('');
+    const [filtroSegundoPlato, setFiltroSegundoPlato] = useState('');
+    const [filtroPostre, setFiltroPostre] = useState('');
 
-    const [modal, setModal] = useState(false);
-    const [ingrediente, setIngrediente] = useState("");
-    const [ingredientesFiltrados, setIngredientesFiltrados] = useState([]);
-    const toggle = () => setModal(!modal);
+    const [open, setOpen] = useState('1');
+    const toggle = (id) => {
+        if (open === id) {
+            setOpen();
+        } else {
+            setOpen(id);
+        }
+    };
 
-    // Estados y funciones para los modales
-    const [modalPrimerPlato, setModalPrimerPlato] = useState(false);
-    const [modalSegundoPlato, setModalSegundoPlato] = useState(false);
-    const [modalPostre, setModalPostre] = useState(false);
-
-    const togglePrimerPlato = () => setModalPrimerPlato(!modalPrimerPlato);
-    const toggleSegundoPlato = () => setModalSegundoPlato(!modalSegundoPlato);
-    const togglePostre = () => setModalPostre(!modalPostre);
 
     useEffect(() => {
         console.log('Productos actualizados:', props.productos);
         setProductos(props.productos);
 
         const opciones = {};
-        props.productos.forEach((producto) => {
+        props.productos.forEach(producto => {
             opciones[producto.id_producto] = Array.from(
                 { length: producto.cantidad },
                 (_, i) => (i + 1).toString()
@@ -36,6 +41,29 @@ export default function Menu(props) {
         });
         setCantidadOpciones(opciones);
     }, [props.productos]);
+
+    const handleCheckboxChange = (event, producto) => {
+        const { checked } = event.target;
+        if (checked) {
+            setSelectedItems(prevItems => [
+                ...prevItems,
+                { plato: producto.nombre_producto, cantidad: 1 },
+            ]);
+        } else {
+            setSelectedItems(prevItems =>
+                prevItems.filter(item => item.plato !== producto.nombre_producto)
+            );
+        }
+    };
+
+    const handleCantidadChange = (producto, value) => {
+        const updatedItems = [...selectedItems];
+        const selectedItem = updatedItems.find(item => item.plato === producto.nombre_producto);
+        if (selectedItem) {
+            selectedItem.cantidad = parseInt(value);
+            setSelectedItems(updatedItems);
+        }
+    };
 
     const addNewItem = async () => {
         try {
@@ -84,309 +112,187 @@ export default function Menu(props) {
         }
     };
 
-    const handleChange = (event) => {
-        const { name, value } = event.target;
-        setIngrediente(value);
-
-        const texto = value.toLowerCase();
-        const filtrados = productos.filter((f) =>
-            f.nombre_producto.toLowerCase().includes(texto)
-        );
-
-        if (texto === "") {
-            setIngredientesFiltrados(productos); // Mostrar todos los productos
-        } else {
-            setIngredientesFiltrados(filtrados);
-        }
-    };
-
-    const handleSubmit = (event, tipoPlato) => {
-        event.preventDefault();
-
-        const platoSeleccionado = ingredientesFiltrados.find(
-            (plato) => plato.nombre_producto === ingrediente
-        );
-
-        if (platoSeleccionado) {
-            const updatedItems = [...selectedItems];
-            const selectedItem = updatedItems.find(
-                (item) => item.tipoPlato === tipoPlato
-            );
-
-            if (selectedItem) {
-                selectedItem.plato = platoSeleccionado;
-            } else {
-                updatedItems.push({ tipoPlato, plato: platoSeleccionado });
-            }
-
-            setSelectedItems(updatedItems);
-        }
-
-        setIngrediente("");
-        setIngredientesFiltrados([]);
-        // Utiliza la función de toggle específica para cada modal
-        if (tipoPlato === 'primer_plato') {
-            togglePrimerPlato();
-        } else if (tipoPlato === 'segundo_plato') {
-            toggleSegundoPlato();
-        } else if (tipoPlato === 'postre') {
-            togglePostre();
-        }
-    };
-
-    const handleRemove = (tipoPlato) => {
-        const updatedItems = selectedItems.filter(
-            (item) => item.tipoPlato !== tipoPlato
-        );
-        setSelectedItems(updatedItems);
-    };
-
-    const handleCantidadChange = (tipoPlato, cantidad) => {
-        const updatedItems = [...selectedItems];
-        const selectedItem = updatedItems.find(
-            (item) => item.tipoPlato === tipoPlato
-        );
-
-        if (selectedItem) {
-            selectedItem.cantidad = cantidad;
-            setSelectedItems(updatedItems);
-        }
-    };
-
-    const handleConfirmarPedido = async () => {
-        try {
-            // Realiza las operaciones necesarias para confirmar el pedido
-            // ...
-
-            console.log('Pedido confirmado:', selectedItems);
-            setSelectedItems([]);
-        } catch (error) {
-            console.error('Error al confirmar el pedido:', error);
-        }
-    };
-
     const disableAddButton = selectedItems.length === 0;
 
-    const sortedProductos = productos.slice().sort((a, b) => {
-        if (a.nombre_producto < b.nombre_producto) {
-            return -1;
-        }
-        if (a.nombre_producto > b.nombre_producto) {
-            return 1;
-        }
-        return 0;
-    });
+    const sortedProductosPrimerPlato = productos
+        .slice()
+        .filter(producto =>
+            producto.nombre_producto.toLowerCase().includes(filtroPrimerPlato.toLowerCase())
+        )
+        .sort((a, b) => {
+            if (a.nombre_producto < b.nombre_producto) {
+                return -1;
+            }
+            if (a.nombre_producto > b.nombre_producto) {
+                return 1;
+            }
+            return 0;
+        });
 
-    const renderPlatosSeleccionados = (tipoPlato) => {
-        const selectedItem = selectedItems.find(
-            (item) => item.tipoPlato === tipoPlato
-        );
+    const sortedProductosSegundoPlato = productos
+        .slice()
+        .filter(producto =>
+            producto.nombre_producto.toLowerCase().includes(filtroSegundoPlato.toLowerCase())
+        )
+        .sort((a, b) => {
+            if (a.nombre_producto < b.nombre_producto) {
+                return -1;
+            }
+            if (a.nombre_producto > b.nombre_producto) {
+                return 1;
+            }
+            return 0;
+        });
 
-        if (!selectedItem) {
-            return null;
-        }
-
-        return (
-            <Table responsive striped hover>
-                <thead>
-                    <tr>
-                        <th>{tipoPlato}</th>
-                        <th>Cantidad</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr key={selectedItem.plato.id_producto}>
-                        <td>{selectedItem.plato.nombre_producto}</td>
-                        <td>
-                            <Input
-                                type="select"
-                                value={selectedItem.cantidad}
-                                onChange={(e) =>
-                                    handleCantidadChange(tipoPlato, parseInt(e.target.value))
-                                }
-                            >
-                                {cantidadOpciones[selectedItem.plato.id_producto].map(
-                                    (opcion) => (
-                                        <option key={opcion}>{opcion}</option>
-                                    )
-                                )}
-                            </Input>
-                        </td>
-                        <td>
-                            <Button
-                                color="danger"
-                                size="sm"
-                                onClick={() => handleRemove(tipoPlato)}
-                            >
-                                Eliminar
-                            </Button>
-                        </td>
-                    </tr>
-                </tbody>
-            </Table>
-        );
-    };
+    const sortedProductosPostre = productos
+        .slice()
+        .filter(producto =>
+            producto.nombre_producto.toLowerCase().includes(filtroPostre.toLowerCase())
+        )
+        .sort((a, b) => {
+            if (a.nombre_producto < b.nombre_producto) {
+                return -1;
+            }
+            if (a.nombre_producto > b.nombre_producto) {
+                return 1;
+            }
+            return 0;
+        });
 
     return (
         <Row>
-            <Col sm="4"></Col>
-            <Col sm="4">
-                <Form>
-                    <FormGroup>
-                        <Label for="primer_plato">Primer plato:</Label> &nbsp;
-                        <Button color="primary" onClick={togglePrimerPlato}>
-                            Agregar
-                        </Button>
-                        <Modal isOpen={modalPrimerPlato} toggle={togglePrimerPlato}>
-                            <ModalHeader toggle={toggle}>
-                                Agregar ingredientes al primer plato
-                            </ModalHeader>
-                            <ModalBody>
-                                <div className="d-flex align-items-center">
-                                    <Label for="">Filtrar: </Label>&nbsp;
+            <Col sm="3"></Col>
+            <Col sm="6">
+                <Form inline>
+                    <Accordion open={open} toggle={toggle}>
+                        <AccordionItem>
+                            <AccordionHeader targetId="1">Primer plato</AccordionHeader>
+                            <AccordionBody accordionId="1">
+                                <FormGroup>
+                                    <Label for="filtroPrimerPlato">Filtrar primer plato:</Label>
                                     <Input
                                         type="text"
-                                        name="primer_plato"
-                                        value={ingrediente}
-                                        onChange={handleChange}
+                                        id="filtroPrimerPlato"
+                                        value={filtroPrimerPlato}
+                                        onChange={e => setFiltroPrimerPlato(e.target.value)}
                                     />
-                                </div>
-                                <div className="p-2">
-                                    <FormGroup row>
-                                        <Col sm={10}>
+                                </FormGroup>
+                                {sortedProductosPrimerPlato.map((producto, index) => (
+                                    <FormGroup className="d-flex align-items-center" key={producto.id_producto}>
+                                        <Label className="me-sm-6" check>
                                             <Input
-                                                id="exampleSelect"
-                                                name="select"
+                                                type="checkbox"
+                                                checked={selectedItems.some(item => item.plato === producto.nombre_producto)}
+                                                onChange={e => handleCheckboxChange(e, producto)}
+                                            />{' '}
+                                            {producto.nombre_producto}
+                                        </Label>
+                                        &nbsp;
+                                        <Col xs='2'>
+                                            <Input
                                                 type="select"
-                                                onChange={handleChange}
+                                                value={selectedItems.find(item => item.plato === producto.nombre_producto)?.cantidad || ''}
+                                                onChange={e => handleCantidadChange(producto, e.target.value)}
+                                                disabled={!selectedItems.some(item => item.plato === producto.nombre_producto)}
                                             >
-                                                {ingredientesFiltrados.length > 0 ? (
-                                                    ingredientesFiltrados.map((e) => (
-                                                        <option key={e.id_producto}>{e.nombre_producto}</option>
-                                                    ))
-                                                ) : (
-                                                    <option disabled={!ingrediente}>No se encontraron resultados</option>
-                                                )}
+                                                <option value="">Seleccionar</option>
+                                                {cantidadOpciones[producto.id_producto]?.map(option => (
+                                                    <option key={option}>{option}</option>
+                                                ))}
                                             </Input>
                                         </Col>
                                     </FormGroup>
-                                </div>
-                            </ModalBody>
-                            <ModalFooter>
-                                <Button
-                                    color="primary"
-                                    onClick={(e) => handleSubmit(e, 'primer_plato')}
-                                    disabled={!ingrediente}
-                                >
-                                    Añadir
-                                </Button>
-                            </ModalFooter>
-                        </Modal>
-                        {renderPlatosSeleccionados('primer_plato')}
-                    </FormGroup>
-                    <FormGroup>
-                        <Label for="segundo_plato">Segundo plato:</Label> &nbsp;
-                        <Button color="primary" onClick={toggleSegundoPlato}>
-                            Agregar
-                        </Button>
-                        <Modal isOpen={modalSegundoPlato} toggle={toggleSegundoPlato}>
-                            <ModalHeader toggle={toggle}>
-                                Agregar ingredientes al segundo plato
-                            </ModalHeader>
-                            <ModalBody>
-                                <div className="d-flex align-items-center">
-                                    <Label for="">Filtrar: </Label>&nbsp;
+                                ))}
+                            </AccordionBody>
+                        </AccordionItem>
+                    </Accordion>
+
+                    <Accordion open={open} toggle={toggle}>
+                        <AccordionItem>
+                            <AccordionHeader targetId="2">Segundo plato</AccordionHeader>
+                            <AccordionBody accordionId='2'>
+                                <FormGroup>
+                                    <Label for="filtroSegundoPlato">Filtrar segundo plato:</Label>
                                     <Input
                                         type="text"
-                                        name="segundo_plato"
-                                        value={ingrediente}
-                                        onChange={handleChange}
+                                        id="filtroSegundoPlato"
+                                        value={filtroSegundoPlato}
+                                        onChange={e => setFiltroSegundoPlato(e.target.value)}
                                     />
-                                </div>
-                                <div className="p-2">
-                                    <FormGroup row>
-                                        <Col sm={10}>
+                                </FormGroup>
+                                {sortedProductosSegundoPlato.map((producto, index) => (
+                                    <FormGroup className="d-flex align-items-center" key={producto.id_producto}>
+                                        <Label className="me-sm-6" check>
                                             <Input
-                                                id="exampleSelect"
-                                                name="select"
+                                                type="checkbox"
+                                                checked={selectedItems.some(item => item.plato === producto.nombre_producto)}
+                                                onChange={e => handleCheckboxChange(e, producto)}
+                                            />{' '}
+                                            {producto.nombre_producto}
+                                        </Label>
+                                        &nbsp;
+                                        <Col xs='2'>
+                                            <Input
                                                 type="select"
-                                                onChange={handleChange}
+                                                value={selectedItems.find(item => item.plato === producto.nombre_producto)?.cantidad || ''}
+                                                onChange={e => handleCantidadChange(producto, e.target.value)}
+                                                disabled={!selectedItems.some(item => item.plato === producto.nombre_producto)}
                                             >
-                                                {ingredientesFiltrados.length > 0 ? (
-                                                    ingredientesFiltrados.map((e) => (
-                                                        <option key={e.id_producto}>{e.nombre_producto}</option>
-                                                    ))
-                                                ) : (
-                                                    <option disabled={!ingrediente}>No se encontraron resultados</option>
-                                                )}
+                                                <option value="">Seleccionar</option>
+                                                {cantidadOpciones[producto.id_producto]?.map(option => (
+                                                    <option key={option}>{option}</option>
+                                                ))}
                                             </Input>
                                         </Col>
                                     </FormGroup>
-                                </div>
-                            </ModalBody>
-                            <ModalFooter>
-                                <Button
-                                    color="primary"
-                                    onClick={(e) => handleSubmit(e, 'segundo_plato')}
-                                    disabled={!ingrediente}
-                                >
-                                    Añadir
-                                </Button>
-                            </ModalFooter>
-                        </Modal>
-                        {renderPlatosSeleccionados('segundo_plato')}
-                    </FormGroup>
-                    <FormGroup>
-                        <Label for="postre">Postre:</Label> &nbsp;
-                        <Button color="primary" onClick={togglePostre}>
-                            Agregar
-                        </Button>
-                        <Modal isOpen={modalPostre} toggle={togglePostre}>
-                            <ModalHeader toggle={toggle}>Agregar postre</ModalHeader>
-                            <ModalBody>
-                                <div className="d-flex align-items-center">
-                                    <Label for="">Filtrar: </Label>&nbsp;
+                                ))}
+                            </AccordionBody>
+                        </AccordionItem>
+                    </Accordion>
+
+                    <Accordion open={open} toggle={toggle}>
+                        <AccordionItem>
+                            <AccordionHeader targetId='3'>Postre</AccordionHeader>
+                            <AccordionBody accordionId='3'>
+                                <FormGroup>
+                                    <Label for="filtroPostre">Filtrar postre:</Label>
                                     <Input
                                         type="text"
-                                        name="postre"
-                                        value={ingrediente}
-                                        onChange={handleChange}
+                                        id="filtroPostre"
+                                        value={filtroPostre}
+                                        onChange={e => setFiltroPostre(e.target.value)}
                                     />
-                                </div>
-                                <div className="p-2">
-                                    <FormGroup row>
-                                        <Col sm={10}>
+                                </FormGroup>
+                                {sortedProductosPostre.map((producto, index) => (
+                                    <FormGroup className="d-flex align-items-center" key={producto.id_producto}>
+                                        <Label className="me-sm-6" check>
                                             <Input
-                                                id="exampleSelect"
-                                                name="select"
+                                                type="checkbox"
+                                                checked={selectedItems.some(item => item.plato === producto.nombre_producto)}
+                                                onChange={e => handleCheckboxChange(e, producto)}
+                                            />{' '}
+                                            {producto.nombre_producto}
+                                        </Label>
+                                        &nbsp;
+                                        <Col xs='2'>
+                                            <Input
                                                 type="select"
-                                                onChange={handleChange}
+                                                value={selectedItems.find(item => item.plato === producto.nombre_producto)?.cantidad || ''}
+                                                onChange={e => handleCantidadChange(producto, e.target.value)}
+                                                disabled={!selectedItems.some(item => item.plato === producto.nombre_producto)}
                                             >
-                                                {ingredientesFiltrados.length > 0 ? (
-                                                    ingredientesFiltrados.map((e) => (
-                                                        <option key={e.id_producto}>{e.nombre_producto}</option>
-                                                    ))
-                                                ) : (
-                                                    <option disabled={!ingrediente}>No se encontraron resultados</option>
-                                                )}
+                                                <option value="">Seleccionar</option>
+                                                {cantidadOpciones[producto.id_producto]?.map(option => (
+                                                    <option key={option}>{option}</option>
+                                                ))}
                                             </Input>
                                         </Col>
                                     </FormGroup>
-                                </div>
-                            </ModalBody>
-                            <ModalFooter>
-                                <Button
-                                    color="primary"
-                                    onClick={(e) => handleSubmit(e, 'postre')}
-                                    disabled={!ingrediente}
-                                >
-                                    Añadir
-                                </Button>
-                            </ModalFooter>
-                        </Modal>
-                        {renderPlatosSeleccionados('postre')}
-                    </FormGroup>
+                                ))}
+                            </AccordionBody>
+                        </AccordionItem>
+                    </Accordion>
+
                     <FormGroup>
                         <Label for="cantidadComensales">Cantidad de comensales:</Label>
                         <Input
