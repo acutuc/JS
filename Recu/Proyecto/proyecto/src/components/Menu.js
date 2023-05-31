@@ -131,12 +131,12 @@ export default function Menu(props) {
                 }
                 return null;
             }).filter(Boolean);
-    
+
             await axios.put('http://localhost/PHP/REACT/servicios_rest/actualizarProductos', { productos: updatedProducts });
             console.log('Datos de productos actualizados correctamente');
-    
+
             setSelectedItems([]);
-    
+
             const opciones = {};
             productos.forEach(producto => {
                 const selectedItem = selectedItems.find(item => item.plato === producto.nombre_producto);
@@ -153,7 +153,7 @@ export default function Menu(props) {
                 }
             });
             setCantidadOpciones(opciones);
-    
+
             // Calcular el precio total y el precio por comensal después de actualizar los estados
             const total = updatedProducts.reduce((acc, item) => {
                 const producto = productos.find(p => p.id_producto === item.id_producto);

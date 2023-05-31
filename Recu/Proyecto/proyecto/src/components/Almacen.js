@@ -15,11 +15,6 @@ export default function Almacen(props) {
   const [productosOrdenados, setProductosOrdenados] = useState([]);
   const [error, setError] = useState("");
   const [mostrarConsumidos, setMostrarConsumidos] = useState(false);
-  const [selectedItems, setSelectedItems] = useState({
-    primerPlato: [],
-    segundoPlato: [],
-    postre: []
-  });
 
   useEffect(() => {
     setProductos(props.productos);
