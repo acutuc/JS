@@ -45,11 +45,11 @@ export default function Almacen(props) {
         console.error("Error al obtener los productos:", error);
       }
     };
-    
+
     obtenerProductos();
 
     // Realizo consultas cada 2 segundos
-    const interval = setInterval(obtenerProductos, 2000);
+    const interval = setTimeout(obtenerProductos, 2000);
 
     return () => clearInterval(interval);
   }, []);

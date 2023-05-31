@@ -185,7 +185,7 @@ export default function Menu(props) {
                                             {producto.nombre_producto}
                                         </Label>
                                         &nbsp;
-                                        <Col xs='2'>
+                                        <Col xs='4'>
                                             <Input
                                                 type="select"
                                                 value={selectedItems.find(item => item.plato === producto.nombre_producto)?.cantidad || ''}
@@ -228,7 +228,7 @@ export default function Menu(props) {
                                             {producto.nombre_producto}
                                         </Label>
                                         &nbsp;
-                                        <Col xs='2'>
+                                        <Col xs='4'>
                                             <Input
                                                 type="select"
                                                 value={selectedItems.find(item => item.plato === producto.nombre_producto)?.cantidad || ''}
@@ -271,7 +271,7 @@ export default function Menu(props) {
                                             {producto.nombre_producto}
                                         </Label>
                                         &nbsp;
-                                        <Col xs='2'>
+                                        <Col xs='4'>
                                             <Input
                                                 type="select"
                                                 value={selectedItems.find(item => item.plato === producto.nombre_producto)?.cantidad || ''}
