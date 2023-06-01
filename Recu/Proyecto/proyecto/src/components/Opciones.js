@@ -17,11 +17,11 @@ export default function Opciones(props) {
     return (
         <div>
             <Navbar>
-                <NavbarBrand href="/">{props.opcionesItem}</NavbarBrand>
+                <NavbarBrand href="/"></NavbarBrand>
                 <NavLink>
                     <ButtonGroup>
                         <Button color={colorAlmacen} onClick={()=>props.changeOpciones("Almacen")}>Almacén</Button>
-                        <Button color={colorMenu} onClick={()=>props.changeOpciones("Menu")}>Menú</Button>
+                        <Button color={colorMenu} onClick={()=>props.changeOpciones("Menu")}>Menú</Button>&nbsp;
                         <Button color="danger" onClick={props.logoutUser}>Logout</Button>
                     </ButtonGroup>
                 </NavLink>
