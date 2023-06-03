@@ -96,7 +96,7 @@ class App extends Component {
       obj.push(
         <Opciones opcionesItem={this.state.opcionesItem} changeOpciones={(item) => this.changeOpciones(item)} logoutUser={() => this.logoutUser()}/>
       )
-      if (this.state.opcionesItem === "Almacen") obj.push(<Almacen productos={this.state.productos} actualizarProductos={(nuevosProductos)=> this.actualizarProductos(nuevosProductos)} />);
+      if (this.state.opcionesItem === "Almacen") obj.push(<Almacen productos={this.state.productos || []} actualizarProductos={(nuevosProductos)=> this.actualizarProductos(nuevosProductos)} />);
       if (this.state.opcionesItem === "Menu") obj.push(<Menu productos={this.state.productos} addNewItem={this.addNewItem} actualizarProductos={this.actualizarProductos} />)
       if (this.state.opcionesItem === "Logout") obj.push(<AppLogin setInfo={() => this.setInfo("")} userLogin={() => this.userLogin("")} info={this.state.info} />)
 

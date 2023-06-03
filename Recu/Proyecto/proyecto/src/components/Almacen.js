@@ -156,7 +156,7 @@ export default function Almacen(props) {
             />
             <datalist id="productoOptions">
               <option value="Seleccionar"></option>
-              {props.productos.map(element => (
+              {props.productos && props.productos.map(element => (
                 <option key={element.id} value={element.nombre_producto} />
               ))}
             </datalist>
