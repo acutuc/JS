@@ -15,6 +15,9 @@ export default function Menu(props) {
     const [filtroPrimerPlato, setFiltroPrimerPlato] = useState('');
     const [filtroSegundoPlato, setFiltroSegundoPlato] = useState('');
     const [filtroPostre, setFiltroPostre] = useState('');
+    const [nombrePrimerPlato, setNombrePrimerPlato] = useState('');
+    const [nombreSegundoPlato, setNombreSegundoPlato] = useState('');
+    const [nombrePostre, setNombrePostre] = useState('');
 
     const [open, setOpen] = useState('1');
     const toggle = (id) => {
@@ -63,6 +66,19 @@ export default function Menu(props) {
             );
         }
     };
+
+    const handleChange = (event) => {
+        if(event.target.name === "nombre_primer_plato"){
+            setNombrePrimerPlato(event.target.value)
+        }
+        if(event.target.name === "nombre_segundo_plato"){
+            setNombreSegundoPlato(event.target.value)
+        }
+        if(event.target.name === "nombre_postre"){
+            console.log(event.target.value)
+            setNombrePostre(event.target.value)
+        }
+    }   
 
     const handleCantidadChange = (producto, value) => {
         const updatedItems = [...selectedItems];
@@ -146,7 +162,18 @@ export default function Menu(props) {
                             <AccordionHeader targetId="1">Primer plato</AccordionHeader>
                             <AccordionBody accordionId="1">
                                 <FormGroup>
-                                    <Label for="filtroPrimerPlato">Filtrar primer plato:</Label>
+                                    <Label for='nombre_primer_plato'>Introduzca su primer plato: </Label>
+                                    <Input
+                                    type="text"
+                                    name="nombre_primer_plato"
+                                    id="nombre_primer_plato"
+                                    onChange={handleChange}
+                                    >
+                                    
+                                    </Input>
+                                </FormGroup>
+                                <FormGroup>
+                                    <Label for="filtroPrimerPlato">Filtrar ingredientes para el primer plato:</Label>
                                     <Input
                                         type="text"
                                         id="filtroPrimerPlato"
@@ -188,6 +215,17 @@ export default function Menu(props) {
                         <AccordionItem>
                             <AccordionHeader targetId="2">Segundo plato</AccordionHeader>
                             <AccordionBody accordionId='2'>
+                                ç<FormGroup>
+                                    <Label for='nombre_segundo_plato'>Introduzca su segundo plato: </Label>
+                                    <Input
+                                    type="text"
+                                    name="nombre_segundo_plato"
+                                    id="nombre_segundo_plato"
+                                    onChange={handleChange}
+                                    >
+                                    
+                                    </Input>
+                                </FormGroup>
                                 <FormGroup>
                                     <Label for="filtroSegundoPlato">Filtrar segundo plato:</Label>
                                     <Input
@@ -231,6 +269,17 @@ export default function Menu(props) {
                         <AccordionItem>
                             <AccordionHeader targetId='3'>Postre</AccordionHeader>
                             <AccordionBody accordionId='3'>
+                            <FormGroup>
+                                    <Label for='nombre_postre'>Introduzca su postre: </Label>
+                                    <Input
+                                    type="text"
+                                    name="nombre_postre"
+                                    id="nombre_postre"
+                                    onChange={handleChange}
+                                    >
+                                    
+                                    </Input>
+                                </FormGroup>
                                 <FormGroup>
                                     <Label for="filtroPostre">Filtrar postre:</Label>
                                     <Input
