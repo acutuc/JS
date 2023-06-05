@@ -68,17 +68,17 @@ export default function Menu(props) {
     };
 
     const handleChange = (event) => {
-        if(event.target.name === "nombre_primer_plato"){
+        if (event.target.name === "nombre_primer_plato") {
             setNombrePrimerPlato(event.target.value)
         }
-        if(event.target.name === "nombre_segundo_plato"){
+        if (event.target.name === "nombre_segundo_plato") {
             setNombreSegundoPlato(event.target.value)
         }
-        if(event.target.name === "nombre_postre"){
+        if (event.target.name === "nombre_postre") {
             console.log(event.target.value)
             setNombrePostre(event.target.value)
         }
-    }   
+    }
 
     const handleCantidadChange = (producto, value) => {
         const updatedItems = [...selectedItems];
@@ -136,20 +136,86 @@ export default function Menu(props) {
         .filter(producto =>
             producto.nombre_producto.toLowerCase().includes(filtroPrimerPlato.toLowerCase())
         )
+        .reduce((accumulator, producto) => {
+            const existingProduct = accumulator.find(
+                p => p.nombre_producto === producto.nombre_producto
+            );
+            if (existingProduct) {
+                const existingFechaRecepcion = parseInt(existingProduct.fecha_recepcion);
+                const currentFechaRecepcion = parseInt(producto.fecha_recepcion);
+                if (currentFechaRecepcion < existingFechaRecepcion) {
+                    // Replace the existing product with the current one if it has an older fecha_recepcion
+                    return [
+                        ...accumulator.filter(p => p.nombre_producto !== producto.nombre_producto),
+                        producto
+                    ];
+                } else {
+                    // Keep the existing product if it has an older fecha_recepcion
+                    return accumulator;
+                }
+            } else {
+                // Add the current product if it doesn't exist in the accumulator
+                return [...accumulator, producto];
+            }
+        }, [])
+        .filter(producto => producto.cantidad > 0)
         .sort((a, b) => a.nombre_producto.localeCompare(b.nombre_producto));
 
-    const sortedProductosSegundoPlato = props.productos
+        const sortedProductosSegundoPlato = props.productos
         .slice()
         .filter(producto =>
             producto.nombre_producto.toLowerCase().includes(filtroSegundoPlato.toLowerCase())
         )
+        .reduce((accumulator, producto) => {
+            const existingProduct = accumulator.find(
+                p => p.nombre_producto === producto.nombre_producto
+            );
+            if (existingProduct) {
+                const existingFechaRecepcion = parseInt(existingProduct.fecha_recepcion);
+                const currentFechaRecepcion = parseInt(producto.fecha_recepcion);
+                if (currentFechaRecepcion < existingFechaRecepcion) {
+                    // Replace the existing product with the current one if it has an older fecha_recepcion
+                    return [
+                        ...accumulator.filter(p => p.nombre_producto !== producto.nombre_producto),
+                        producto
+                    ];
+                } else {
+                    // Keep the existing product if it has an older fecha_recepcion
+                    return accumulator;
+                }
+            } else {
+                // Add the current product if it doesn't exist in the accumulator
+                return [...accumulator, producto];
+            }
+        }, [])
+        .filter(producto => producto.cantidad > 0)
         .sort((a, b) => a.nombre_producto.localeCompare(b.nombre_producto));
 
-    const sortedProductosPostre = props.productos
+        const sortedProductosPostre = props.productos
         .slice()
         .filter(producto =>
             producto.nombre_producto.toLowerCase().includes(filtroPostre.toLowerCase())
         )
+        .reduce((accumulator, producto) => {
+            const existingProduct = accumulator.find(
+                p => p.nombre_producto === producto.nombre_producto
+            );
+            if (existingProduct) {
+                const existingFechaRecepcion = parseInt(existingProduct.fecha_recepcion);
+                const currentFechaRecepcion = parseInt(producto.fecha_recepcion);
+                if (currentFechaRecepcion < existingFechaRecepcion) {
+                    return [
+                        ...accumulator.filter(p => p.nombre_producto !== producto.nombre_producto),
+                        producto
+                    ];
+                } else {
+                    return accumulator;
+                }
+            } else {
+                return [...accumulator, producto];
+            }
+        }, [])
+        .filter(producto => producto.cantidad > 0)
         .sort((a, b) => a.nombre_producto.localeCompare(b.nombre_producto));
 
     return (
@@ -164,12 +230,12 @@ export default function Menu(props) {
                                 <FormGroup>
                                     <Label for='nombre_primer_plato'>Introduzca su primer plato: </Label>
                                     <Input
-                                    type="text"
-                                    name="nombre_primer_plato"
-                                    id="nombre_primer_plato"
-                                    onChange={handleChange}
+                                        type="text"
+                                        name="nombre_primer_plato"
+                                        id="nombre_primer_plato"
+                                        onChange={handleChange}
                                     >
-                                    
+
                                     </Input>
                                 </FormGroup>
                                 <FormGroup>
@@ -218,12 +284,12 @@ export default function Menu(props) {
                                 ç<FormGroup>
                                     <Label for='nombre_segundo_plato'>Introduzca su segundo plato: </Label>
                                     <Input
-                                    type="text"
-                                    name="nombre_segundo_plato"
-                                    id="nombre_segundo_plato"
-                                    onChange={handleChange}
+                                        type="text"
+                                        name="nombre_segundo_plato"
+                                        id="nombre_segundo_plato"
+                                        onChange={handleChange}
                                     >
-                                    
+
                                     </Input>
                                 </FormGroup>
                                 <FormGroup>
@@ -269,15 +335,15 @@ export default function Menu(props) {
                         <AccordionItem>
                             <AccordionHeader targetId='3'>Postre</AccordionHeader>
                             <AccordionBody accordionId='3'>
-                            <FormGroup>
+                                <FormGroup>
                                     <Label for='nombre_postre'>Introduzca su postre: </Label>
                                     <Input
-                                    type="text"
-                                    name="nombre_postre"
-                                    id="nombre_postre"
-                                    onChange={handleChange}
+                                        type="text"
+                                        name="nombre_postre"
+                                        id="nombre_postre"
+                                        onChange={handleChange}
                                     >
-                                    
+
                                     </Input>
                                 </FormGroup>
                                 <FormGroup>
