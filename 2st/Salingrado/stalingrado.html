@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+
+    <h1>STALINGRADO</h1>
+    <p id="matriz"></p>
+    <h2 id="ganador"></h2>
+
+    <script>
+        let battlefield = [
+            ["A", "A", "", "", "R", "", "", "", ""],
+            ["A", "A", "", "", "R", "", "", "", ""],
+            ["", "", "", "", "R", "", "", "", ""],
+            ["", "", "", "", "R", "", "", "", ""],
+            ["", "", "", "", "R", "", "", "", ""],
+            ["", "", "", "", "R", "", "", "", ""],
+            ["", "", "", "", "R", "", "", "", ""],
+            ["", "", "", "", "R", "", "", "A", "A"],
+            ["", "", "", "", "R", "", "", "A", "A"]
+        ];
+
+        
+        let resuelveEjercicio = (matriz, fila, columna) => {
+            let bool = false;
+            //Encontramos el primer ruso:
+            for(let i = 0; i < matriz.length; i++){
+
+                for(let j = 0; j < matriz[i].length; j++){
+                    if(matriz[i][j] == "R"){
+                        console.log("Encontrado en: " + i + j)
+                        //Una vez lo encontramos, miramos si hay más rusos a su alrededor:
+                        if(resuelveEjercicio()){
+                            //MIRAR EL PANDEMIC!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                        }
+                    }
+                }
+            }
+            return bool;
+        }
+
+        console.log("Matriz original: ")
+        console.table(battlefield)
+
+        resuelveEjercicio(battlefield)
+
+
+    </script>
+
+</body>
+
+</html>
