@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capicua</title>
+</head>
+<h1>Capicúa</h1>
+Crea un programa con una función recursiva que muestre todos los
+números/letras capicúas encontrados en un array. Se entiende por capicúa
+cuando tiene al menos 3 posiciones del array.
+Por ejemplo con el array: 5 4 6 5 6 4 3 O S O<br><br>
+mostrará: <br>
+656<br>
+46564<br>
+OSO
+
+<body>
+    <script>
+        let arr = ["5", "4", "6", "5", "6", "4", "3", "F", "O", "O", "O", "T", "O", "F", "O", "O", "R", "O", "O", "T", "O"];
+        let arr2 = ["5", "4", "6", "5", "6", "4", "3", "O", "S", "O"];
+
+        // ESCRIBE TU CÓDIGO AQUÍ
+
+        const funcionIterativa = (arr) => {
+            //Si es menor de 3, return:
+            if (arr.length < 3) {
+                return;
+            }
+
+            //Array con las coincidencias que devolveremos:
+            let palabrasEncontradas = [];
+
+            //Primera iteración, que empieza a comprobar desde la derecha:
+            for (let i = 0; i < arr.length; i++) {
+                //Cada vez que empezamos a comprobar, reiniciamos la variable:
+                let ultimaPalabra = arr[i];
+                //Empezamos a mirar desde el final:
+                for (let j = arr.length; j > 0; j--) {
+                    //Si hay coincidencia, empezamos a formar la palabra, mientras no se junten las posiciones:
+                    if (arr[i] == arr[j] && i !== j) {
+
+                        //Una vez tenemos la primera coincidencia, empiezo a mirar las siguientes posiciones (+1 desde el principio, -1 desde el final):
+                        for (let k = i + 1; k < j; k++) {
+                            if (arr[k] == arr[j - 1]) {
+                                ultimaPalabra += arr[k]
+                            }
+                        }
+                        ultimaPalabra += arr[j]
+                    }
+
+                }
+                //Sólo haremos push si hay más de 2 caracteres en la palabra
+                if (ultimaPalabra.length > 2) {
+                    palabrasEncontradas.push(ultimaPalabra);
+                }
+
+            }
+            //Return
+            return palabrasEncontradas;
+        }
+
+        console.log("Primer array: ")
+        console.log(funcionIterativa(arr))
+
+        console.log("Segundo array: ")
+        console.log(funcionIterativa(arr2))
+
+    </script>
+
+</body>
+
+</html>
