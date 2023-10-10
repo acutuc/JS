@@ -21,22 +21,11 @@
         ];
 
         
-        let resuelveEjercicio = (matriz, fila, columna) => {
-            let bool = false;
-            //Encontramos el primer ruso:
-            for(let i = 0; i < matriz.length; i++){
-
-                for(let j = 0; j < matriz[i].length; j++){
-                    if(matriz[i][j] == "R"){
-                        console.log("Encontrado en: " + i + j)
-                        //Una vez lo encontramos, miramos si hay más rusos a su alrededor:
-                        if(resuelveEjercicio()){
-                            //MIRAR EL PANDEMIC!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                        }
-                    }
-                }
+        let resuelveEjercicio = (matriz, columna = 0, fila = 0) => {
+            if(matriz[fila].length - 1 > 0 && matriz[fila][columna] == "A" || matriz[fila][columna] == ""){
+                matriz[fila][columna] = "";
+                resuelveEjercicio(matriz, columna+1, fila)
             }
-            return bool;
         }
 
         console.log("Matriz original: ")
