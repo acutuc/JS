@@ -19,7 +19,7 @@
 
         //Alguien sabría decirme los coches de carrakos que no estén en cars?
         const resuelveEj2 = () =>{
-            console.log(carrakos.flat(Infinity).filter(e => e != cars.flat(Infinity).map(e2 => e2)))
+            console.log(carrakos.flat(Infinity).filter(e => !cars.flat(Infinity).find(e2 => e == e2)))
         }
         console.log("Ej2: ")
         resuelveEj2();
@@ -27,16 +27,41 @@
 
         var cars = ["Saab", "Volvo", "BMW", ["Honda", "Toyota", ["Lexus", "Mercedes", "Lada"], "Hyunday"]];
         var buddies = [{ firstName: "Chuck", lastName: "Norris", car: "Honda" }, { firstName: "Yakie", lastName: "Chang", car: "BMV" }, { firstName: "Bruce", lastName: "Lee", car: "Honda" }, { firstName: "Steven", lastName: "Seagal", car: "Lada" }];
+        
         //-Nombre y apellidos de los buddies que usan un Honda
+        const resuleveEj3 = () =>{
+            console.log(buddies.filter(e => e.car == "Honda").map(e => e.firstName + " " + e.lastName))
+        }
+        console.log("Ej3: ")
+        resuleveEj3();
 
         //-Marcas utilizadas por los buddies
+        const resuelveEj4 = () =>{
+            console.log(cars.flat(Infinity).filter(e => buddies.find(e2 => e2.car == e)));
+        }
+        console.log("Ej4: ")
+        resuelveEj4()
 
         //-Marcas no utilizadas por los buddies.
+        const resuelveEj5 = () => {
+            console.log(cars.flat(Infinity).filter(e => !buddies.find(e2 => e2.car == e)));
+        }
+        console.log("Ej5: ")
+        resuelveEj5()
 
         //-Cuantas marcas han sido utilizadas
+        const resuelveEj6 = () =>{
+            console.log(cars.flat(Infinity).filter(e => buddies.find(e2 => e2.car == e)).length);
+        }
+        console.log("Ej6: ")
+        resuelveEj6()
 
         //-Cuantas marcas no han sido utilizadas
-
+        const resuelveEj7 = () =>{
+            console.log(cars.flat(Infinity).filter(e => !buddies.find(e2 => e2.car == e)).length);
+        }
+        console.log("Ej7: ")
+        resuelveEj7()
 
     </script>
 </body>

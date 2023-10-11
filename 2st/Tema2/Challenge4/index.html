@@ -11,20 +11,13 @@
         let arr2 = [2, 3, 4, 5, 6]
         /*Tienes que contar cuantos elementos del array 1 no están en el array 2. Muestra el resultado por consola*/
 
-        const resuelveEjercicio = (arr1, arr2) => {
-            let numerosDiferentes = [];
-            for (let i = 0; i < arr1.length; i++) {
-
-                for(let j = 0; j < arr2.length; j++){
-                    if(arr1[i] =! arr2[j]){
-                        numerosDiferentes.push(arr[i]);
-                    }
-                }
-            }
-            return numerosDiferentes;
+        const resuelveEjercicio = () =>{
+            console.log(arr1.filter(e => !arr2.find(e2 => e2 == e)).length)
         }
 
-        console.log(resuelveEjercicio(arr1, arr2))
+        resuelveEjercicio();
+
+        
     </script>
 </body>
 
