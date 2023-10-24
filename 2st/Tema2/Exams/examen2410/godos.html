@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,
+initial-scale=1.0" />
+    <title>NOMBRES POPULARES</title>
+</head>
+
+<body>
+    <script>
+        const GODOS =
+            ["Ataulfo", "Teudiselo", "Sisenando", "Sigérico", "Valia", "Valia", "Valia", "Valia", "Valia", "Valia", "Teudiselo", "Sisenando", "Teodórico", "Turismundo", "Éurico", "Alárico", "Gesalérico", "Amalárico", "Teudis", "Teudiselo", "Sisenando", "Quintila", "Ágila", "Atanagildo", "Liuva", "Leovigildo", "Recaredo",
+                "Vitérico", "Sisebuto", "Suintila", "Sisenando", "Quintila", "Chindasvinto",
+                "Recesvinto", "Vamba", "Ervigio", "Égica", "Vitiza", "Rodrigo"]
+        var uno = ""
+        var numuno = 0;
+        var dos = ""
+        var numdos = 0;
+        var tres = ""
+        var numtres = 0;
+        // ESCRIBE AQUÍ TU CÓDIGO
+        console.log(uno + numuno + dos + numdos + tres + numtres)
+        console.log(GODOS)
+        console.log("------------------------------------------------------")
+        //1 - VALIA
+        //2 - SISENANDO
+        //3 - TEUDISELO
+
+        const coloca = (nombre, cuantos) => {
+            if(cuantos < numuno){
+                uno = nombre;
+            }
+            console.log(nombre + ": " + cuantos)
+        }
+
+        const votaciones = () => {
+            GODOS.map(e => {
+                coloca(e, GODOS.filter(f => f == e).length)
+            })
+        }
+        votaciones()
+    </script>
+</body>
+
+</html>
