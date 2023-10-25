@@ -14,33 +14,45 @@ initial-scale=1.0" />
             ["Ataulfo", "Teudiselo", "Sisenando", "Sigérico", "Valia", "Valia", "Valia", "Valia", "Valia", "Valia", "Teudiselo", "Sisenando", "Teodórico", "Turismundo", "Éurico", "Alárico", "Gesalérico", "Amalárico", "Teudis", "Teudiselo", "Sisenando", "Quintila", "Ágila", "Atanagildo", "Liuva", "Leovigildo", "Recaredo",
                 "Vitérico", "Sisebuto", "Suintila", "Sisenando", "Quintila", "Chindasvinto",
                 "Recesvinto", "Vamba", "Ervigio", "Égica", "Vitiza", "Rodrigo"]
-        var uno = ""
+        
+                var uno = ""
         var numuno = 0;
         var dos = ""
         var numdos = 0;
         var tres = ""
         var numtres = 0;
-        // ESCRIBE AQUÍ TU CÓDIGO
-        console.log(uno + numuno + dos + numdos + tres + numtres)
-        console.log(GODOS)
-        console.log("------------------------------------------------------")
-        //1 - VALIA
-        //2 - SISENANDO
-        //3 - TEUDISELO
 
         const coloca = (nombre, cuantos) => {
-            if(cuantos < numuno){
+            if (cuantos > numuno) {
+                if (nombre != uno) {
+                    tres = dos; numtres = numdos;
+                    dos = uno; numdos = numuno;
+                }
                 uno = nombre;
+                numuno = cuantos;
+                return 0;
             }
-            console.log(nombre + ": " + cuantos)
+            if (cuantos > numdos && nombre != uno) {
+                if (nombre != dos) {
+                    tres = dos; numtres = numdos;
+                }
+                dos = nombre;
+                numdos = cuantos;
+                return 0;
+            }
+            if (cuantos > numtres && nombre != uno && nombre != dos) {
+
+                tres = nombre;
+                numtres = cuantos;
+                return 0;
+            }
         }
 
-        const votaciones = () => {
-            GODOS.map(e => {
-                coloca(e, GODOS.filter(f => f == e).length)
-            })
-        }
-        votaciones()
+        GODOS.map(e => {
+            let c = GODOS.filter(f => f === e).length
+            coloca(e, c)
+        })
+        console.log(uno + " " + numuno + ", " + dos + " " + numdos + ", " + tres + " " + numtres)
     </script>
 </body>
 
