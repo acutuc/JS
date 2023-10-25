@@ -18,28 +18,28 @@
 
         let ul = document.getElementById("carrakos");
 
-        let resuelveEjercicio = (arr, elemento) =>{
+        let resuelveEjercicio = (arr, elemento) => {
             arr.map(coche => {
-            if (Array.isArray(coche)) {
-                let ul = document.createElement("ul");
-                elemento.appendChild(ul);
-                resuelveEjercicio(coche, ul);
-            } else {
-                let li = document.createElement("li");
+                if (Array.isArray(coche)) {
+                    let ul = document.createElement("ul");
+                    elemento.appendChild(ul);
+                    resuelveEjercicio(coche, ul);
+                } else {
+                    let li = document.createElement("li");
 
-                xungos.map(xungo => {
-                    if(xungo.carros.find(a => a == coche)){
-                        coche += " de " + xungo.nombre;
-                    }
-                })
+                    xungos.map(xungo => {
+                        if (xungo.carros.find(a => a == coche)) {
+                            coche += " de " + xungo.nombre;
+                        }
+                    })
 
-                let contenido = document.createTextNode(coche);
-                li.appendChild(contenido);
-                elemento.appendChild(li);
-            }
-        })
+                    let contenido = document.createTextNode(coche);
+                    li.appendChild(contenido);
+                    elemento.appendChild(li);
+                }
+            })
         }
-        
+
         resuelveEjercicio(carrakos, ul);
 
     </script>

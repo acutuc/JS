@@ -15,15 +15,16 @@
         Se adjunta código starter:
     </p>
     <script>
-        var vikings = { "vikingos": [{ "reino": "Noruega", "reyes": ["Hakon", "Harald", ["Ivar", ["Olaf", "Lars", "Lasse"], "Bjorn"], "Ragnar"] }, { "reino": "Dinamarca", "reyes": ["Frodo", "Hamming", ["Angantyr", "Sarunas"], "Horik"] }] };
+        var vikings = '{"vikingos":[{"reino":"Noruega","reyes":["Hakon","Harald",["Ivar",["Olaf","Lars","Lasse"],"Bjorn"],"Ragnar"]},{"reino":"Dinamarca","reyes":["Frodo","Hamming",["Angantyr","Sarunas"],"Horik"]}]}';
+        let objeto = JSON.parse(vikings).vikingos;
 
-        let resuelveEjercicio = () => {
-            console.log(vikings.vikingos.map(e => {
-                e.reino
-            }))
+        let fueRey = (vikingo) => {
+            objeto.map(e => {
+                console.log(e.reyes.flat(Infinity))
+            })
         }
 
-        resuelveEjercicio();
+        fueRey("");
 
     </script>
 </body>
