@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <title>RASTREAMAN/CONFINAMAN</title>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+
+    <ol id="lista1">
+        <li>Perico</li>
+        <li>Juanico</li>
+        <ul>
+            <li>Jose</li>
+            <ul>
+                <li>Roman</li>
+                <li>Marco</li>
+                <li>Rodrigo</li>
+            </ul>
+            <li>Jose</li>
+            <li>Lorenzo</li>
+            <ul>
+                <li>Dimas</li>
+                <li>Gestas</li>
+                <li>Malakatos</li>
+                <li>Jose</li>
+            </ul>
+        </ul>
+        <li>Sofoclis</li>
+    </ol>
+
+    <ol id="lista2">
+        <li>Periquin</li>
+        <li>Juanele</li>
+        <li>Jose</li>
+    </ol>
+
+    <script>
+        const lista2 = Array.from(document.getElementById("lista2").children);
+
+        let confinaman = (padre) => {
+            if (padre.tagName == 'LI') {
+                if (lista2.find(e => e.innerHTML == padre.innerHTML) != undefined) {
+                    Array.from(padre.parentNode.children).map(v => {
+                        if (v.tagName == 'LI') {
+                            v.innerHTML += " (C)";
+                        }
+                    });
+                }
+            } else {
+                Array.from(padre.children).map(v => confinaman(v));
+            }
+        }
+        confinaman(document.getElementById("lista1"));
+
+    </script>
+</body>
+
+</html>

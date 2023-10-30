@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<title>Myfpschool</title>
+
+<head>
+
+
+</head>
+
+<body>
+
+    <input type="number" id="numero" value="5" min="1" max="10" />
+
+    <p id="parrafo"></p>
+    <input type="button" onclick="dale()" value="dale">
+
+    <script>
+        const dale = () => {
+            let matriz = []
+            let filas = document.getElementById("numero").value;
+            let texto = ""
+            for (let i = 0; i < filas; i++) {
+                let arr = []
+                let linea = ""
+                for (let j = 0; j < filas; j++) {
+                    linea += elemento(i, j) + "&nbsp;"
+                    arr.push(elemento(i, j))
+                }
+                texto += linea + "<br>"
+                matriz.push(arr)
+            }
+            let parrafo = document.getElementById("parrafo")
+            parrafo.innerHTML = texto
+            console.log(matriz)
+        }
+        const elemento = (f, c) => {
+            if (f === 0) return 1;
+            if (c === 0) return 1;
+            return (elemento(f - 1, c) + elemento(f, c - 1))
+        }
+    </script>
+
+</body>
+
+</html>

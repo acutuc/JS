@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,
+initial-scale=1.0" />
+    <title>NOMBRES POPULARES</title>
+</head>
+
+<body>
+    <script>
+        const GODOS =
+            ["Ataulfo", "Teudiselo", "Sisenando", "Sigérico", "Valia", "Valia", "Valia", "Valia", "Valia", "Valia", "Teudiselo", "Sisenando", "Teodórico", "Turismundo", "Éurico", "Alárico", "Gesalérico", "Amalárico", "Teudis", "Teudiselo", "Sisenando", "Quintila", "Ágila", "Atanagildo", "Liuva", "Leovigildo", "Recaredo",
+                "Vitérico", "Sisebuto", "Suintila", "Sisenando", "Quintila", "Chindasvinto",
+                "Recesvinto", "Vamba", "Ervigio", "Égica", "Vitiza", "Rodrigo"]
+        
+                var uno = ""
+        var numuno = 0;
+        var dos = ""
+        var numdos = 0;
+        var tres = ""
+        var numtres = 0;
+
+        const coloca = (nombre, cuantos) => {
+            if (cuantos > numuno) {
+                if (nombre != uno) {
+                    tres = dos; numtres = numdos;
+                    dos = uno; numdos = numuno;
+                }
+                uno = nombre;
+                numuno = cuantos;
+                return 0;
+            }
+            if (cuantos > numdos && nombre != uno) {
+                if (nombre != dos) {
+                    tres = dos; numtres = numdos;
+                }
+                dos = nombre;
+                numdos = cuantos;
+                return 0;
+            }
+            if (cuantos > numtres && nombre != uno && nombre != dos) {
+
+                tres = nombre;
+                numtres = cuantos;
+                return 0;
+            }
+        }
+
+        GODOS.map(e => {
+            let c = GODOS.filter(f => f === e).length
+            coloca(e, c)
+        })
+        console.log(uno + " " + numuno + ", " + dos + " " + numdos + ", " + tres + " " + numtres)
+    </script>
+</body>
+
+</html>

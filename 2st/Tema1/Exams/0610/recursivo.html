@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>CAPICUA</title>
+</head>
+
+<body>
+    <p id="txt"></p>
+    <script>
+        let arr =
+            ["5", "4", "6", "5", "6", "4", "3", "F", "O", "O", "O", "T", "O", "F", "O", "O", "R", "O", "O", "T", "O"];
+        // ESCRIBE TU CÓDIGO AQUÍ
+        const capicua = (arr) => {
+            let inicio = 0
+            let fin = arr.length - 1
+            while (inicio <= fin) {
+                if (arr[inicio] != arr[fin]) return 0;
+                inicio++
+                fin--
+            }
+            return 1
+        }
+        const capicua2 = (arr) => {
+            let invertido = JSON.parse(JSON.stringify(arr)).reverse()
+            console.log(arr + "--------" + invertido)
+            if (arr.toString() === invertido.toString()) return 1;
+            return 0;
+        }
+
+        let longitud = 3;
+        while (longitud <= arr.length) {
+            console.log("**********LONGITUD " + longitud + "***********")
+            for (let i = 0; i < arr.length - longitud + 1; i++) {
+                //console.log(arr.slice(i,i+longitud))
+                if (capicua2(arr.slice(i, i + longitud)) == 1) {
+                    console.log(arr.slice(i, i + longitud) + " es capicua")
+                }
+            }
+            longitud++;
+        }
+
+        const recursivo = (arr, longitud = 3) => {
+            while(longitud <= arr.length){
+                console.log("**********LONGITUD " + longitud + "***********")
+            }
+        }   
+
+    </script>
+</body>
+
+</html>

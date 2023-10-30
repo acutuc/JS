@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <title>CHANGEMAN</title>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+    <ol id="lista">
+        <li>Perico</li>
+        <li>Juanico</li>
+        <ul>
+            <li>Jose</li>
+            <ul>
+                <li>Roman</li>
+                <li>Marco</li>
+                <li>Rodrigo</li>
+            </ul>
+            <li>Jose</li>
+            <li>Lorenzo</li>
+            <ul>
+                <li>Dimas</li>
+                <li>Gestas</li>
+                <li>Malakatos</li>
+                <li>Jose</li>
+            </ul>
+        </ul>
+        <li>Sofoclis</li>
+    </ol>
+</body>
+
+    <script>
+        let changeMan = (obj, man1, man2) =>{
+            if(obj.tagName == "LI"){
+                if(obj.innerHTML.toUpperCase() == man1.toUpperCase()){
+                    obj.innerHTML = man2;
+                }
+            }else{
+                Array.from(obj.children).map(element => changeMan(element, man1, man2))
+            }
+        }
+        changeMan(document.getElementById("lista"), "Jose", "AUSTRALOPITHECUS")
+    </script>
+
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <title>Exámen Gabriel Allende</title>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+    <h1>Retos JavaScript</h1>
+</body>
+<script>
+
+    var ciudades = ["Sevilla", "Vigo", "Leon", ["Caceres",
+        "Marbella", ["Algatocin", "Mijas", "Estepona"], "LosBarrios"]];
+    var ciudadakas = ["Chevrolet", "Gaucin", "Leon", ["Caceres",
+        "SanRoque", ["Algatocin", "Mijas", "Algeciras"],
+        "LosBarrios"], ["LaLinea", "Mijas", "LasRozas", ["Majadahonda",
+            "Boadilla", "Mostoles"]]];
+    var newciudades = ["Sevilla", "Vigo", "Leon", ["Caceres",
+        "Marbella", ["Algatocin", "Vigo", "Estepona"], "LosBarrios", "Vigo"]];
+    var coleguillas = [{
+        firstName: "Jonny", lastName: "Rambo",
+        ciudad: "Leon"
+    }, {
+        firstName: "Arnold", lastName: "Suarchenager",
+        ciudad: "Caceres"
+    }, {
+        firstName: "Chuck", lastName: "Norris",
+        ciudad: "Caceres"
+    }, {
+        firstName: "Yakie", lastName: "Chang",
+        ciudad: "Leon"
+    }, {
+        firstName: "Bruce", lastName: "Lee",
+        ciudad: "Caceres"
+    }, {
+        firstName: "Steven", lastName: "Seagal",
+        ciudad: "Estepona"
+    }];
+    let maleficas = ["Caceres", "Estepona"]
+
+
+    //EJERCICIO 1
+    coleguillas = coleguillas.flat(Infinity);
+
+    let ciudadesTrendy = coleguillas.map(value => value.ciudad).sort().filter((valor, indice, arr) => {
+        if (valor == arr[indice - 1]) {
+            return valor;
+        }
+    }).filter((norepe, indice, arr) => {
+        if (norepe != arr[indice - 1]) {
+            return norepe;
+        }
+    })
+    console.log("EJERCICIO 1:")
+    console.log(ciudadesTrendy);
+
+    //EJERCICIO 2
+    newciudades = newciudades.flat(Infinity);
+    let ejercicio2 = newciudades.concat(maleficas).sort().map((valor, indice, arr) => {
+        if (valor != "Estepona" && valor != "Caceres") {
+            return valor;
+        }
+    }).filter((undef) => {
+        if (undef != undefined) {
+            return undef
+        }
+    })
+    console.log("EJERCICIO 2:")
+    console.log(ejercicio2)
+
+    //EJERCICIO 3
+    let cityMasTrendy = coleguillas.map(value => value.ciudad).sort();
+    console.log("EJERCICIO 3:")
+    console.log(cityMasTrendy)
+
+    //EJERCICIO 4
+    let vecesVigo = newciudades.flat(Infinity).filter(city => city == "Vigo").length;
+    console.log("EJERCICIO 4:")
+    console.log(vecesVigo)
+
+</script>
+
+</html>

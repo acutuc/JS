@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+
+    <h1>STALINGRADO</h1>
+    <p id="matriz"></p>
+    <h2 id="ganador"></h2>
+
+    <script>
+        let battlefield = [
+            ["A", "A", "", "", "R", "", "", "", ""],
+            ["A", "A", "", "", "R", "", "", "", ""],
+            ["", "", "", "", "R", "", "", "", ""],
+            ["", "", "", "", "R", "", "", "", ""],
+            ["", "", "", "", "R", "", "", "", ""],
+            ["", "", "", "", "R", "", "", "", ""],
+            ["", "", "", "", "R", "", "", "", ""],
+            ["", "", "", "", "R", "", "", "A", "A"],
+            ["", "", "", "", "R", "", "", "A", "A"]
+        ];
+
+        
+        let resuelveEjercicio = (matriz, columna = 0, fila = 0) => {
+            if(matriz[fila].length - 1 > 0 && matriz[fila][columna] == "A" || matriz[fila][columna] == ""){
+                matriz[fila][columna] = "";
+                resuelveEjercicio(matriz, columna+1, fila)
+            }
+        }
+
+        console.log("Matriz original: ")
+        console.table(battlefield)
+
+        resuelveEjercicio(battlefield)
+
+
+    </script>
+
+</body>
+
+</html>
