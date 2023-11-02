@@ -18,13 +18,15 @@
         var vikings = '{"vikingos":[{"reino":"Noruega","reyes":["Hakon","Harald",["Ivar",["Olaf","Lars","Lasse"],"Bjorn"],"Ragnar"]},{"reino":"Dinamarca","reyes":["Frodo","Hamming",["Angantyr","Sarunas"],"Horik"]}]}';
         let objeto = JSON.parse(vikings).vikingos;
 
-        let fueRey = (vikingo) => {
-            objeto.map(e => {
-                console.log(e.reyes.flat(Infinity))
-            })
+        const resuelveEj = (nombre) => {
+            if(objeto.map(e => e.reyes).flat(Infinity).find(e => e == nombre)){
+                console.log(nombre + " SI fue un gran rey.")
+            }else{
+                console.log(nombre + " NO fue un rey, no lo conoce nadie.")
+            }
         }
-
-        fueRey("");
+        resuelveEj("Hakon")
+        resuelveEj("El churrero de mi esquina")
 
     </script>
 </body>
