@@ -55,7 +55,7 @@
             }
             return aux.flat(Infinity).sort()
         }
-        
+
         //Lista1:
         let lista1 = listas(document.getElementById("lista1"));
 
@@ -90,8 +90,8 @@
             lis1.map(e => lis3.push(e));
             lis2.map(e => lis3.push(e));
             lis3.sort().map((valor, indice, arr) => {
-                if(arr[indice] != arr[indice-1]){
-                    document.getElementById("lista3").innerHTML += "<li>"+valor+"</li>";
+                if (arr[indice] != arr[indice - 1]) {
+                    document.getElementById("lista3").innerHTML += "<li>" + valor + "</li>";
                 }
             })
         }
