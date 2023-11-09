@@ -1,0 +1,53 @@
+<html>
+
+<head>
+    <title>retos JavaScript</title>
+</head>
+
+<body>
+    <h1>retos JavaScript</h1>
+    <ul id="carrakos"> </ul>
+
+    <script>
+
+        let carrakos = ["Chevrolet", "Tesla", "BMW", ["Honda", "Infiniti", ["Lexus", "Mercedes", "Kia"], "Hyunday"], ["Mazda", "Mercedes", "Jeep", ["KTM", "Nissan", "Isuzu"]]];
+        let xungos = [{ nombre: "Bruce Lee", carros: ["Chevrolet", "Tesla", "BMW"] }, { nombre: "Steven Seagal", carros: ["Mazda", "Jeep", "Nissan"] }, { nombre: "YakiChan", carros: ["Lexus", "Mercedes", "Kia"] }]
+
+        //Igual que el reto 9 pero teniendo en cuenta lo siguiente: 
+        //Se añaden personajes xungos. Hay 3 pero pueden ser muchos más.
+
+        let resuelveEjercicio = (arr) => {
+            arr.map(marca => {
+
+                if (Array.isArray(marca)) {
+                    resuelveEjercicio(marca);
+                } else {
+
+                    obj = new Object();
+                    obj.nombre = marca
+                    xungos.map(xungo => {
+
+                        xungo.carros.find(x => {
+
+                            if (x == marca) {
+                                obj.propietario = xungo.nombre
+                            }
+                            if (obj.propietario == null) {
+                                obj.propietario = "nadie"
+                            }
+                        })
+
+                    })
+
+                    console.log(obj)
+
+                }
+            })
+        }
+
+        resuelveEjercicio(carrakos);
+
+    </script>
+</body>
+
+</html>
