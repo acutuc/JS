@@ -1,0 +1,45 @@
+<!--Realiza un programa el cual reciba un texto determinado y muestre una lista de las palabras introducidas de forma
+alfabética junto con el número de veces que aparece esa palabra.
+Se obviará todo lo que no sea una palabra como puntos, comas, etc.-->
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <title>Ejercicio 3</title>
+        <meta charset="UTF-8">
+    </head>
+    <body>
+        <script>
+            let prueba = "dos dos tres tres tres cuatro cuatro cuatro cuatro cinco cinco cinco cinco cinco hola";
+
+            //Pasamos por parámetro el texto a analizar y el separador que 
+            // dividirá dicho texto en array de palabras.
+            function ejercicio(texto, separador){
+                let contador = 1;
+                //Metemos en un array las palabras una vez aplicamos el split.
+                let arrayPalabras = texto.split(separador);
+                //Ordenamos el array alfabéticamente.
+                arrayPalabras.sort();
+                console.log("Array ordenado alfabéticamente:")
+                console.log(arrayPalabras);
+                for(let i = 0; i < arrayPalabras.length; i++){
+                    //Cada vez que se inicie el bucle de la "i", reiniciamos el contador a 1.
+                    contador = 1;
+                    for(let j = 1; j < arrayPalabras.length; j++){
+                        //Esto puedo explicarlo mejor en persona...
+                        if(arrayPalabras[i] == arrayPalabras[j] && arrayPalabras[i] == arrayPalabras[j-1]){
+                            contador = contador +1;
+                        }
+                    }
+                    //Si hay palabras que no estén repetidas (con el contador a 1), no las mostramos.
+                    if(contador > 1){
+                        console.log("La palabra \"" + arrayPalabras[i] + "\" está repetida " + contador + " veces.");
+                    }
+                    
+                }
+            }
+            ejercicio(prueba, " ")
+
+
+        </script>
+    </body>
+</html>

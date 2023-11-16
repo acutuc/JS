@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secuencia de Karratraca</title>
+</head>
+
+<body>
+    <p>
+        Carratraca es un municipio de la provincia de Málaga, en España, situado entre
+        las estribaciones más nororientales de la Serranía de Ronda. Es al mismo
+        tiempo una de las puertas septentrionales del Valle del Guadalhorce y territorio
+        fronterizo entre estas dos comarcas y la de Antequera, con la que conecta por
+        Ardales.<br/>
+        Es justo en el cruce con la carretera de Ardales donde Basilio se encontró un
+        monolito seguramente del epipaleolítico con una secuencia tallada en el mismo.
+        La secuencia es la siguiente:<br/><br/>
+        1 1 3 5 9 15 25 41 67 109…..<br/><br/>
+        Ayuda a Basilio a descubrir cómo se genera la secuencia realizando un programa JavaScript
+        que la muestre por consola. Mostrará los términos que tú desees siendo ese número un
+        parámetro configurable.
+    </p>
+    <script>
+        function fibonacci(cantidadNum){
+            let arr = [1, 1];
+            for(let i = 1; i < cantidadNum-1; i++){
+                arr.push(arr[i]+arr[i-1]+1);
+            }
+            return arr;
+        }
+        console.log(fibonacci(15));
+    </script>
+</body>
+
+</html>

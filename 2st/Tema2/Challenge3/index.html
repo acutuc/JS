@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Challenge 3</title>
+</head>
+
+<body>
+    <h1>Challenge 3</h1>
+    <p>
+        Crea un array que contenga 100 números aleatorios del 1 al 1000, pero que no se repita ninguno.
+    </p>
+    <script>
+
+        const aleatorio = (min, max) => {
+            var horquilla = max - min;
+            //Incluye ambos valores:
+            return Math.round(Math.random() * horquilla + min);
+        }
+
+        const arrayNumAleatorios = () => {
+            let numAleatorios = []
+            while(numAleatorios.length < 100){
+                let encontrado = false;
+                let aleat = aleatorio(1, 1000);
+
+                if(numAleatorios.length == 0){
+                    numAleatorios.push(aleat)
+                }else{
+                    for(let i = 0; i < numAleatorios.length; i++){
+                        if(numAleatorios[i] == aleat){
+                            encontrado = true;
+                        }
+                    }
+                    if(encontrado == false){
+                        numAleatorios.push(aleat)
+                    }
+                }
+            }
+            return numAleatorios;
+        }
+        console.log(arrayNumAleatorios());
+    </script>
+</body>
+
+</html>

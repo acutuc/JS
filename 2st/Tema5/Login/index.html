@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+
+<body>
+    <h1>Login</h1>
+    <form method="get">
+        <p>
+            Introduzca usuario y password:<br>
+            <input type="text" placeholder="Usuario" name="usuario" id="usuario"><br>
+            <input type="password" placeholder="Password" name="clave" id="clave"><br>
+            <button type="submit" onclick="comprueba()">Log In</button>
+        </p>
+    </form>
+    <p id="resultado"></p>
+
+    <script>
+        const comprueba = (usuario, clave) => {
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById("resultado").innerHTML = this.responseText;
+                }
+            };
+            xmlhttp.open("GET", "datos.php", true);
+            xmlhttp.send();
+        }
+
+        comprueba(document.getElementById("usuario"), document.getElementById("clave"))
+    </script>
+
+</body>
+
+</html>

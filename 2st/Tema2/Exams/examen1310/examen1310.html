@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<title>Myfpschool</title>
+
+<head>
+</head>
+
+<body>
+    <input type="number" id="numero" value="5" min="1" max="10" />
+    <p id="parrafo"></p>
+    <input type="button" onclick="dale()" value="dale">
+
+    <script>
+
+        function dale() {
+            let grado = document.getElementById("numero").value;
+            let filas = [];
+            let piramide = [];
+
+            console.log("FILAS:")
+            //Filas:
+            for (let i = 0; i < grado; i++) {
+                if (i == 0) {
+                    filas[i] = i + 1;
+                } else {
+                    filas[i] = filas[i - 1] * 2
+                }
+
+                //Creo la pirámide (array multidimensional)
+                piramide[i] = [];
+                for(let j = 0; j <= i; j++){
+                    piramide[i][j] = "";
+                }
+                console.log(filas[i])
+            }
+            //console.log("LENGTH DE LA PIRAMIDE: " + piramide.length)
+
+            //Empezamos a crear la pirámide DESDE ARRIBA:
+            console.log("PIRÁMIDE DE GRADO: " + filas.length)
+
+            for(let i = 0; i < piramide.length; i++){
+
+                for(let j = 0; j < piramide[i].length; j++){
+                    //PARA LOS DOS PRIMEROS NIVELES:
+                    if(i == 0){
+                        piramide[i][j] = 1;
+                    }
+                    if(i == 1){
+                        piramide[i][j] = 1
+                        //
+                    }else{
+                        if(j == 0){
+                            piramide[i][j] = 1;
+                        }else if(j == piramide[i].length - 1){
+                            piramide[i][j] = 1
+                        }else{
+                            piramide[i][j] = piramide[i-1][j-1] + piramide[i-1][j]
+                        }
+                        
+                    }
+                }
+            }
+
+            console.table(piramide)
+        }
+
+    </script>
+</body>
+
+</html>

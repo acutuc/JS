@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>INTERSECTION LIST</title>
+</head>
+
+<body>
+    PRIMERA LISTA:
+    <ul id="lista1">
+        <li>manzana</li>
+        <li>pera</li>
+        <ul>
+            <li>conferencia</li>
+            <ul>
+                <li>conferenciaverde</li>
+                <li>conferenciaamarilla</li>
+                <li>conferenciaroja</li>
+            </ul>
+            <li>peradeagua</li>
+            <li>peritadulce</li>
+            <ul>
+                <li>Dimas</li>
+                <li>Gestas</li>
+
+                <li>Malakatos</li>
+                <li>Jose</li>
+            </ul>
+        </ul>
+        <li>limon</li>
+        <li>limon</li>
+        <li>LIMON</li>
+    </ul>
+    Segunda lista:
+    <ul id="lista2">
+        <li>manzana</li>
+        <li>manzana</li>
+        <li>manzana</li>
+        <li>manzana</li>
+        <li>pera</li>
+        <li>limon</li>
+    </ul>
+
+    <script>
+        //el contenido del script lo colocaré aquí
+
+        //Almacenamos en un array las listas.
+        let listas = (lista) => {
+            let aux = [];
+            if (lista.tagName == "LI") {
+                aux.push(lista.innerHTML.toUpperCase())
+            } else {
+                Array.from(lista.children).map(element => aux.push(listas(element)));
+            }
+            return aux.flat(Infinity).sort()
+        }
+
+        //Quitamos los elementos repetidos de los arrays:
+        //Array 1:
+        let lista1 = listas(document.getElementById("lista1"))
+
+        let listaUnica = lista1.filter((valor, indice)=>{
+            return lista1.indexOf(valor) == indice;
+        })
+
+        //Array 2:
+        let lista2 = listas(document.getElementById("lista2"));
+
+        let listaUnica2 = lista2.filter((valor, indice) => {
+            return lista2.indexOf(valor) == indice
+        })
+
+        //Mostramos por consola el resultado de los dos arrays:
+        console.log(listaUnica)
+        console.log(listaUnica2)
+
+        //Función que recoge los arrays creados anteriormente e itera en todos sus elementos, buscando las intersecciones:
+        let resuelveEjercicio = (lista1, lista2) =>{
+            lista1.map(element => lista2.map(element2 =>{
+                if(element == element2){
+                    console.log(element)
+                }
+            }))
+        }
+        console.log("RESULTADO:")
+        resuelveEjercicio(listaUnica, listaUnica2)
+    
+    </script>
+</body>
+
+</html>

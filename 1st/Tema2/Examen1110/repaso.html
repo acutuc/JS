@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Repaso exámen</title>
+</head>
+
+<body>
+    <p>
+        El examen del martes consistirá en realizar una función recursiva. Cosas que deberías "saber":
+        - Si te doy un array tal que así: let numeros = [1,[2,3,4],[8,15,[5,1]],27]; ¿Me sabrías decir cuantas veces
+        aparece el número 1?. Ojo, no vale Console.log(2);
+        - En el mismo array podrías decirme cual sería la suma de todos los elementos.
+        - Me podrías decir si existe o no el número 45. ¿Y el 27?
+        - Si te doy un array ordenado de palabras ¿ me podrías decir si contiene la palabra "Carratraca" ? Ojo, pero si
+        utilizar for ni foreach ni recorrer secuencialmente el array.
+        - Sabrías decirme cual es el elemento central de un array (par o impar de elementos).
+    </p>
+    <p>Math.round() se aproxima al valor pasado en los parámetros. Si el valor después del decimal es 5 o mayor,
+        entonces el número se redondea al siguiente entero superior. De lo contrario, si el valor después del decimal es
+        menor que 5 , se redondea al número entero inferior.</p>
+    <p>La función Math.floor() redondea el valor pasado como parámetro al siguiente valor entero inferior.</p>
+    <p>La función Math.ceil() se comporta de forma opuesta a la función Math.floor(). En lugar de redondear al siguiente
+        entero inferior como en Math.floor(), Math.ceil() devuelve el siguiente valor entero superior.
+    </p>
+
+    <script>
+        let numeros = [1, [2, 3, 4], [8, 15, [5, 1]], 27];
+
+        //Ejercicio 1:
+        let resuelveEjercicio1 = (array, numero) => {
+            let contador = 0;
+            for (let i = 0; i < array.length; i++) {
+                if (Array.isArray(array[i])) {
+                    contador += resuelveEjercicio1(array[i], numero);
+                } else if (array[i] == numero) {
+                    contador++;
+                }
+            }
+            return contador;
+        }
+        console.log(resuelveEjercicio1(numeros, 1));
+
+        //Ejercicio 2:
+        let resuelveEjercicio2 = (array) => {
+            let suma = 0;
+            for (let i = 0; i < array.length; i++) {
+                if (Array.isArray(array[i])) {
+                    suma += resuelveEjercicio2(array[i]);
+                } else {
+                    suma += array[i];
+                }
+            }
+            return suma;
+        }
+        console.log(resuelveEjercicio2(numeros))
+
+        //Ejercicio 3: 
+        let resuelveEjercicio3 = (array, numero) => {
+            for (let i = 0; i < array.length; i++) {
+                if (Array.isArray(array[i])) {
+                    if (resuelveEjercicio3(array[i], numero)) {
+                        return true;
+                    };
+                } else if (array[i] == numero) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        console.log(resuelveEjercicio3(numeros, 15));
+
+
+        //EJERCICIO PIZARRA. SIMILAR AL 4
+
+        let people = ["perico", "juanico", "andres", "dimas", "gestas", "zarco", "maimonides", "elias", "jeremias", "dimas", "dimas", "gestas"];
+        people = people.sort();
+        console.log(people)
+
+        // ESCRIBE TU CÓDIGO AQUÍ
+        const FindMyGuy = (array, inicio, fin, guy) => {
+            //Almacenamos el valor medio del array:
+            let medio = Math.floor((inicio + fin) / 2);
+
+            //Mientras inicio (parte izquierda del array) no sobrepase a fin (la parte derecha)
+            if (inicio <= fin) {
+                //Si coincide, lo hemos encontrado:
+                if (array[medio] == guy) return true;
+
+                //Si guy está en la izquierda:
+                if (guy < array[medio]) {
+                    return FindMyGuy(array, inicio, medio - 1, guy)
+                    //Si guy está en la derecha:
+                } else {
+                    return FindMyGuy(array, medio + 1, fin, guy)
+                }
+            }
+            return false;
+        }
+
+        console.log(FindMyGuy(people, 0, people.length - 1, "jeremias"))
+        console.log(FindMyGuy(people, 0, people.length - 1, "dimas"))
+        console.log(FindMyGuy(people, 0, people.length - 1, "natalia"))
+    </script>
+    </script>
+</body>
+
+</html>

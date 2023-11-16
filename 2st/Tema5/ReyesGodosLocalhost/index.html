@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reyes Godos Localhost</title>
+</head>
+
+<body>
+    <h1>Reyes Godos Localhost</h1>
+    <ul id="lista1"></ul>
+    <script>
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                let obj = JSON.parse(this.responseText).reyesgodos
+                resuelveEj(obj, document.getElementById("lista1"))
+            }
+        };
+        xhttp.open("GET", "godos.php", true);
+        xhttp.send();
+
+        const resuelveEj = (nodo, padre) =>{
+            nodo.map(e => {
+                if(typeof(e) == "object"){
+                    let li = document.createElement("li")
+                    let texto = document.createTextNode(e.nombre);
+                    li.appendChild(texto);
+                    padre.appendChild(li)
+
+                    //MIRAR AQUI
+                    let ul = document.createElement("ul")
+                    resuelveEj(e.hijos, ul)
+                }
+                if(typeof(e) !== "object"){
+                    let li = document.createElement("li")
+                    let texto = document.createTextNode(e);
+                    li.appendChild(texto);
+                    document.getElementById("lista1").appendChild(li)
+                }
+            })
+        }
+    </script>
+</body>
+
+</html>
