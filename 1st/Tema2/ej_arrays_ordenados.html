@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio arrays ordenados</title>
+</head>
+<h2>JavaScript Arrays. 2 arrays ordenados.</h2>
+<p> Tenemos dos arrays arr1 y arr2 y queremos insertarlos de forma
+ordenada en un tercer array arr3.
+Importante:
+*Hay que insertarlo de forma ordenada en un tercer array.
+*Solo puedes utilizar el método de arrays push() y length().
+*No puedes modificar los arrays arr1 ni arr2.
+**No puedes crear copias de los arrays
+*No puedes crear más variables que las que se te dan.
+*Muestra el resultado (arr3) en el campo demo.
+*Tu programa deberá funcionar para dos arrays ordenados de cualquier
+tamaño.
+*Los números se pueden repetir siempre que estén ordenados.
+</p>
+<p id="demo"></p>
+
+<body>
+    <script>
+        var arr1 = [1, 4, 6, 8, 9, 15];
+        var arr2 = [2, 5, 7, 9, 15, 19];
+        var arr3 = [1, 3, 6, 7, 10, 14];
+        var arr4 = [];
+        let i = 0;
+        let j = 0;
+        let k = 0;
+        /*
+        COMPLETA EL CÓDIGO EN ESTA SECCIÓN DEL PROGRAMA.
+        */
+        //PARA DOS ARRAYS:
+        /*
+        while (i < arr1.length || j < arr2.length) {
+            if (arr1[i] < arr2[j]) {
+                arr3.push(arr1[i]);
+                i++;
+            }else {
+                arr3.push(arr2[j])
+                j++;
+            }
+        }
+        //Si arr1 aún contiene elementos:
+        for(i; i < arr1.length ; i++){
+            arr4.push(arr1[i]);
+        }
+
+        //si arr2 aun coentiene elementos: 
+        for(j; j < arr2.length ; j++){
+            arr4.push(arr2[j]);
+        }
+        console.log(arr3)
+
+        document.getElementById("demo").innerHTML = arr3;*/
+
+        //EJERCICIO CON TRES ARRAYS:
+        //Mientras los arr contengan al menos un elemento:
+        while (i < arr1.length && j < arr2.length && k < arr3.length) {
+            //Si el elemento del arr1 es menor que el del arr2 y arr3:
+            if (arr1[i] <= arr2[j] && arr1[i] <= arr3[k]) {
+                arr4.push(arr1[i]);
+                i++;
+                //Si el elemento del arr2 es menor que el del arr1 y arr3:
+            } else if (arr2[j] <= arr1[i] && arr2[j] <= arr3[k]) {
+                arr4.push(arr2[j])
+                j++;
+                //Si el elemento del arr3 es menor que el del arr1 y arr2:
+            } else {
+                arr4.push(arr3[k]);
+                k++;
+            }
+        }
+
+        //Si el arr1 está vacío:
+        if (i == arr1.length) {
+            //Mientras arr2 y arr3 contengan al menos un elemento
+            while (j < arr2.length && k < arr3.length) {
+                if (arr2[j] < arr3[k]) {
+                    arr4.push(arr2[j]);
+                    j++;
+                } else {
+                    arr4.push(arr3[k]);
+                    k++;
+                }
+            }
+        } else if (j == arr2.length) {
+            while (i < arr1.length && k < arr3.length) {
+                if (arr1[i] < arr2[j]) {
+                    arr3.push(arr1[i]);
+                    i++;
+                } else {
+                    arr4.push(arr3[k]);
+                    k++;
+                }
+            }
+        } else {
+            while (i < arr1.length && j < arr2.length) {
+                if (arr1[i] < arr2[j]) {
+                    arr4.push(arr1[i]);
+                    i++;
+                } else {
+                    arr4.push(arr2[j]);
+                    j++;
+                }
+            }
+        }
+        //Si arr1 aún contiene elementos:
+        for (i; i < arr1.length; i++) {
+            arr4.push(arr1[i]);
+        }
+
+        //si arr2 aun coentiene elementos: 
+        for (j; j < arr2.length; j++) {
+            arr4.push(arr2[j]);
+        }
+
+        //Si arr3 aún contiene elementos:
+        for (k; k < arr3.length; k++) {
+            arr4.push(arr3[k]);
+        }
+
+        console.log(arr4)
+
+
+        document.getElementById("demo").innerHTML = arr4;
+
+    </script>
+
+</body>
+
+</html>

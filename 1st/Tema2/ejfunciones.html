@@ -1,0 +1,34 @@
+<!--Realiza una función que tome uno, dos o tres parámetros.
+Si le introduzco solo un parámetro hará el cubo, si le introduzco dos, hará la multiplicación de ambos parámetros y si le introduzco tres la suma de ambos.
+Pon ejemplos de su uso.
+calcula(5); calcula(5,5); calcula(5,5,5);-->
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Ejercicio funciones con parámetros</title>
+</head>
+
+<body>
+    <script>
+        function calcula(a, b, c) {
+            //Si sólo introducimos un parámetro
+            if (b == null && c == null) {
+                return a * a * a;
+            }
+            //Si sólo introducimos dos parámetros
+            else if (c == null) {
+                return a * b;
+            } else {
+                return a + b + c;
+            }
+        }
+        console.log("PRUEBA CON UN PÁRAMETRO: " + calcula(5))
+        console.log("PRUEBA CON DOS PARÁMETROS: " + calcula(5, 5))
+        console.log("PRUEBA CON TRES PARÁMETROS: " + calcula(5, 5, 5));
+    </script>
+
+</body>
+
+</html>

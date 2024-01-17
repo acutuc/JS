@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Ejercicio propuesto</title>
+</head>
+<body>
+    <p>
+        Crea una web con un cronómetro que puedas pausar, resetear e iniciar.
+    </p>
+    <p id="hora"></p>
+
+    <button type="button" id="pausar">Pausar</button>&nbsp;
+    <button type="button" id="resetear">Resetear</button>&nbsp;
+    <button type="button" id="iniciar">Iniciar</button>
+    <script>
+        let crono = () =>{
+            var elCrono;
+
+            var miFecha = new Date();
+
+            var horas = miFecha.getHours();
+            var minutos = miFecha.getMinutes();
+            var segundos = miFecha.getSeconds();
+
+            if(minutos < 10){
+                minutos = "0" + minutos;
+            }
+            if(segundos < 10){
+                segundos = "0" + segundos;
+            }
+
+            var texto = document.getElementById("hora");
+
+            texto.innerHTML = horas + ":" + minutos + ":" + segundos;
+elCrono = setInterval(crono,10);
+        }
+        window.onload = crono();
+    </script>
+</body>
+</html>
